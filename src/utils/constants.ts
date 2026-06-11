@@ -68,7 +68,7 @@ export const NAV_LINKS = [
   // { name: "Services", href: "services" },
   // { name: "Gallery", href: "gallery" },
   { name: "Projects", href: "/projects" },
-  { name: "Blogs", href: "/blogs" },
+  // { name: "Blogs", href: "/blogs" },
   // { name: "Videos", href: "videos" },
   // { name: "Testimonials", href: "testimonials" },
   { name: "Contact", href: "/contact" },

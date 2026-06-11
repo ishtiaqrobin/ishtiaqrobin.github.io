@@ -45,7 +45,7 @@ export function ScrollToTop() {
         variant="default"
         size="icon"
         onClick={scrollToTop}
-        className="h-12 w-12 rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all bg-primary-500 text-primary-foreground border border-primary-500/20 backdrop-blur-sm group"
+        className="h-12 w-12 rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all bg-primary text-primary-foreground border border-primary-500/20 backdrop-blur-sm group"
         aria-label="Scroll to top"
       >
         <ChevronUp className="h-6 w-6 transition-transform group-hover:-translate-y-1" />

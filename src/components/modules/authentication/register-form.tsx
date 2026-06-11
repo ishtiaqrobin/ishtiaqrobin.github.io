@@ -12,28 +12,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { toast } from "sonner";
-import {
-  Loader2,
-  Mail,
-  Lock,
-  User,
-  Phone,
-  Eye,
-  EyeOff,
-  SquareArrowRight,
-  LogIn,
-} from "lucide-react";
+import { Loader2, Mail, Lock, User, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { GoogleAuthButton } from "./GoogleAuthButton";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, RegisterFormValues } from "@/lib/validation";
@@ -190,7 +174,7 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                   Registering...
                 </>
               ) : (

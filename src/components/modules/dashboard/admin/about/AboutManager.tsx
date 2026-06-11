@@ -152,7 +152,7 @@ const ImageActionCard = ({
   isEditing,
   updateLabel,
 }: ImageActionCardProps) => (
-  <Card className="border-none shadow-sm bg-muted/20 rounded-2xl overflow-hidden">
+  <Card className="border-none shadow-sm rounded-2xl overflow-hidden">
     <CardHeader className="pb-2">
       <CardTitle className="text-base flex items-center gap-2">
         <Icon className="h-4 w-4 text-primary" />
@@ -160,7 +160,7 @@ const ImageActionCard = ({
       </CardTitle>
     </CardHeader>
     <CardContent className="space-y-4">
-      <div className="relative w-full aspect-auto bg-muted/40">
+      <div className="relative w-full aspect-auto">
         {imageSrc ? (
           <Image
             src={imageSrc}
@@ -321,7 +321,7 @@ export function AboutManager({ about, token, onRefresh }: AboutManagerProps) {
   return (
     <div className="space-y-8">
       <div className="grid gap-6 xl:grid-cols-[1.45fr_0.85fr]">
-        <Card className="border-none shadow-sm bg-muted/20">
+        <Card className="border-none shadow-sm">
           <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <CardTitle className="text-xl">About Section Settings</CardTitle>
@@ -428,7 +428,7 @@ export function AboutManager({ about, token, onRefresh }: AboutManagerProps) {
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-sm bg-muted/20">
+        <Card className="border-none shadow-sm">
           <CardHeader>
             <CardTitle className="text-xl">Live Preview</CardTitle>
             <CardDescription>
@@ -469,7 +469,7 @@ export function AboutManager({ about, token, onRefresh }: AboutManagerProps) {
                       {about?.aboutMeImg ? "Uploaded" : "Not uploaded"}
                     </p>
                   </div>
-                  <div className="rounded-full bg-muted px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+                  <div className="rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">
                     {about ? "Live" : "Needs setup"}
                   </div>
                 </div>
@@ -520,7 +520,7 @@ export function AboutManager({ about, token, onRefresh }: AboutManagerProps) {
           </TabsContent>
 
           <TabsContent value="resume" className="space-y-6">
-            <Card className="border-none shadow-sm bg-muted/20 rounded-2xl overflow-hidden">
+            <Card className="border-none shadow-sm rounded-2xl overflow-hidden">
               <CardHeader className="pb-2">
                 <CardTitle className="text-base flex items-center gap-2">
                   <FileText className="h-4 w-4 text-primary" />

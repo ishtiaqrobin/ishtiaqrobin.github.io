@@ -2,20 +2,25 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { X, Send, Loader2, Bot, User, RotateCcw, Trash } from "lucide-react";
+
 import {
-  MessageCircle,
-  X,
-  Send,
-  Loader2,
-  Bot,
-  User,
-  RotateCcw,
-} from "lucide-react";
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { chatbotService } from "@/services/chatbot.service";
 import type { IChatMessage } from "@/types/chatbot.type";
+import ChatbotIcon from "./ChatbotIcon";
+import { IoArrowUpOutline } from "react-icons/io5";
+import { MdCheckBoxOutlineBlank } from "react-icons/md";
+import { Textarea } from "../ui/textarea";
+import { RiDeleteBinLine } from "react-icons/ri";
 
 // ── Session ID — persistent per browser tab ───────────────
 const getSessionId = (): string => {
@@ -33,7 +38,7 @@ const WELCOME_MESSAGE: IChatMessage = {
   id: "welcome",
   role: "assistant",
   content:
-    "Hi! I'm Ishtiaq's assistant. Ask me anything about his skills, projects, or how to hire him! 👋",
+    "Hi! I'm Ishtiaq's assistant. Ask me anything about his skills, projects, or how to hire him!",
   timestamp: new Date(),
 };
 
@@ -105,6 +110,13 @@ export function Chatbot() {
     setIsLoading(false);
   }, [input, isLoading, sessionId]);
 
+  // isLoading false হলে focus restore করো
+  useEffect(() => {
+    if (!isLoading && isOpen) {
+      inputRef.current?.focus();
+    }
+  }, [isLoading, isOpen]);
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -115,7 +127,7 @@ export function Chatbot() {
   const handleReset = () => {
     setMessages([WELCOME_MESSAGE]);
     sessionStorage.removeItem("chatbot_session_id");
-    window.location.reload(); // new session id
+    // window.location.reload(); // new session id
   };
 
   return (
@@ -129,40 +141,57 @@ export function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="fixed bottom-24 right-4 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-96 max-h-[600px] flex flex-col rounded-2xl border border-border/60 bg-background/95 backdrop-blur-xl shadow-2xl shadow-black/20 overflow-hidden"
+            // max-h-[600px]
+            className="fixed bottom-38 sm:bottom-26 right-4 sm:right-7 z-50 w-[calc(100vw-2rem)] sm:w-96 max-h-[600px] flex flex-col rounded-2xl border border-border/60 bg-background/95 backdrop-blur-xl shadow-2xl shadow-black/20 overflow-hidden"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-border/50 bg-muted/30">
-              <div className="flex items-center gap-2.5">
-                <div className="relative">
+              <div className="flex items-center gap-2">
+                {/* <div className="relative">
                   <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
                     <Bot className="h-4 w-4 text-primary" />
                   </div>
                   <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-background" />
+                </div> */}
+                <div>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="w-4 h-4 text-text-primary"
+                  >
+                    <path d="M12 2c0 5.5-4.5 10-10 10 5.5 0 10 4.5 10 10 0-5.5 4.5-10 10-10-5.5 0-10-4.5-10-10z" />
+                  </svg>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold leading-none">
-                    Ishtiaq&#39;s Assistant
+                  <p className="text-sm text-text-primary font-medium leading-5">
+                    Assistant{" "}
+                    <span className="text-[#71717a] dark:text-[#a1a1aa]">
+                      build by Ishtiaq
+                    </span>
                   </p>
-                  <p className="text-xs text-muted-foreground mt-0.5">
+                  {/* <p className="text-xs text-muted-foreground mt-0.5">
                     Always here to help
-                  </p>
+                  </p> */}
                 </div>
               </div>
               <div className="flex items-center gap-1">
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-7 w-7 text-muted-foreground hover:text-foreground"
+                  className="h-7 w-7 text-text-primary cursor-pointer"
                   onClick={handleReset}
                   title="Reset conversation"
                 >
-                  <RotateCcw className="h-3.5 w-3.5" />
+                  <RiDeleteBinLine className="h-4 w-4" />
                 </Button>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-7 w-7 text-muted-foreground hover:text-foreground"
+                  className="h-7 w-7 text-text-primary cursor-pointer"
                   onClick={() => setIsOpen(false)}
                 >
                   <X className="h-4 w-4" />
@@ -183,7 +212,7 @@ export function Chatbot() {
                   {/* Avatar */}
                   <div
                     className={cn(
-                      "w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center mb-0.5",
+                      "w-6 h-6 rounded-full shrink-0 flex items-center justify-center mb-0.5",
                       msg.role === "user"
                         ? "bg-primary text-primary-foreground"
                         : "bg-muted",
@@ -192,7 +221,18 @@ export function Chatbot() {
                     {msg.role === "user" ? (
                       <User className="h-3 w-3" />
                     ) : (
-                      <Bot className="h-3 w-3 text-primary" />
+                      // <Bot className="h-3 w-3 text-primary" />
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="w-3.5 h-3.5 text-primary"
+                      >
+                        <path d="M12 2c0 5.5-4.5 10-10 10 5.5 0 10 4.5 10 10 0-5.5 4.5-10 10-10-5.5 0-10-4.5-10-10z" />
+                      </svg>
                     )}
                   </div>
 
@@ -213,9 +253,20 @@ export function Chatbot() {
               {/* Typing indicator */}
               {isLoading && (
                 <div className="flex gap-2.5 items-end">
-                  <div className="w-6 h-6 rounded-full bg-muted flex-shrink-0 flex items-center justify-center">
+                  {/* <div className="w-6 h-6 rounded-full bg-muted shrink-0 flex items-center justify-center">
                     <Bot className="h-3 w-3 text-primary" />
-                  </div>
+                  </div> */}
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="w-3.5 h-3.5 text-primary"
+                  >
+                    <path d="M12 2c0 5.5-4.5 10-10 10 5.5 0 10 4.5 10 10 0-5.5 4.5-10 10-10-5.5 0-10-4.5-10-10z" />
+                  </svg>
                   <div className="bg-muted px-3.5 py-3 rounded-2xl rounded-bl-sm">
                     <div className="flex gap-1 items-center">
                       <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/60 animate-bounce [animation-delay:0ms]" />
@@ -230,81 +281,74 @@ export function Chatbot() {
             </div>
 
             {/* Input */}
-            <div className="p-3 border-t border-border/50 bg-muted/20">
-              <div className="flex gap-2 items-center">
+            <div className="p-2 border-t border-border/50 bg-muted/20">
+              <div className="relative flex gap-2 items-center">
                 <Input
                   ref={inputRef}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Ask me anything..."
-                  className="h-10 rounded-xl border-border/60 bg-background text-sm"
+                  className="h-14 rounded-xl bg-background border border-zinc-200 dark:border-zinc-800 text-sm focus-visible:ring-2"
                   disabled={isLoading}
                   maxLength={500}
                 />
                 <Button
                   size="icon"
-                  className="h-10 w-10 rounded-xl flex-shrink-0"
+                  className={`absolute right-2.5 bottom-3 w-8 h-8 rounded-full shrink-0
+                    ${!input.trim() ? "cursor-not-allowed" : "cursor-pointer"}
+                    `}
                   onClick={handleSend}
                   disabled={!input.trim() || isLoading}
                 >
                   {isLoading ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <MdCheckBoxOutlineBlank className="h-4 w-4" />
                   ) : (
-                    <Send className="h-4 w-4" />
+                    <IoArrowUpOutline className="h-4 w-4" />
                   )}
                 </Button>
               </div>
-              <p className="text-[10px] text-muted-foreground/50 text-center mt-2">
+              {/* <p className="text-[10px] text-muted-foreground/50 text-center mt-2">
                 Powered by AI · Answers may not always be accurate
-              </p>
+              </p> */}
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* ── FAB Toggle Button ── */}
-      <motion.button
-        onClick={() => setIsOpen((prev) => !prev)}
-        className={cn(
-          "fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full shadow-lg shadow-primary/25 flex items-center justify-center transition-colors duration-200",
-          isOpen
-            ? "bg-muted text-muted-foreground hover:bg-muted/80"
-            : "bg-primary text-primary-foreground hover:bg-primary/90",
-        )}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        aria-label={isOpen ? "Close chat" : "Open chat"}
-      >
-        <AnimatePresence mode="wait">
-          {isOpen ? (
-            <motion.div
-              key="close"
-              initial={{ rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
-              transition={{ duration: 0.15 }}
+      <TooltipProvider delayDuration={300}>
+        <Tooltip open={isOpen ? false : undefined}>
+          <TooltipTrigger asChild>
+            <motion.button
+              onClick={() => setIsOpen((prev) => !prev)}
+              className={cn(
+                "fixed bottom-20 sm:bottom-6 right-4 sm:right-7 z-50 transition-colors duration-200",
+              )}
+              aria-label={isOpen ? "Close chat" : "Open chat"}
             >
-              <X className="h-5 w-5" />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="open"
-              initial={{ rotate: 90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: -90, opacity: 0 }}
-              transition={{ duration: 0.15 }}
-            >
-              {/* <MessageCircle className="h-5 w-5" /> */}
-              <Bot className="h-5 w-5" />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.button>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key="open"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  <ChatbotIcon />
+                </motion.div>
+              </AnimatePresence>
+            </motion.button>
+          </TooltipTrigger>
+          <TooltipContent side="left">
+            <p>Open Assistant</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
 
       {/* Unread dot — show when closed and messages > 1 */}
       {!isOpen && messages.length > 1 && (
-        <span className="fixed bottom-[68px] right-[22px] sm:right-[30px] z-50 w-3 h-3 rounded-full bg-red-500 border-2 border-background pointer-events-none" />
+        <span className="fixed bottom-30 sm:bottom-17 right-4 sm:right-7 z-50 w-3 h-3 rounded-full bg-primary border-2 border-background pointer-events-none" />
       )}
     </>
   );

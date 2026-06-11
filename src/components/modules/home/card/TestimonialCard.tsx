@@ -74,7 +74,8 @@ export function TestimonialCard({ review, index }: TestimonialCardProps) {
           </div>
 
           {/* ── Footer ────────────────────────────────────────────── */}
-          <div className="pt-6 mt-8 border-t border-primary/10 flex items-center justify-between">
+          {/* pt-4 mt-6 */}
+          <div className="pt-4 mt-6 border-t border-primary/10 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div>
                 <h4 className="font-bold text-lg text-foreground group-hover:text-primary transition-colors duration-300">

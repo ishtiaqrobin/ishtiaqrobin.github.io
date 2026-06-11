@@ -5,7 +5,14 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { toast } from "sonner";
 import { Loader2, Mail, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
@@ -80,8 +87,9 @@ function VerifyEmailContent() {
         </div>
         <CardTitle className="text-2xl font-bold">Verify your email</CardTitle>
         <CardDescription>
-          We&apos;ve sent a 6-digit code to <span className="font-bold text-foreground">{email}</span>.
-          Please enter it below to verify your account.
+          We&apos;ve sent a 6-digit code to{" "}
+          <span className="font-bold text-foreground">{email}</span>. Please
+          enter it below to verify your account.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -105,7 +113,10 @@ function VerifyEmailContent() {
             disabled={isLoading}
           >
             {isLoading ? (
-              "Verifying..."
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Verifying...
+              </>
             ) : (
               "Verify Email"
             )}
@@ -120,10 +131,22 @@ function VerifyEmailContent() {
             disabled={isResending || isLoading}
             className="text-primary cursor-pointer hover:underline font-medium disabled:opacity-50"
           >
-            {isResending ? "Sending..." : "Resend code"}
+            {isResending ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Resending...
+              </>
+            ) : isLoading ? (
+              "Resending..."
+            ) : (
+              "Resend Code"
+            )}
           </button>
         </div>
-        <Link href="/login" className="text-sm text-primary hover:underline font-medium">
+        <Link
+          href="/login"
+          className="text-sm text-primary hover:underline font-medium"
+        >
           Back to Login
         </Link>
       </CardFooter>
@@ -134,13 +157,15 @@ function VerifyEmailContent() {
 export default function VerifyEmailPage() {
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-      <Suspense fallback={
-        <Card className="w-full max-w-md mx-auto border-primary/20">
-          <CardContent className="flex items-center justify-center py-10">
-            <Loader2 className="h-10 w-10 animate-spin text-primary" />
-          </CardContent>
-        </Card>
-      }>
+      <Suspense
+        fallback={
+          <Card className="w-full max-w-md mx-auto border-primary/20">
+            <CardContent className="flex items-center justify-center py-10">
+              <Loader2 className="h-10 w-10 animate-spin text-primary" />
+            </CardContent>
+          </Card>
+        }
+      >
         <VerifyEmailContent />
       </Suspense>
     </div>

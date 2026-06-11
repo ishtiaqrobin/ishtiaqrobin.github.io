@@ -1,19 +1,53 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import Providers from "./Providers";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Chatbot } from "@/components/layout/Chatbot";
+import MobileBottomBar from "@/components/modules/shared/MobileBottomBar";
+import { MobileBar } from "@/components/modules/shared/MobileBar";
+import ChatbotIcon from "@/components/layout/ChatbotIcon";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+// ─── Satoshi (Root / Body Font) ───────────────────────────────────────────────
+const Satoshi = localFont({
+  src: [
+    {
+      path: "../fonts/satoshi/Satoshi-Regular.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../fonts/satoshi/Satoshi-Medium.otf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../fonts/satoshi/Satoshi-Bold.otf",
+      weight: "600",
+      style: "normal",
+    },
+  ],
+  variable: "--font-satoshi",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+// ─── Clash Display (Heading / Display Font) ───────────────────────────────────
+const ClashDisplay = localFont({
+  src: [
+    {
+      path: "../fonts/clashDisplay/ClashDisplay-Medium.otf",
+      weight: "500",
+      style: "normal",
+    },
+    // {
+    //   path: "../fonts/clashDisplay/ClashDisplay-Bold.otf",
+    //   weight: "800",
+    //   style: "normal",
+    // },
+  ],
+  variable: "--font-clash-display",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -80,13 +114,28 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${Satoshi.variable} ${ClashDisplay.variable} antialiased relative min-h-screen`}
       >
         <Providers>
+          {/* 
+            ─── TOP FADE OVERLAY ───
+            pointer-events-none is given so that it doesn't interfere with mouse clicks or scrolling.
+            due to z-50 it will flash over all content.
+          */}
+          <div className="fixed top-0 left-0 right-0 h-6 bg-linear-to-b from-white/65 via-white/40 to-transparent dark:from-neutral-950 dark:via-neutral-950/70 dark:to-transparent pointer-events-none z-50" />
+
+          {/* ─── CONTENT ─── */}
           {children}
+          <MobileBottomBar />
+          {/* <MobileBar /> */}
+
           <Chatbot />
+          <ChatbotIcon />
           <Analytics />
           <SpeedInsights />
+
+          {/* ─── BOTTOM FADE OVERLAY ─── */}
+          <div className="fixed bottom-0 left-0 right-0 h-6.5 bg-linear-to-t from-white/65 via-white/40 to-transparent dark:from-neutral-950 dark:via-neutral-950/70 dark:to-transparent pointer-events-none z-50" />
         </Providers>
       </body>
     </html>

@@ -6,7 +6,14 @@ import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { toast } from "sonner";
 import { Loader2, Lock, Eye, EyeOff, ShieldCheck } from "lucide-react";
 import Link from "next/link";
@@ -53,7 +60,9 @@ function ResetPasswordContent() {
         return;
       }
 
-      toast.success("Password reset successful! You can now login with your new password.");
+      toast.success(
+        "Password reset successful! You can now login with your new password.",
+      );
       router.push("/login");
     } catch (error) {
       console.error("Reset password error:", error);
@@ -66,9 +75,13 @@ function ResetPasswordContent() {
   return (
     <Card className="w-full max-w-md mx-auto rounded-3xl border border-primary/20 shadow-lg hover:shadow-2xl shadow-primary-400/25 hover:shadow-primary-400/50 transition-all duration-500">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold text-center">Reset Password</CardTitle>
+        <CardTitle className="text-2xl font-bold text-center">
+          Reset Password
+        </CardTitle>
         <CardDescription className="text-center">
-          Enter the 6-digit code sent to <span className="font-bold text-foreground">{email}</span> and your new password.
+          Enter the 6-digit code sent to{" "}
+          <span className="font-bold text-foreground">{email}</span> and your
+          new password.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -107,7 +120,11 @@ function ResetPasswordContent() {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-[14px] text-muted-foreground hover:text-foreground"
               >
-                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                {showPassword ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
               </button>
             </div>
           </div>
@@ -133,9 +150,13 @@ function ResetPasswordContent() {
             type="submit"
             size={"md"}
             className="w-full cursor-pointer"
-            disabled={isLoading}>
+            disabled={isLoading}
+          >
             {isLoading ? (
-              "Resetting Password..."
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Resetting Password...
+              </>
             ) : (
               "Reset Password"
             )}
@@ -143,7 +164,10 @@ function ResetPasswordContent() {
         </form>
       </CardContent>
       <CardFooter className="justify-center">
-        <Link href="/login" className="text-sm text-primary hover:underline font-medium">
+        <Link
+          href="/login"
+          className="text-sm text-primary hover:underline font-medium"
+        >
           Back to Login
         </Link>
       </CardFooter>
@@ -154,13 +178,15 @@ function ResetPasswordContent() {
 export default function ResetPasswordPage() {
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-      <Suspense fallback={
-        <Card className="w-full max-w-md mx-auto border-primary/20">
-          <CardContent className="flex items-center justify-center py-10">
-            <Loader2 className="h-10 w-10 animate-spin text-primary" />
-          </CardContent>
-        </Card>
-      }>
+      <Suspense
+        fallback={
+          <Card className="w-full max-w-md mx-auto border-primary/20">
+            <CardContent className="flex items-center justify-center py-10">
+              <Loader2 className="h-10 w-10 animate-spin text-primary" />
+            </CardContent>
+          </Card>
+        }
+      >
         <ResetPasswordContent />
       </Suspense>
     </div>

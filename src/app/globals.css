@@ -6,8 +6,14 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  /* ─── Font Variables ─────────────────────────────────────── */
+  --font-sans: var(--font-satoshi);
+  /* Root body font  */
+  --font-display: var(--font-clash-display);
+  /* Heading / display font */
+  --font-mono: ui-monospace, monospace;
+
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -27,6 +33,10 @@
   --color-destructive: var(--destructive);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
   --color-secondary-foreground: var(--secondary-foreground);
@@ -45,29 +55,32 @@
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
 
-  --color-primary-50: #eef2ff;
-  --color-primary-100: #e0e7ff;
-  --color-primary-200: #c7d2fe;
-  --color-primary-300: #a5b4fc;
-  --color-primary-400: #818cf8;
-  --color-primary-500: #6366f1;
-  --color-primary-600: #4f46e5;
-  --color-primary-700: #4338ca;
-  --color-primary-800: #3730a3;
-  --color-primary-900: #312e81;
-  --color-primary-950: #1e1b4b;
+  /* ─── Updated Primary Scale (Based on your Green & Lime Theme) ─── */
+  --color-primary-50: #f0fdf4;
+  --color-primary-100: #dcfce7;
+  --color-primary-200: #bbf7d0;
+  --color-primary-300: #b5ff6d;
+  --color-primary-400: #4ade80;
+  --color-primary-500: #30af5b;
+  --color-primary-600: #16a34a;
+  --color-primary-700: #15803d;
+  --color-primary-800: #166534;
+  --color-primary-900: #14532d;
+  --color-primary-950: #052e16;
 
-  --color-violet-400: #a78bfa;
-  --color-violet-500: #8b5cf6;
-  --color-violet-600: #7c3aed;
+  /* ─── Optimized Violet Scale (For Cyberpunk/Tech Gradients) ─── */
+  --color-violet-400: #c084fc;
+  --color-violet-500: #a855f7;
+  --color-violet-600: #9333ea;
 
-  --color-dark-50: #171717;
-  --color-dark-100: #1a1a1a;
-  --color-dark-200: #262626;
-  --color-dark-300: #404040;
-  --color-dark-400: #525252;
-  --color-dark-500: #737373;
-  --color-dark-600: #a1a1aa;
+  /* ─── Updated Dark Scale (Matching your #0a0a0a Background) ─── */
+  --color-dark-50: #0a0a0a;
+  --color-dark-100: #141414;
+  --color-dark-200: #1f1f1f;
+  --color-dark-300: #2e2e2e;
+  --color-dark-400: #4a4a4a;
+  --color-dark-500: #7a7a7a;
+  --color-dark-600: #c0c0cf;
 
   --animate-gradient: gradient 8s ease infinite;
   --animate-float: float 6s ease-in-out infinite;
@@ -84,11 +97,11 @@
 
     0%,
     100% {
-      background-position: 0% 50%
+      background-position: 0% 50%;
     }
 
     50% {
-      background-position: 100% 50%
+      background-position: 100% 50%;
     }
   }
 
@@ -96,11 +109,11 @@
 
     0%,
     100% {
-      transform: translateY(0px)
+      transform: translateY(0px);
     }
 
     50% {
-      transform: translateY(-20px)
+      transform: translateY(-20px);
     }
   }
 
@@ -108,94 +121,109 @@
 
     0%,
     100% {
-      box-shadow: 0 0 20px rgba(99, 102, 241, 0.3)
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
     }
 
     50% {
-      box-shadow: 0 0 40px rgba(99, 102, 241, 0.6)
+      box-shadow: 0 0 40px rgba(99, 102, 241, 0.6);
     }
   }
 
   @keyframes slideUp {
     0% {
       transform: translateY(20px);
-      opacity: 0
+      opacity: 0;
     }
 
     100% {
       transform: translateY(0);
-      opacity: 1
+      opacity: 1;
     }
   }
 
   @keyframes slideDown {
     0% {
       transform: translateY(-10px);
-      opacity: 0
+      opacity: 0;
     }
 
     100% {
       transform: translateY(0);
-      opacity: 1
+      opacity: 1;
     }
   }
 
   @keyframes fadeIn {
     0% {
-      opacity: 0
+      opacity: 0;
     }
 
     100% {
-      opacity: 1
+      opacity: 1;
     }
   }
 
   @keyframes scaleIn {
     0% {
       transform: scale(0.9);
-      opacity: 0
+      opacity: 0;
     }
 
     100% {
       transform: scale(1);
-      opacity: 1
+      opacity: 1;
     }
   }
 }
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: #f7f8fa;
   --foreground: oklch(0.145 0.004 285.823);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0.004 285.823);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0.004 285.823);
-  --primary: #6366f1;
+
+  /* for large text */
+  --primary: #30af5b;
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: #8b5cf6;
-  --secondary-foreground: oklch(0.985 0 0);
+
+  /* for large text */
+  --secondary: #0a0a0a;
+  --secondary-foreground: #f6f7ff;
+
+  /* for small text */
+  --text-primary: #0a0a0a;
+  --text-secondary: #c0c0cf;
+
+  /* for dashboard */
   --muted: oklch(0.97 0.006 285.885);
   --muted-foreground: oklch(0.556 0.015 285.823);
-  --accent: oklch(0.97 0.006 285.885);
+
+  /* for card */
+  --accent: #f7f8fa;
   --accent-foreground: oklch(0.205 0.013 285.823);
+
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0.006 285.885);
   --input: oklch(0.922 0.006 285.885);
-  --ring: #6366f1;
+  --ring: #7f8082;
+
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
+
   --sidebar: oklch(0.985 0.002 285.885);
   --sidebar-foreground: oklch(0.145 0.004 285.823);
-  --sidebar-primary: #6366f1;
+  --sidebar-primary: #30af5b;
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0.006 285.885);
   --sidebar-accent-foreground: oklch(0.205 0.013 285.823);
   --sidebar-border: oklch(0.922 0.006 285.885);
-  --sidebar-ring: #6366f1;
+  --sidebar-ring: #30af5b;
 }
 
 .dark {
@@ -205,31 +233,46 @@
   --card-foreground: oklch(0.985 0.002 285.885);
   --popover: oklch(0.205 0.013 285.823);
   --popover-foreground: oklch(0.985 0.002 285.885);
-  --primary: #818cf8;
+
+  /* for large text */
+  --primary: #b5ff6d;
   --primary-foreground: #ffffff;
-  --secondary: #a78bfa;
-  --secondary-foreground: #ffffff;
+
+  /* for large text */
+  --secondary: #f6f7ff;
+  --secondary-foreground: #0a0a0a;
+
+  /* for small text */
+  --text-primary: #c0c0cf;
+  --text-secondary: #0a0a0a;
+
+  /* for dashboard */
   --muted: oklch(0.269 0.017 285.823);
   --muted-foreground: oklch(0.708 0.015 285.823);
-  --accent: oklch(0.269 0.017 285.823);
+
+  /* for card */
+  --accent: #0b0b0d;
   --accent-foreground: oklch(0.985 0.002 285.885);
+
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: #818cf8;
+  --ring: #6f6f72;
+
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
+
   --sidebar: oklch(0.205 0.013 285.823);
   --sidebar-foreground: oklch(0.985 0.002 285.885);
-  --sidebar-primary: #818cf8;
+  --sidebar-primary: #b5ff6d;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: oklch(0.269 0.017 285.823);
   --sidebar-accent-foreground: oklch(0.985 0.002 285.885);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: #818cf8;
+  --sidebar-ring: #b5ff6d;
 }
 
 @layer base {
@@ -247,13 +290,14 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', 'Plus Jakarta Sans', system-ui, sans-serif;
+    /* ✅ Satoshi root font — weight 400/500/600 সবচেয়ে বেশি ব্যবহার হবে */
+    font-family: var(--font-satoshi), system-ui, sans-serif;
+    font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* ✅ overflow-x: hidden সরানো হয়েছে — dashboard h-screen-এর সাথে conflict করত */
   }
 
-  /* ✅ Scrollbar সম্পূর্ণ hide — clean ও duplicate-মুক্ত */
+  /* Scrollbar will hide */
   ::-webkit-scrollbar {
     display: none;
   }
@@ -274,6 +318,59 @@
 }
 
 @layer components {
+
+  /* ─── ClashDisplay Utility Class ───────────────────────────────────────────
+     যেকোনো element-এ font-clash class দিলেই ClashDisplay apply হবে।
+     Default weight: 500 (Medium) — সবচেয়ে বেশি ব্যবহার হবে।
+  ─────────────────────────────────────────────────────────────────────────── */
+  .font-clash {
+    font-family: var(--font-clash-display), system-ui, sans-serif;
+    font-weight: 500;
+  }
+
+  /* Weight variants — প্রয়োজনে combine করে ব্যবহার করো */
+  .font-clash-light {
+    font-family: var(--font-clash-display), system-ui, sans-serif;
+    font-weight: 300;
+  }
+
+  .font-clash-regular {
+    font-family: var(--font-clash-display), system-ui, sans-serif;
+    font-weight: 400;
+  }
+
+  .font-clash-medium {
+    font-family: var(--font-clash-display), system-ui, sans-serif;
+    font-weight: 500;
+  }
+
+  .font-clash-semibold {
+    font-family: var(--font-clash-display), system-ui, sans-serif;
+    font-weight: 600;
+  }
+
+  .font-clash-bold {
+    font-family: var(--font-clash-display), system-ui, sans-serif;
+    font-weight: 700;
+  }
+
+  /* ─── Satoshi weight shortcuts (body এর জন্য) ─────────────────────────── */
+  .font-satoshi-regular {
+    font-family: var(--font-satoshi), system-ui, sans-serif;
+    font-weight: 400;
+  }
+
+  .font-satoshi-medium {
+    font-family: var(--font-satoshi), system-ui, sans-serif;
+    font-weight: 500;
+  }
+
+  .font-satoshi-semibold {
+    font-family: var(--font-satoshi), system-ui, sans-serif;
+    font-weight: 600;
+  }
+
+  /* ─── Existing components ──────────────────────────────────────────────── */
   .glass {
     @apply bg-white/5 backdrop-blur-xl border border-white/10;
   }
@@ -379,4 +476,169 @@
       background-position: 0% 50%;
     }
   }
+}
+
+/* Tech Marquee */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  /* Loop the animation for 100 seconds */
+  animation: marquee 100s linear infinite;
+}
+
+/* Transition to slow down animation speed on hover */
+.marquee-container:hover .animate-marquee {
+  /* Loop the animation for 60 seconds for slower speed when hovered */
+  /* animation-duration: 60s; */
+}
+
+/* Text Marquee */
+@keyframes text-marquee {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+    /* Half of the width of the container (50%) */
+  }
+}
+
+.animate-text-marquee {
+  /* Loop the animation for 120 seconds */
+  animation: text-marquee 120s linear infinite;
+}
+
+
+/* Infinite Rotating Text Badge */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 12s linear infinite;
+}
+
+/* Text Shine Effect*/
+@keyframes shine {
+  0% {
+    background-position: 200% center;
+  }
+
+  100% {
+    background-position: -200% center;
+  }
+}
+
+.animate-text-shine {
+  background-size: 200% auto;
+  animation: shine 4s linear infinite;
+}
+
+/* Wave Hand Animation */
+@keyframes wave-hand-tilted {
+  0% {
+    transform: rotate(-15deg);
+  }
+
+  /* ডিফল্ট অবস্থায় বামে হেলে থাকবে */
+  10% {
+    transform: rotate(0deg);
+  }
+
+  /* দোলার সময় কিছুটা ডানে আসবে */
+  20% {
+    transform: rotate(-25deg);
+  }
+
+  /* আবার বেশি বামে হেলবে */
+  30% {
+    transform: rotate(-5deg);
+  }
+
+  40% {
+    transform: rotate(-20deg);
+  }
+
+  50% {
+    transform: rotate(-10deg);
+  }
+
+  60% {
+    transform: rotate(-15deg);
+  }
+
+  /* পুনরায় হেলে থাকা পজিশনে ফিরবে */
+  100% {
+    transform: rotate(-15deg);
+  }
+
+  /* বিরতি বা পজ (Pause) */
+}
+
+.animate-wave-tilted {
+  animation: wave-hand-tilted 2.5s ease-in-out infinite;
+  transform-origin: 75% 80%;
+  /* কব্জির গোড়ালি ঠিক রেখে হাত দুলবে */
+  display: inline-block;
+}
+
+/* Testimonials — add these rules inside your globals.css */
+
+/* ── Circular ring progress ──────────────────────────────────
+   stroke-dashoffset animates from full circumference → 0
+   over 8 seconds (matches AUTO_PLAY_DURATION).
+   The component passes --ring-circumference as an inline var.
+   React re-keys the element on each card change to restart.
+   ----------------------------------------------------------- */
+@keyframes testimonial-ring-fill {
+  from {
+    stroke-dashoffset: var(--ring-circumference);
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.testimonial-ring-progress {
+  animation: testimonial-ring-fill 8s linear forwards;
+  will-change: stroke-dashoffset;
+}
+
+/* ── Text expand / collapse ──────────────────────────────────
+   max-height transition creates a smooth grow/shrink.
+   --expanded-height is set via inline style in the component:
+     collapsed → 5.5rem
+     expanded  → 600px (safe upper bound)
+   ----------------------------------------------------------- */
+.testimonial-text-wrapper {
+  overflow: hidden;
+  max-height: var(--expanded-height, 5.5rem);
+  transition: max-height 380ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── NOTE on sliding ─────────────────────────────────────────
+   Card sliding is handled by Framer Motion (AnimatePresence
+   mode="sync") directly in Testimonials.tsx via inline
+   transform. No CSS class needed for the slide itself.
+   ----------------------------------------------------------- */
+
+/* Design Process */
+.will-change-transform {
+  will-change: transform;
 }

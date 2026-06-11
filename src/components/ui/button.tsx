@@ -10,7 +10,7 @@ const buttonVariants = cva(
       variant: {
         // shadow-[0_0_20px_rgba(124,58,237,0.3)] hover:shadow-[0_0_25px_rgba(124,58,237,0.5)]
         default:
-          "bg-gradient-to-r from-primary-500 to-violet-500 text-white hover:from-primary-600 hover:to-violet-600  border border-white/10 backdrop-blur-sm",
+          "bg-primary text-primary-foreground border border-white/10 backdrop-blur-sm",
 
         primary:
           "text-white bg-primary-500 hover:bg-primary-600 border border-white/10 backdrop-blur-sm",
@@ -19,7 +19,7 @@ const buttonVariants = cva(
           "bg-red-600/70 text-white hover:bg-red-500 shadow-lg backdrop-blur-sm",
 
         outline:
-          "border-2 border-primary-500/50 text-gray-700 dark:text-white bg-white/5 hover:bg-primary-500/10 hover:border-primary-400 backdrop-blur-sm",
+          "border-2 border-primary text-text-primary bg-white/5 hover:border-primary/75 dark:hover:border-primary/70 backdrop-blur-sm",
 
         secondary:
           "bg-primary-400 hover:bg-primary-500 text-gray-900 dark:text-white border border-white/5 backdrop-blur-sm",
@@ -28,6 +28,8 @@ const buttonVariants = cva(
           "text-gray-700 dark:text-gray-300 hover:text-gray-600 dark:hover:text-white hover:bg-gray-500/10 dark:hover:bg-white/10",
 
         link: "text-primary underline-offset-4 hover:underline",
+
+        ai: "text-white bg-black hover:bg-primary-600 border border-white/10 backdrop-blur-sm",
       },
 
       size: {
@@ -37,6 +39,7 @@ const buttonVariants = cva(
         md: "h-11 px-6 py-3 text-base rounded-lg",
         lg: "h-12 px-8 py-4 text-lg rounded-xl",
         icon: "h-10 w-10",
+        ai: "h-8 w-8",
       },
     },
 

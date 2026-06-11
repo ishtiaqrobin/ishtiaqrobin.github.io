@@ -86,7 +86,14 @@ export default function ForgotPasswordPage() {
               className="w-full cursor-pointer"
               disabled={isLoading}
             >
-              {isLoading ? "Sending Code..." : "Send Reset Code"}
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Sending Code...
+                </>
+              ) : (
+                "Send Reset Code"
+              )}
             </Button>
           </form>
         </CardContent>

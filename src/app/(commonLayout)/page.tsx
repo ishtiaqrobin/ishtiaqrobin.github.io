@@ -1,36 +1,25 @@
 "use client";
 
-import { HeroSection } from "@/components/modules/home/HeroSection";
-import { TestimonialSection } from "@/components/modules/home/TestimonialSection";
-import { AboutSection } from "@/components/modules/home/AboutSection";
-import StatsSection from "@/components/modules/home/StatsSection";
-import { SkillsSection } from "@/components/modules/home/SkillsSection";
-import { GallerySection } from "@/components/modules/home/GallerySection";
-import { EducationSection } from "@/components/modules/home/EducationSection";
-import { ExperienceSection } from "@/components/modules/home/ExperienceSection";
+import CtaSection from "@/components/modules/shared/CtaSection";
+import HeroSection from "@/components/modules/home/hero/HeroSection";
+import TextMarquee from "@/components/modules/shared/TextMarquee";
+import Testimonials from "@/components/modules/home/testimonials/Testimonials";
+import ScrollRevealText from "@/components/modules/shared/ScrollRevealText";
+import ExpertiseSection from "@/components/modules/home/expertise/ExpertiseSection";
 import { ProjectSection } from "@/components/modules/home/ProjectSection";
-import { ServiceSection } from "@/components/modules/home/ServiceSection";
-import { ContactSection } from "@/components/modules/home/ContactSection";
-import { VideoSection } from "@/components/modules/home/VideoSection";
-import { CTASection } from "@/components/modules/home/CTASection";
-import { AppointmentsSection } from "@/components/modules/home/AppointmentsSection";
-import { CertificateSection } from "@/components/modules/home/CertificateSection";
-import HomeBlogPreview from "@/components/modules/home/blog/HomeBlogPreview";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Static Content */}
+    <div className="min-h-screen">
+      {/* flex flex-col */}
       <HeroSection />
+      <TextMarquee />
 
-      {/* Dynamic Content */}
-      <StatsSection />
+      <ScrollRevealText text="I'm Ishtiaq Robin, with over 3+ years of experience in design & development with strong focus on producing high quality & impactful digital experiences. I have worked with some of the most innovative industry leaders to help build their top-notch products." />
 
-      {/* Static Content */}
-      {/* <AboutSection /> */}
-
-      {/* Blog Section — compact preview, links to /blogs for the full list */}
-      <HomeBlogPreview />
+      <ExpertiseSection />
+      <Testimonials />
+      <CtaSection />
 
       {/* Dynamic Content */}
       {/* <EducationSection /> */}
@@ -48,25 +37,25 @@ export default function Home() {
       {/* <GallerySection /> */}
 
       {/* Dynamic Content */}
-      <ProjectSection />
+      {/* <ProjectSection /> */}
 
       {/* Certificate Section */}
-      <CertificateSection />
+      {/* <CertificateSection /> */}
 
       {/* Appointments Section */}
-      <AppointmentsSection />
+      {/* <AppointmentsSection /> */}
 
       {/* Dynamic Content */}
-      <VideoSection />
+      {/* <VideoSection /> */}
 
       {/* Dynamic Content */}
-      <TestimonialSection />
+      {/* <TestimonialSection /> */}
 
       {/* Dynamic Content */}
       {/* <ContactSection /> */}
 
       {/* Static Content */}
-      <CTASection />
+      {/* <CTASection /> */}
     </div>
   );
 }
