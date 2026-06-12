@@ -25,3 +25,13 @@ export interface IProject {
   createdAt: string;
   updatedAt: string;
 }
+
+// For fake projects cards
+export interface Project {
+  id: string;
+  title: string;
+  categories: string[];
+  year: string;
+  image: string;
+  bgColor: string;
+}

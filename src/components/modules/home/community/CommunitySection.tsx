@@ -42,7 +42,7 @@ const FeatureCard = ({ icon, title, description }: FeatureCardProps) => (
 
 export default function CommunitySection() {
   return (
-    <section className="container-custom py-16 sm:py-22">
+    <section className="container-custom pt-16 sm:pt-22 pb-12 sm:pb-12">
       {/* বড় স্ক্রিনে ২ কলাম গ্রিড লেআউট */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
         {/* 

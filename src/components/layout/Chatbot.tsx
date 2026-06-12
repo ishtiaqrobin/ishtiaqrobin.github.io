@@ -242,7 +242,7 @@ export function Chatbot() {
                       "max-w-[78%] px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed",
                       msg.role === "user"
                         ? "bg-primary text-primary-foreground rounded-br-sm"
-                        : "bg-muted text-foreground rounded-bl-sm",
+                        : "bg-zinc-200/50 dark:bg-zinc-800/50 text-foreground rounded-bl-sm",
                     )}
                   >
                     {msg.content}
@@ -267,7 +267,7 @@ export function Chatbot() {
                   >
                     <path d="M12 2c0 5.5-4.5 10-10 10 5.5 0 10 4.5 10 10 0-5.5 4.5-10 10-10-5.5 0-10-4.5-10-10z" />
                   </svg>
-                  <div className="bg-muted px-3.5 py-3 rounded-2xl rounded-bl-sm">
+                  <div className="bg-zinc-200/50 dark:bg-zinc-800/50 px-3.5 py-3 rounded-2xl rounded-bl-sm">
                     <div className="flex gap-1 items-center">
                       <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/60 animate-bounce [animation-delay:0ms]" />
                       <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/60 animate-bounce [animation-delay:150ms]" />

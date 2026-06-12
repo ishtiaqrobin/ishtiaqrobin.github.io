@@ -308,12 +308,21 @@
   }
 
   ::selection {
-    background-color: rgba(99, 102, 241, 0.3);
+    background-color: #30af5b;
+    color: #fff;
+  }
+
+  .dark ::selection {
+    background-color: #b5ff6d;
     color: #fff;
   }
 
   .light ::selection {
-    color: #18181b;
+    color: #f6f7ff;
+  }
+
+  .dark ::selection {
+    color: #0b0b0d;
   }
 }
 
@@ -495,10 +504,10 @@
 }
 
 /* Transition to slow down animation speed on hover */
-.marquee-container:hover .animate-marquee {
-  /* Loop the animation for 60 seconds for slower speed when hovered */
-  /* animation-duration: 60s; */
-}
+/* .marquee-container:hover .animate-marquee { */
+/* Loop the animation for 60 seconds for slower speed when hovered */
+/* animation-duration: 60s; */
+/* } */
 
 /* Text Marquee */
 @keyframes text-marquee {

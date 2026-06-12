@@ -13,16 +13,7 @@ import {
   SiFirebase,
 } from "react-icons/si";
 import ShimmerText from "../../shared/ShimmerText";
-
-interface ExperienceItem {
-  id: number;
-  position: string;
-  companyName: string;
-  companyUrl: string;
-  logo: React.ReactNode;
-  duration: string;
-  responsibilities: string[];
-}
+import { ExperienceItem } from "@/types";
 
 const EXPERIENCE_DATA: ExperienceItem[] = [
   {
@@ -345,7 +336,7 @@ export default function Experience() {
   return (
     <section className="w-full container-custom py-12 sm:py-22">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-0 items-start">
-        {/* ─── বামপাশ (Sidebar) ───
+        {/* ─── Left (Sidebar) ───
             showAll true হলেই sticky হবে, নাহলে normal flow এ থাকবে */}
         <div
           className={[
@@ -366,7 +357,7 @@ export default function Experience() {
           </p>
         </div>
 
-        {/* ─── ডানপাশ (Row List) ─── */}
+        {/* ─── Right (Row List) ─── */}
         <div className="lg:col-span-7 flex flex-col w-full">
           <div className="flex flex-col">
             {/* সবসময় দেখানো প্রথম ৪টি রো */}

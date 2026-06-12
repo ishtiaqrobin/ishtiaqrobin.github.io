@@ -9,9 +9,9 @@ interface ScrollRevealTextProps {
   className?: string;
 }
 
-// ─── Word Component ───────────────────────────────────────────────────────────
-// Hook (useTransform) কে map() এর বাইরে আলাদা component এ নিয়ে আসা হয়েছে।
-// এটাই React Rules of Hooks এর সঠিক pattern।
+// ─── Word Component ───
+// Hook (useTransform) has been moved outside of map() into a separate component.
+// This is the correct pattern for React Rules of Hooks.
 
 function Word({
   word,
@@ -24,10 +24,10 @@ function Word({
   start: number;
   end: number;
 }) {
-  // ✅ Hook এখন একটি valid React function component এর ভেতরে
+  // ✅ Hook is now inside a valid React function component
   const opacity = useTransform(scrollYProgress, [start, end], [0.12, 1]);
 
-  // blur: 8px (hidden) → 0px (clear) — opacity এর সাথে sync
+  // blur: 8px (hidden) → 0px (clear) — sync with opacity
   const filter = useTransform(
     scrollYProgress,
     [start, end],
@@ -36,7 +36,7 @@ function Word({
 
   return (
     <span className="relative inline-block">
-      {/* স্থায়ী আবছা base layer — যাতে text layout shift না হয় */}
+      {/* Permanently blurred base layer — so that the text layout does not shift */}
       <span className="absolute opacity-[0.12] text-zinc-900 dark:text-white font-medium select-none">
         {word}
       </span>
@@ -52,7 +52,7 @@ function Word({
   );
 }
 
-// ─── Main Component ───────────────────────────────────────────────────────────
+// ─── Main Component ───
 
 export default function ScrollRevealText({
   text,
@@ -81,7 +81,7 @@ export default function ScrollRevealText({
         className={`text-2xl sm:text-[32px] font-normal text-zinc-300 dark:text-zinc-800 max-w-6xl flex flex-wrap justify-center gap-x-2 gap-y-3 ${className}`}
       >
         {words.map((word, i) => {
-          // প্রতিটি word এর জন্য scroll range এর একটা slice
+          // A slice of the scroll range for each word
           const start = i / words.length;
           const end = start + 1 / words.length;
 

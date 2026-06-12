@@ -320,7 +320,7 @@ export default function Testimonials() {
   // ─── Render ───────────────────────────────────────────────────────────────
 
   return (
-    <section className="container-custom py-16 sm:py-24 overflow-hidden">
+    <section className="container-custom pt-16 sm:pt-24 pb-8 sm:pb-12 overflow-hidden">
       {/* items-start → left side top-aligned, never shifts when right side expands */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
         {/* ── Left side ── */}

@@ -9,6 +9,19 @@ import { useAuth } from "@/hooks/useAuth";
 import { NAV_LINKS } from "@/utils/constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { getInitials } from "@/utils/helpers";
+import { LayoutDashboard } from "lucide-react";
+import { LogoutButton } from "../modules/authentication/LogoutButton";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -149,19 +162,16 @@ export function Navbar() {
             {/* {isAuthenticated ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <motion.button className="flex items-center gap-2 h-10 p-1 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 border border-gray-200 dark:border-white/10 transition-all">
+                  <motion.button className="flex items-center gap-2 h-10 p-1 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 border border-gray-200 dark:border-white/10 transition-all">
                     <Avatar className="h-8 w-8 rounded-lg">
                       <AvatarImage
                         src={user?.image || undefined}
                         alt={user?.name}
                       />
-                      <AvatarFallback className="rounded-lg bg-linear-to-br from-primary to-violet-500 text-white text-xs font-bold">
+                      <AvatarFallback className="rounded-full bg-primary text-white text-xs font-bold">
                         {user?.name ? getInitials(user.name) : "U"}
                       </AvatarFallback>
                     </Avatar>
-                    <span className="hidden sm:inline text-sm font-medium text-gray-700 dark:text-gray-300 pr-1">
-                      {user?.name?.split(" ")[0]}
-                    </span>
                   </motion.button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent

@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import ShimmerText from "../../shared/ShimmerText";
+import SplitTextReveal from "../../shared/SplitTextReveal";
 
 interface FaqItem {
   id: number;
@@ -56,6 +57,10 @@ export default function FaqSection() {
           <h2 className="text-4xl lg:text-5xl font-clash font-medium tracking-wide leading-12 text-secondary">
             Have <br /> Questions?
           </h2>
+
+          {/* <SplitTextReveal className="leading-12">
+            Have <br /> Questions?
+          </SplitTextReveal> */}
         </div>
 
         {/* ─── ডানপাশ: Accordion List ─── */}

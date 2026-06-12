@@ -24,9 +24,17 @@ import { contactService } from "@/services/contact.service";
 import { toast } from "sonner";
 import { PERSONAL_INFO } from "@/utils/constants";
 import SocialIcons from "../../shared/SocialIcons";
+import SplitTextReveal from "../../shared/SplitTextReveal";
+import { motion } from "motion/react";
+import { useInView } from "react-intersection-observer";
 
 export function ContactSection() {
   const [isLoading, setIsLoading] = useState(false);
+
+  const { ref } = useInView({
+    threshold: 0.2,
+    triggerOnce: true,
+  });
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
@@ -64,12 +72,16 @@ export function ContactSection() {
   };
 
   return (
-    <section className="container-custom py-24 sm:py-28 select-none">
+    <section ref={ref} className="container-custom py-24 sm:py-28 select-none">
       <div className="mb-8">
         <ShimmerText className="mb-3.5">Connect With Me</ShimmerText>
         <h2 className="text-4xl sm:text-5xl font-clash font-medium tracking-tight text-secondary leading-12 max-w-2xl">
           Let&apos;s start a project <br /> together
         </h2>
+
+        {/* <SplitTextReveal className="leading-12">
+          Let&apos;s start a project <br /> together
+        </SplitTextReveal> */}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-start">

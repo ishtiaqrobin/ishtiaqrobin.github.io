@@ -7,12 +7,12 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex min-h-screen flex-col">
       {/* Navbar */}
-      <AuthNavbar />
+      <div className="mb-4 sm:mb-8">
+        <AuthNavbar />
+      </div>
 
       {/* Main content */}
-      <main className="flex-1">
-        {children}
-      </main>
+      <main className="flex-1">{children}</main>
 
       {/* Footer */}
       <Footer />

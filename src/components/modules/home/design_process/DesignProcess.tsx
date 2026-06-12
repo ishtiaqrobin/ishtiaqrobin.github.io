@@ -16,6 +16,8 @@ import {
   FiCode,
   FiCheckCircle,
   FiCompass,
+  FiUploadCloud,
+  FiFileText,
 } from "react-icons/fi";
 import ShimmerText from "../../shared/ShimmerText";
 
@@ -26,41 +28,48 @@ interface ProcessCard {
   description: string;
 }
 
-const PROCESS_DATA: ProcessCard[] = [
+const WEB_PROCESS_DATA: ProcessCard[] = [
   {
     id: 1,
-    number: "01. Strategize",
+    number: "01. Discover",
     icon: <FiCompass />,
     description:
-      "To create something awesome, one must first talk about the details. Planning is essential.",
+      "Understanding the client's goals, target audience, and project scope before writing a single line of code.",
   },
   {
     id: 2,
-    number: "02. Wireframe",
-    icon: <FiPenTool />,
+    number: "02. Plan",
+    icon: <FiFileText />,
     description:
-      "After hashing out the details of the website, it's easy to throw the ideas onto pen & paper.",
+      "Defining the tech stack, architecture, and project timeline to keep everything on track 1st day.",
   },
   {
     id: 3,
     number: "03. Design",
-    icon: <FiLayers />,
+    icon: <FiPenTool />,
     description:
-      "The most fun part of all - adding pizzaz to the wirefreames and bring it to life.",
+      "Crafting clean, responsive UI with a focus on user experience, consistency, and visual hierarchy.",
   },
   {
     id: 4,
-    number: "04. Development",
+    number: "04. Develop",
     icon: <FiCode />,
     description:
-      "The design may be final but it needs to be functional and practical. Development is key.",
+      "Building scalable, maintainable full-stack applications using modern frameworks and best practices.",
   },
   {
     id: 5,
-    number: "05. Quality Assurance",
+    number: "05. Test & Optimize",
     icon: <FiCheckCircle />,
     description:
-      "Website load times, SEO, file optimization, etc., weigh in to the quality of the site.",
+      "Ensuring performance, security, and cross-browser compatibility before any code goes to prod.",
+  },
+  {
+    id: 6,
+    number: "06. Deploy",
+    icon: <FiUploadCloud />,
+    description:
+      "Shipping to production with CI/CD pipelines, and proper hosting setup in place.",
   },
 ];
 
@@ -112,7 +121,7 @@ export default function DesignProcess() {
   });
 
   //   Infinite loop trick: duplicate the array to make it infinite
-  const doubledCards = [...PROCESS_DATA, ...PROCESS_DATA];
+  const doubledCards = [...WEB_PROCESS_DATA, ...WEB_PROCESS_DATA];
 
   return (
     <section

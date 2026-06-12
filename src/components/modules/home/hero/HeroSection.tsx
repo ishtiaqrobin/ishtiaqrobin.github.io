@@ -3,13 +3,21 @@
 import React from "react";
 import { FiArrowUpRight } from "react-icons/fi";
 import HoverButton from "../../shared/HoverButton";
-import { TbHandStop } from "react-icons/tb";
 import { PERSONAL_INFO } from "@/utils/constants";
 import { HiOutlineHand } from "react-icons/hi";
+import { useInView } from "react-intersection-observer";
 
 export default function HeroSection() {
+  const { ref } = useInView({
+    threshold: 0.2,
+    triggerOnce: true,
+  });
+
   return (
-    <section className="container-custom pt-28 pb-16 sm:pb-24 bg-[#f9f9f9] dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 select-none flex flex-col justify-between">
+    <section
+      ref={ref}
+      className="container-custom pt-32 sm:pt-44 pb-16 sm:pb-24 bg-[#f9f9f9] dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 select-none flex flex-col justify-between"
+    >
       {/* Top Part: Greeting and Main Title */}
       <div className="flex flex-col items-start w-full">
         {/* Small greeting */}

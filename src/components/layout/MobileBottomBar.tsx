@@ -23,10 +23,10 @@ export default function MobileBottomBar() {
 
   return (
     /* 
-      ─── মোবাইল বটম বার কন্টেইনার ───
-      ১. 'lg:hidden' দিয়ে এটি শুধুমাত্র মোবাইল এবং ট্যাবলেট স্ক্রিনেই দেখাবে।
-      ২. স্ক্রিনশটের মতো স্মুথ টপ-কার্ভ এবং পিল বডি শেপের জন্য 'rounded-t-[32px]' দেওয়া হয়েছে।
-      ৩. 'fixed bottom-0' এর কারণে এটি স্ক্রিনের নিচে পারফেক্টলি লক থাকবে।
+     ─── Mobile Bottom Bar Container ───
+     1. With 'lg:hidden' it will only show on mobile and tablet screens.
+     2. 'rounded-t-[32px]' is given for smooth top-curve and pill body shape like in the screenshot.
+     3. Because of 'fixed bottom-0' it will be perfectly locked at the bottom of the screen.
     */
     <div className="fixed sm:hidden bottom-0 left-0 right-0 z-50 bg-white/65 dark:bg-[#0a0a0a]/75 backdrop-blur-xl border-t border-zinc-200 dark:border-zinc-800 rounded-3xl rounded-b-none px-4 py-2.5 transition-colors duration-300">
       <div className="flex items-center justify-between max-w-md mx-auto">

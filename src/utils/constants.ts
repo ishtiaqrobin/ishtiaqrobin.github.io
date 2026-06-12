@@ -1,35 +1,7 @@
-import profileImage from "../assets/images/hero_section.webp";
+// import profileImage from "../assets/images/hero_section.webp";
 
-import { FaReact, FaNodeJs, FaDocker, FaGitAlt, FaLinux } from "react-icons/fa";
-import {
-  SiNextdotjs,
-  SiTypescript,
-  SiJavascript,
-  SiTailwindcss,
-  SiShadcnui,
-  SiExpress,
-  SiFastify,
-  SiGo,
-  SiPostgresql,
-  SiMysql,
-  SiMongodb,
-  SiSqlite,
-  SiPrisma,
-  SiVercel,
-  SiRender,
-  SiZod,
-  SiReacthookform,
-  SiHtml5,
-  SiCss,
-  SiApifox,
-} from "react-icons/si";
-import {
-  HiCode,
-  HiColorSwatch,
-  HiServer,
-  HiDatabase,
-  HiLightningBolt,
-} from "react-icons/hi";
+import { Project } from "@/types";
+import { AwardItem } from "@/types/awards.type";
 
 export const PERSONAL_INFO = {
   name: "Ishtiaq Robin",
@@ -39,139 +11,169 @@ export const PERSONAL_INFO = {
   whatsapp: "+8801762627422",
   email: "ishtiaqrobin.me@gmail.com",
   github: "https://github.com/ishtiaqrobin",
+
   resumeUrl: "/resume.pdf",
-  profileImage: profileImage, // Fallback to the existing image
+  profileImage:
+    "https://res.cloudinary.com/dcfhqij0i/image/upload/q_auto/f_auto/v1780581746/ishtiaq-robin/about/je9zx4yk8ud-1780581744939-black-shirt.webp", // Fallback to the existing image
 };
-
-export const TYPEWRITER_WORDS = [
-  "Full Stack Web Developer",
-  "MERN Stack Developer",
-  "Next.js Expert",
-  "Backend Engineer",
-  "Problem Solver",
-];
-
-export const STATS_DATA = [
-  { label: "Years of Experience", value: 3, suffix: "+" },
-  { label: "Projects Completed", value: 50, suffix: "+" },
-  { label: "Happy Clients", value: 30, suffix: "+" },
-  { label: "Technologies Mastered", value: 15, suffix: "+" },
-];
 
 export const NAV_LINKS = [
   { name: "Home", href: "/" },
-  // { name: "Stats", href: "stats" },
   { name: "About", href: "/about" },
-  // { name: "Education", href: "education" },
-  // { name: "Experience", href: "experience" },
-  // { name: "Skills", href: "skills" },
-  // { name: "Services", href: "services" },
-  // { name: "Gallery", href: "gallery" },
   { name: "Projects", href: "/projects" },
   // { name: "Blogs", href: "/blogs" },
-  // { name: "Videos", href: "videos" },
-  // { name: "Testimonials", href: "testimonials" },
   { name: "Contact", href: "/contact" },
+  { name: "Login", href: "/login" },
 ];
 
-export const FOOTER_LINKS = [
-  // { name: 'Home', href: 'home' },
-  { name: "About", href: "about" },
-  { name: "Skills", href: "skills" },
-  { name: "Projects", href: "projects" },
-  { name: "Services", href: "services" },
-  // { name: 'Reviews', href: 'reviews' },
-  // { name: 'Contact', href: 'contact' },
+export const PROJECTS_DATA: Project[] = [
+  {
+    id: "aora",
+    title: "Aora",
+    categories: ["Development"],
+    year: "2024",
+    image:
+      "https://res.cloudinary.com/dcfhqij0i/image/upload/q_auto/f_auto/v1781194103/aora_ftkx9s.webp",
+    bgColor: "bg-[#fef08a]/70 dark:bg-[#fef08a]/20", // Light Yellow Background
+  },
+  {
+    id: "code-screenshot",
+    title: "Code Screenshot",
+    categories: ["Development", "Design"],
+    year: "2024",
+    image:
+      "https://res.cloudinary.com/dcfhqij0i/image/upload/q_auto/f_auto/v1781194103/codescreenshot_v4h3gm.webp",
+    bgColor: "bg-[#fbcfe8]/70 dark:bg-[#fbcfe8]/20", // Light Pink Background
+  },
+  {
+    id: "fitness-tracker",
+    title: "Fitness Tracker App",
+    categories: ["Design"],
+    year: "2025",
+    image:
+      "https://res.cloudinary.com/dcfhqij0i/image/upload/q_auto/f_auto/v1781194103/iphone_tnhh1h.webp",
+    bgColor: "bg-[#bbf7d0]/60 dark:bg-[#bbf7d0]/10", // Light Green Background
+  },
+  {
+    id: "portfolio-design",
+    title: "Portfolio Design",
+    categories: ["Design"],
+    year: "2023",
+    image:
+      "https://res.cloudinary.com/dcfhqij0i/image/upload/q_auto/f_auto/v1781194102/ochidesign_qcujbg.webp",
+    bgColor: "bg-[#bfdbfe]/70 dark:bg-[#bfdbfe]/20", // Light Blue Background
+  },
 ];
 
-export const LEGAL_LINKS = [
-  { name: "Privacy Policy", href: "/privacy-policy" },
-  { name: "Terms of Service", href: "/terms-of-service" },
-  { name: "Cookie Policy", href: "/cookie-policy" },
-];
-
-export const ABOUT_TEXT = {
-  paragraph1:
-    "I'm Ishtiaq Robin, a passionate Full Stack Web Developer based in Bangladesh with over 2 years of professional experience. I specialize in building modern, scalable web applications that solve real-world problems.",
-  paragraph2:
-    "I believe in writing clean, maintainable code and creating seamless user experiences. From crafting pixel-perfect frontend's to designing robust backend architectures, I handle the complete development lifecycle with precision and care.",
-  paragraph3:
-    "I'm constantly learning and exploring new technologies. Currently diving deeper into Golang and system design while continuing to master the JavaScript/TypeScript ecosystem.",
-};
-
-export const ABOUT_INFO = [
-  { icon: "📍", label: "Location", value: "Faridpur, Bangladesh" },
-  { icon: "📧", label: "Email", value: "ishtiaqrobin.me@gmail.com" },
-  { icon: "💼", label: "Experience", value: "2+ Years" },
-  { icon: "📅", label: "Availability", value: "Full-time" },
-];
-
-export const SKILLS_DATA = [
+export const AWARDS_DATA: AwardItem[] = [
   {
-    category: "Frontend",
-    skills: [
-      { name: "React.js", icon: FaReact, color: "#61DAFB" },
-      {
-        name: "Next.js",
-        icon: SiNextdotjs,
-        color: "text-black dark:text-white",
-      },
-      { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
-      { name: "JavaScript (ES6+)", icon: SiJavascript, color: "#F7DF1E" },
-      { name: "TailwindCSS", icon: SiTailwindcss, color: "#06B6D4" },
-      {
-        name: "ShadcnUI",
-        icon: SiShadcnui,
-        color: "text-black dark:text-white",
-      },
-      { name: "HTML5", icon: SiHtml5, color: "#E34F26" },
-      { name: "CSS3", icon: SiCss, color: "#1572B6" },
+    id: 1,
+    title: "AI-Driven Full Stack Web Engineering",
+    subTitle: "Programming Hero",
+    date: "AUG 2026",
+    details: [
+      "Building production-ready full-stack applications with Next.js, Node.js, and PostgreSQL.",
+      "Integrating AI automation workflows and LLM-powered features into real client projects.",
+      "Exploring advanced backend patterns including authentication, caching, and load testing.",
     ],
   },
   {
-    category: "Backend",
-    skills: [
-      { name: "Node.js", icon: FaNodeJs, color: "#339933" },
-      {
-        name: "Express.js",
-        icon: SiExpress,
-        color: "text-gray-900 dark:text-gray-300",
-      },
-      {
-        name: "Fastify",
-        icon: SiFastify,
-        color: "text-gray-900 dark:text-gray-300",
-      },
-      { name: "Golang (Go)", icon: SiGo, color: "#00ADD8" },
-      { name: "REST API", icon: SiApifox, color: "#6366f1" },
+    id: 2,
+    title: "Next Level Web Development",
+    subTitle: "Programming Hero",
+    date: "NOV 2025",
+    details: [
+      "Mastered TypeScript-first development with Next.js App Router and server actions.",
+      "Implemented complex UI components with Framer Motion, GSAP, and Three.js animations.",
+      "Built and deployed scalable REST APIs using Express.js and Fastify with Prisma ORM.",
     ],
   },
   {
-    category: "Database",
-    skills: [
-      { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1" },
-      { name: "MySQL", icon: SiMysql, color: "#4479A1" },
-      { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
-      { name: "SQLite", icon: SiSqlite, color: "#003B57" },
-      { name: "Prisma ORM", icon: SiPrisma, color: "#2D3748" },
+    id: 3,
+    title: "Complete End Game",
+    subTitle: "Programming Hero",
+    date: "FEB 2024",
+    details: [
+      "Developed full-stack projects integrating React frontend with Laravel and Node.js backends.",
+      "Worked with relational databases including MySQL and PostgreSQL for production deployments.",
+      "Deployed applications across Vercel, cPanel, Railway, and VPS environments.",
     ],
   },
   {
-    category: "DevOps & Tools",
-    skills: [
-      { name: "Docker", icon: FaDocker, color: "#2496ED" },
-      { name: "Git & GitHub", icon: FaGitAlt, color: "#F05032" },
-      { name: "Vercel", icon: SiVercel, color: "text-black dark:text-white" },
-      { name: "Render", icon: SiRender, color: "#46E3B7" },
-      { name: "VPS / Linux", icon: FaLinux, color: "#FCC624" },
+    id: 4,
+    title: "Complete Web Development",
+    subTitle: "Programming Hero",
+    date: "MAY 2023",
+    details: [
+      "Built foundational skills in HTML, CSS, JavaScript, and React from the ground up.",
+      "Created responsive, accessible UI layouts using Tailwind CSS and component-based design.",
+      "Completed multiple hands-on projects covering both frontend and backend fundamentals.",
     ],
   },
-  {
-    category: "Validation & Forms",
-    skills: [
-      { name: "Zod", icon: SiZod, color: "#3E67B1" },
-      { name: "React Hook Form", icon: SiReacthookform, color: "#EC5990" },
-      { name: "TanStack Form", icon: SiReacthookform, color: "#FF8646" },
-    ],
-  },
+  // {
+  //   id: 5,
+  //   title: "Top Open Source Contributor",
+  //   subTitle: "Hacktoberfest",
+  //   date: "OCT 2021",
+  //   details: ["Merged 10+ core pull requests in global utility libraries."],
+  // },
+  // {
+  //   id: 6,
+  //   title: "UI/UX Speed Coding Winner",
+  //   subTitle: "TechFest 2022",
+  //   date: "JAN 2022",
+  //   details: [
+  //     "Built a complex dashboard UI inside a 2-hour competitive window.",
+  //   ],
+  // },
+  // {
+  //   id: 7,
+  //   title: "Outstanding Team Player",
+  //   subTitle: "OneShield Inc",
+  //   date: "DEC 2022",
+  //   details: ["Voted by peers for cross-team supportive engineering tasks."],
+  // },
+  // {
+  //   id: 8,
+  //   title: "Problem Solver Certificate",
+  //   subTitle: "LeetCode Elite",
+  //   date: "MAR 2023",
+  //   details: [
+  //     "Maintained a 200+ day streak solving complex algorithmic setups.",
+  //   ],
+  // },
+  // {
+  //   id: 9,
+  //   title: "Next.js Pioneer Badge",
+  //   subTitle: "Vercel Community",
+  //   date: "JUN 2023",
+  //   details: [
+  //     "Shipped dynamic optimization models deployed within major scale apps.",
+  //   ],
+  // },
+  // {
+  //   id: 10,
+  //   title: "Clean Code Evangelist",
+  //   subTitle: "DevsUnited",
+  //   date: "SEP 2023",
+  //   details: ["Hosted architecture refinement sessions guiding junior squads."],
+  // },
+  // {
+  //   id: 11,
+  //   title: "Innovator Premium Award",
+  //   subTitle: "Global Tech Summit",
+  //   date: "FEB 2024",
+  //   details: [
+  //     "Showcased localized AI chatbot models managing client request arrays.",
+  //   ],
+  // },
+  // {
+  //   id: 12,
+  //   title: "Master Architect Milestone",
+  //   subTitle: "Fullstack Academy",
+  //   date: "DEC 2024",
+  //   details: [
+  //     "Completed production deployment protocols of hybrid server structures.",
+  //   ],
+  // },
 ];
