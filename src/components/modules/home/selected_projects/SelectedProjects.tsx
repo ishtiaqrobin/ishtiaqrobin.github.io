@@ -45,7 +45,8 @@ export default function SelectedProjects() {
                   idx % 2 === 1 ? "md:mt-16" : ""
                 }`}
               >
-                <Link href={`/projects/${project.id}`}>
+                {/* <Link href={`/projects/${project.id}`}> */}
+                <Link href={`/projects`}>
                   {/* Colorful card with image */}
                   <div
                     className={`w-full aspect-6/4 ${project.bgColor} rounded-4xl flex items-center justify-center border border-transparent dark:border-zinc-900 overflow-hidden relative shadow-2xs`}
