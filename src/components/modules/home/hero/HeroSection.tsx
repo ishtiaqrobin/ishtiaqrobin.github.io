@@ -6,6 +6,8 @@ import HoverButton from "../../shared/HoverButton";
 import { PERSONAL_INFO } from "@/utils/constants";
 import { HiOutlineHand } from "react-icons/hi";
 import { useInView } from "react-intersection-observer";
+import Link from "next/link";
+// import { motion } from "motion/react";
 
 export default function HeroSection() {
   const { ref } = useInView({
@@ -19,7 +21,13 @@ export default function HeroSection() {
       className="container-custom pt-32 sm:pt-44 pb-16 sm:pb-24 bg-[#f9f9f9] dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 select-none flex flex-col justify-between"
     >
       {/* Top Part: Greeting and Main Title */}
-      <div className="flex flex-col items-start w-full">
+      <div
+        // initial={{ opacity: 0, x: 40 }}
+        // whileInView={{ opacity: 1, x: 0 }}
+        // viewport={{ once: true }}
+        // transition={{ duration: 0.6 }}
+        className="flex flex-col items-start w-full"
+      >
         {/* Small greeting */}
         <div className="inline-flex items-center gap-1 mb-8 select-none">
           <span className="text-2xl text-primary animate-wave-tilted inline-block">
@@ -43,7 +51,13 @@ export default function HeroSection() {
       </div>
 
       {/* ─── Middle Part: Description ─── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 items-center gap-4 mt-8">
+      <div
+        // initial={{ opacity: 0, x: -40 }}
+        // whileInView={{ opacity: 1, x: 0 }}
+        // viewport={{ once: true }}
+        // transition={{ duration: 0.6 }}
+        className="grid grid-cols-1 sm:grid-cols-2 items-center gap-4 mt-8"
+      >
         <div className="border-b border-zinc-300 dark:border-zinc-800/75" />
         <p className="text-text-primary font-normal leading-snug text-base max-w-xl">
           I work with brands globally to build pixel-perfect, engaging, and
@@ -53,7 +67,13 @@ export default function HeroSection() {
       </div>
 
       {/* ─── Bottom Part: Social Links and Resume Button (Flex Between) ─── */}
-      <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-6 pt-8 border-none border-zinc-200/50 dark:border-zinc-800/40">
+      <div
+        // initial={{ opacity: 0, x: 40 }}
+        // whileInView={{ opacity: 1, x: 0 }}
+        // viewport={{ once: true }}
+        // transition={{ duration: 0.6 }}
+        className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-6 pt-8 border-none border-zinc-200/50 dark:border-zinc-800/40"
+      >
         {/* Social Links */}
         <div className="hidden sm:flex flex-wrap items-center gap-4 group/socials">
           {[
@@ -78,7 +98,9 @@ export default function HeroSection() {
 
         {/* ──── Resume Button ─── */}
         <div className="shrink-0">
-          <HoverButton>Know me better</HoverButton>
+          <Link href="/about">
+            <HoverButton>Know me better</HoverButton>
+          </Link>
         </div>
       </div>
     </section>

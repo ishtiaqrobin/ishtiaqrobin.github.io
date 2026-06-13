@@ -12,7 +12,8 @@ export const PERSONAL_INFO = {
   email: "ishtiaqrobin.me@gmail.com",
   github: "https://github.com/ishtiaqrobin",
 
-  resumeUrl: "/resume.pdf",
+  resumeUrl:
+    "https://docs.google.com/document/d/1kCTMyTWAEv4YKSU8PpunDzgQb5S-lvoB0a_UqfN1TIY/edit?usp=sharing",
   profileImage:
     "https://res.cloudinary.com/dcfhqij0i/image/upload/q_auto/f_auto/v1780581746/ishtiaq-robin/about/je9zx4yk8ud-1780581744939-black-shirt.webp", // Fallback to the existing image
 };
