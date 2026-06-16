@@ -14,7 +14,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import { User as UserType } from "@/types/user.type";
-import { ChangePasswordForm } from "@/components/modules/authentication/ChangePasswordForm";
+import { ChangePasswordForm } from "@/components/modules/auth/ChangePasswordForm";
 import { User as UserIcon } from "lucide-react";
 
 interface UserProfileClientProps {

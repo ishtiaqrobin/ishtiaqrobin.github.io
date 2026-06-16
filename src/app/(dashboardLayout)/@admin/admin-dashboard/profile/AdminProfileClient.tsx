@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import { User } from "@/types/user.type";
 import { Badge } from "@/components/ui/badge";
-import { ChangePasswordForm } from "@/components/modules/authentication/ChangePasswordForm";
+import { ChangePasswordForm } from "@/components/modules/auth/ChangePasswordForm";
 interface AdminProfileClientProps {
   userToken: string;
 }

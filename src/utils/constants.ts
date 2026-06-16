@@ -18,6 +18,15 @@ export const PERSONAL_INFO = {
     "https://res.cloudinary.com/dcfhqij0i/image/upload/q_auto/f_auto/v1780581746/ishtiaq-robin/about/je9zx4yk8ud-1780581744939-black-shirt.webp", // Fallback to the existing image
 };
 
+export const NAV_LINKS = [
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Projects", href: "/projects" },
+  // { name: "Blogs", href: "/blogs" },
+  { name: "Contact", href: "/contact" },
+  { name: "Dashboard", href: "/admin-dashboard" },
+];
+
 export const PROJECTS_DATA: Project[] = [
   {
     id: "aora",
