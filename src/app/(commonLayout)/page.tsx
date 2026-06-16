@@ -14,13 +14,14 @@ export default function Home() {
     <div className="min-h-screen">
       {/* flex flex-col */}
       <HeroSection />
-      <TextMarquee />
+      {/* <TextMarquee /> */}
 
       <ScrollRevealText text="I'm Ishtiaq Robin, with over 3+ years of experience in design & development with strong focus on producing high quality & impactful digital experiences. I have worked with some of the most innovative industry leaders to help build their top-notch products." />
 
-      <SelectedProjects />
+      {/* <SelectedProjects /> */}
 
-      <ExpertiseSection />
+      {/* <ExpertiseSection /> */}
+
       <Testimonials />
       <CtaSection />
 

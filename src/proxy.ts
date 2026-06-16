@@ -6,47 +6,56 @@ export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   let isAuthenticated = false;
-  let userRole: string | null = null;
+  let isAdmin = false;
 
   try {
-    // Server-side session check — pass request so cookies are forwarded
+    // ✅ getSession() নয় — Edge runtime এ next/headers কাজ করে না
+    // ✅ getSessionFromRequest(request) — request থেকে cookie forward করে
     const { data } = await sessionService.getSessionFromRequest(request);
 
     if (data?.user) {
       isAuthenticated = true;
-      userRole = data.user.role || null;
+      isAdmin = data.user.role === Roles.admin;
     }
   } catch (error) {
     console.error("Session fetch error in middleware:", error);
   }
 
-  // 1. User is not authenticated - redirect to login
+  //* Redirect if authenticated user tries to access /login
+  if (pathname === "/login" || pathname === "/register") {
+    if (isAuthenticated) {
+      return NextResponse.redirect(new URL("/admin-dashboard", request.url));
+    }
+    return NextResponse.next();
+  }
+
+  //* User is not authenticated at all
   if (!isAuthenticated) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // 2. Role-based routing logic
-  const isAdmin = userRole === Roles.admin;
-  const isUser = userRole === Roles.user;
-
-  // ADMIN protection
-  if (isAdmin) {
-    if (pathname.startsWith("/user-dashboard")) {
-      return NextResponse.redirect(new URL("/admin-dashboard", request.url));
-    }
+  //* User is authenticated and role = ADMIN
+  //* User can not visit user dashboard
+  if (isAdmin && pathname.startsWith("/user-dashboard")) {
+    return NextResponse.redirect(new URL("/admin-dashboard", request.url));
   }
 
-  // USER protection
-  if (isUser) {
-    if (pathname.startsWith("/admin-dashboard")) {
-      return NextResponse.redirect(new URL("/user-dashboard", request.url));
-    }
+  //* User is authenticated and role = USER
+  //* User can not visit admin dashboard
+  if (!isAdmin && pathname.startsWith("/admin-dashboard")) {
+    return NextResponse.redirect(new URL("/user-dashboard", request.url));
   }
 
   return NextResponse.next();
 }
 
-// Routes to be protected by this middleware
 export const config = {
-  matcher: ["/user-dashboard/:path*", "/admin-dashboard/:path*"],
+  matcher: [
+    "/user-dashboard",
+    "/user-dashboard/:path*",
+    "/admin-dashboard",
+    "/admin-dashboard/:path*",
+    "/login",
+    "/register",
+  ],
 };

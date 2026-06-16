@@ -21,6 +21,26 @@ export const contactSchema = z.object({
     .min(10, { message: "Message must be at least 10 characters." }),
 });
 
+export const feedbackSchema = z.object({
+  position: z
+    .string()
+    .min(1, { message: "Position must be at least 1 characters." }),
+  company: z
+    .string()
+    .min(1, { message: "Company must be at least 1 characters." }),
+  feedback: z
+    .string()
+    .min(10, { message: "Feedback must be at least 10 characters." }),
+});
+
+export const updateFeedbackSchema = z.object({
+  position: z.string().optional(),
+  company: z.string().optional(),
+  feedback: z.string().optional(),
+});
+
 export type LoginFormValues = z.infer<typeof loginSchema>;
 export type RegisterFormValues = z.infer<typeof registerSchema>;
 export type ContactFormValues = z.infer<typeof contactSchema>;
+export type FeedbackFormValues = z.infer<typeof feedbackSchema>;
+export type UpdateFeedbackFormValues = z.infer<typeof updateFeedbackSchema>;

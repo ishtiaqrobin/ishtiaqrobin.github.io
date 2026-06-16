@@ -1,52 +1,16 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiArrowLeft, FiArrowRight, FiArrowUpRight } from "react-icons/fi";
+import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import ShimmerText from "../../shared/ShimmerText";
-import Link from "next/link";
-import { PERSONAL_INFO } from "@/utils/constants";
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-interface TestimonialItem {
-  id: number;
-  name: string;
-  role: string;
-  avatar: string;
-  text: string;
-  linkedinUrl: string;
-}
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
-
-const TESTIMONIALS_DATA: TestimonialItem[] = [
-  {
-    id: 1,
-    name: "Krupashri Koli",
-    role: "Campus Hero @Girlscript Goa",
-    avatar: "https://unsplash.com",
-    text: "Ishtiaq is an enthusiast. He is very creative and dedicated towards his work. He has grown very well in the field of designing and web dev as per my observation. Even while working in a group, he is well aware of how he needs to keep all the members together and work efficiently. I certainly recommend him for any project that requires both creativity and technical excellence. His commitment to delivering quality work on time is commendable.",
-    linkedinUrl: "https://linkedin.com",
-  },
-  {
-    id: 2,
-    name: "Arjun Sharma",
-    role: "Lead Developer @TechNexus",
-    avatar: "https://unsplash.com",
-    text: "Working with Ishtiaq was an absolute pleasure. His ability to translate complex design layouts into pixel-perfect Next.js applications is outstanding. He brings great energy to the team and naturally solves bottleneck technical challenges with ease. I would not hesitate to work with him again on future projects.",
-    linkedinUrl: "https://linkedin.com",
-  },
-  {
-    id: 3,
-    name: "Sarah Jenkins",
-    role: "Product Manager @CreativeFlow",
-    avatar: "https://unsplash.com",
-    text: "Ishtiaq possesses a rare combination of pure visual aesthetic design sense and robust backend architecture knowledge. He developed our core SaaS dashboard on schedule and significantly enhanced standard web vitals user metrics. His attention to detail and proactive communication made the entire process seamless.",
-    linkedinUrl: "https://linkedin.com",
-  },
-];
+import HoverButton from "../../shared/HoverButton";
+import { IReview } from "@/types";
+import { reviewService } from "@/services/review.service";
+import { useAuth } from "@/hooks/useAuth";
+import TestimonialModal from "./TestimonialModal";
+import TestimonialCard from "./TestimonialCard";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -63,150 +27,22 @@ function getCharLimit(): number {
   return 200;
 }
 
-// ─── Circular Progress Ring ───────────────────────────────────────────────────
-
-function CircularProgress({
-  animKey,
-  size = 80,
-  strokeWidth = 2.5,
-}: {
-  animKey: number;
-  size?: number;
-  strokeWidth?: number;
-}) {
-  const radius = (size - strokeWidth) / 2;
-  const circumference = 2 * Math.PI * radius;
-
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox={`0 0 ${size} ${size}`}
-      className="absolute inset-0 -rotate-90"
-      aria-hidden="true"
-    >
-      {/* Track ring */}
-      <circle
-        cx={size / 2}
-        cy={size / 2}
-        r={radius}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={strokeWidth}
-        className="text-zinc-200 dark:text-zinc-700"
-      />
-      {/* Animated progress ring — re-keyed on each card change to restart */}
-      <circle
-        key={animKey}
-        cx={size / 2}
-        cy={size / 2}
-        r={radius}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={strokeWidth}
-        strokeLinecap="round"
-        strokeDasharray={circumference}
-        strokeDashoffset={circumference}
-        className="text-primary testimonial-ring-progress"
-        style={{ "--ring-circumference": circumference } as React.CSSProperties}
-      />
-    </svg>
-  );
-}
-
-// ─── Card Component ───────────────────────────────────────────────────────────
-
-function TestimonialCard({
-  item,
-  ringKey,
-  isExpanded,
-  previewCharLimit,
-  onExpand,
-  onCollapse,
-}: {
-  item: TestimonialItem;
-  ringKey: number;
-  isExpanded: boolean;
-  previewCharLimit: number;
-  onExpand: () => void;
-  onCollapse: () => void;
-}) {
-  const needsTruncation = item.text.length > previewCharLimit;
-  const previewText = needsTruncation
-    ? item.text.slice(0, previewCharLimit).trimEnd()
-    : item.text;
-
-  return (
-    <div className="w-full bg-white dark:bg-[#111116] border border-zinc-200 dark:border-zinc-800/60 rounded-3xl p-6 sm:p-10 flex flex-col gap-5 shadow-2xs">
-      {/* Header */}
-      <div className="flex items-center gap-4">
-        {/* Avatar + Ring */}
-        <div className="relative w-20 h-20 shrink-0">
-          <CircularProgress animKey={ringKey} size={80} strokeWidth={2.5} />
-          <div className="absolute inset-[5px] rounded-full overflow-hidden bg-white dark:bg-zinc-900">
-            <Image
-              src={PERSONAL_INFO?.profileImage}
-              alt={item.name}
-              width={70}
-              height={70}
-              className="w-full h-full object-cover rounded-full"
-            />
-          </div>
-        </div>
-
-        {/* Name & Role */}
-        <div className="flex flex-col gap-0.5">
-          <h3 className="text-md font-medium text-secondary tracking-tight">
-            {item.name}
-          </h3>
-          <span className="text-sm text-text-primary font-normal">
-            {item.role}
-          </span>
-        </div>
-      </div>
-
-      {/* Review text — smooth height expand/collapse via CSS max-height */}
-      <div
-        className="testimonial-text-wrapper"
-        style={
-          {
-            "--expanded-height": isExpanded ? "600px" : "5.5rem",
-          } as React.CSSProperties
-        }
-      >
-        <p className="text-base leading-relaxed text-text-primary font-normal">
-          {isExpanded ? item.text : previewText}
-          {needsTruncation && !isExpanded && (
-            <>
-              {"... "}
-              <button
-                onClick={onExpand}
-                className="text-secondary font-medium hover:underline focus:outline-none transition-colors duration-200 cursor-pointer"
-              >
-                see more
-              </button>
-            </>
-          )}
-          {isExpanded && (
-            <>
-              {" "}
-              <button
-                onClick={onCollapse}
-                className="text-secondary font-medium hover:underline focus:outline-none transition-colors duration-200 cursor-pointer"
-              >
-                show less
-              </button>
-            </>
-          )}
-        </p>
-      </div>
-    </div>
-  );
-}
-
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function Testimonials() {
+  const router = useRouter();
+  const { user, session, isAuthenticated } = useAuth();
+  const userToken = session?.token || "";
+
+  // ── Reviews state ─────────────────────────────────────────────────────────
+  const [reviews, setReviews] = useState<IReview[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [myReview, setMyReview] = useState<IReview | null>(null);
+
+  // ── Modal state ───────────────────────────────────────────────────────────
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // ── Slider state ──────────────────────────────────────────────────────────
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
   const [isSliding, setIsSliding] = useState(false);
@@ -223,13 +59,66 @@ export default function Testimonials() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
+  // ── Refetch counter — increment to re-trigger both fetch effects ─────────
+  const [refetchCount, setRefetchCount] = useState(0);
+
+  // ── Fetch public reviews ──────────────────────────────────────────────────
+  useEffect(() => {
+    let cancelled = false;
+    const run = async () => {
+      setIsLoading(true);
+      const { data } = await reviewService.getAllReviews();
+      if (cancelled) return;
+      if (data) {
+        // Pinned first (backend already orders this, but reinforce client-side)
+        setReviews(
+          [...data].sort((a, b) => Number(b.isPinned) - Number(a.isPinned)),
+        );
+      }
+      setIsLoading(false);
+    };
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, [refetchCount]);
+
+  // ── Fetch user's own review (if logged in) ────────────────────────────────
+  useEffect(() => {
+    if (!userToken) return;
+    let cancelled = false;
+    const run = async () => {
+      const { data } = await reviewService.getMyReview(userToken);
+      if (cancelled) return;
+      setMyReview(data && data.length > 0 ? data[0] : null);
+    };
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, [userToken, refetchCount]);
+
+  // ── After modal submit — bump counter to refetch both lists ──────────────
+  const handleModalSuccess = useCallback(() => {
+    setRefetchCount((c) => c + 1);
+  }, []);
+
+  // ── Feedback button click — auth check → modal or redirect to login ──────
+  const handleFeedbackClick = useCallback(() => {
+    if (isAuthenticated) {
+      setIsModalOpen(true);
+    } else {
+      router.push("/login");
+    }
+  }, [isAuthenticated, router]);
+
   // ── Touch refs ────────────────────────────────────────────────────────────
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
   const SWIPE_THRESHOLD = 50;
 
   const autoPlayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const total = TESTIMONIALS_DATA.length;
+  const total = reviews.length;
 
   // ── Framer Motion slide variants ──────────────────────────────────────────
   // mode="sync" → old card exits & new card enters simultaneously.
@@ -278,11 +167,16 @@ export default function Testimonials() {
   }, [handleNext]);
 
   useEffect(() => {
+    // Modal open থাকলে auto-play pause — নইলে slide হলে modal form reset হয়
+    if (total === 0 || isModalOpen) {
+      if (autoPlayRef.current) clearTimeout(autoPlayRef.current);
+      return;
+    }
     resetAutoPlay();
     return () => {
       if (autoPlayRef.current) clearTimeout(autoPlayRef.current);
     };
-  }, [resetAutoPlay]);
+  }, [resetAutoPlay, total, isModalOpen]);
 
   // ── Touch / Swipe ─────────────────────────────────────────────────────────
 
@@ -315,7 +209,10 @@ export default function Testimonials() {
     resetAutoPlay();
   };
 
-  const currentTestimonial = TESTIMONIALS_DATA[currentIndex];
+  // ── Loading / empty guard ─────────────────────────────────────────────────
+  if (!isLoading && reviews.length === 0) return null;
+
+  const currentTestimonial = reviews[currentIndex];
 
   // ─── Render ───────────────────────────────────────────────────────────────
 
@@ -340,57 +237,82 @@ export default function Testimonials() {
         {/* ── Right side ── */}
         <div className="lg:col-span-8 w-full flex flex-col gap-6">
           {/* Slider window — overflow-hidden clips off-screen cards */}
-          <div
-            className="relative w-full overflow-hidden"
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-          >
-            {/* mode="sync" → both cards live in DOM during transition */}
-            <AnimatePresence
-              initial={false}
-              custom={direction}
-              mode="popLayout"
+          {isLoading ? (
+            /* Skeleton placeholder — keeps layout stable while loading */
+            <div className="w-full bg-white dark:bg-[#111116] border border-zinc-200 dark:border-zinc-800/60 rounded-3xl p-6 sm:p-10 flex flex-col gap-5 animate-pulse">
+              <div className="flex items-center gap-4">
+                <div className="w-20 h-20 rounded-full bg-zinc-200 dark:bg-zinc-700 shrink-0" />
+                <div className="flex flex-col gap-2 flex-1">
+                  <div className="h-4 bg-zinc-200 dark:bg-zinc-700 rounded w-32" />
+                  <div className="h-3 bg-zinc-200 dark:bg-zinc-700 rounded w-48" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div className="h-3 bg-zinc-200 dark:bg-zinc-700 rounded w-full" />
+                <div className="h-3 bg-zinc-200 dark:bg-zinc-700 rounded w-5/6" />
+                <div className="h-3 bg-zinc-200 dark:bg-zinc-700 rounded w-4/6" />
+              </div>
+            </div>
+          ) : (
+            <div
+              className="relative w-full overflow-hidden"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
             >
-              <motion.div
-                key={currentIndex}
+              {/* mode="sync" → both cards live in DOM during transition */}
+              <AnimatePresence
+                initial={false}
                 custom={direction}
-                variants={slideVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={slideTransition}
-                // gap-8 px
-                className="relative w-full px-1"
+                mode="popLayout"
               >
-                <TestimonialCard
-                  item={currentTestimonial}
-                  ringKey={ringKey}
-                  isExpanded={isExpanded}
-                  previewCharLimit={previewCharLimit}
-                  onExpand={() => setIsExpanded(true)}
-                  onCollapse={() => setIsExpanded(false)}
-                />
-              </motion.div>
-            </AnimatePresence>
-          </div>
+                <motion.div
+                  key={currentIndex}
+                  custom={direction}
+                  variants={slideVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={slideTransition}
+                  // gap-8 px
+                  className="relative w-full px-1"
+                >
+                  {currentTestimonial && (
+                    <TestimonialCard
+                      item={currentTestimonial}
+                      ringKey={ringKey}
+                      isExpanded={isExpanded}
+                      previewCharLimit={previewCharLimit}
+                      onExpand={() => setIsExpanded(true)}
+                      onCollapse={() => setIsExpanded(false)}
+                    />
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          )}
 
           {/* ── Control bar ── */}
           <div className="w-full flex items-center justify-between pt-2 px-1">
-            <Link
+            {/* <Link
               href={currentTestimonial.linkedinUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm font-normal leading-5 tracking-wide text-secondary hover:text-primary flex items-center gap-2 hover:underline transition-colors duration-200"
             >
-              Check it out on Linkedin <FiArrowUpRight />
-            </Link>
+              Give feedback <FiArrowUpRight />
+            </Link> */}
+
+            {/* Everyone (non-user, user, admin) can see the button. Authenticated → modal, non-authenticated → /login */}
+            <HoverButton onClick={handleFeedbackClick}>
+              {myReview ? "Update Feedback" : "Give Feedback"}
+            </HoverButton>
 
             {/* Navigation */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 ml-auto">
               <button
                 onClick={onPrev}
-                disabled={isSliding}
+                disabled={isSliding || total === 0}
                 className="w-10 sm:w-12 h-10 sm:h-12 flex items-center justify-center rounded-full bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800/60 text-secondary transition-all duration-200 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                 aria-label="Previous testimonial"
               >
@@ -398,13 +320,13 @@ export default function Testimonials() {
               </button>
 
               <span className="text-sm font-normal leading-3.5 tracking-widest text-text-primary w-[58px] text-center">
-                {String(currentIndex + 1).padStart(2, "0")} /{" "}
+                {total > 0 ? String(currentIndex + 1).padStart(2, "0") : "00"} /{" "}
                 {String(total).padStart(2, "0")}
               </span>
 
               <button
                 onClick={onNext}
-                disabled={isSliding}
+                disabled={isSliding || total === 0}
                 className="w-10 sm:w-12 h-10 sm:h-12 flex items-center justify-center rounded-full bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800/60 text-secondary transition-all duration-200 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                 aria-label="Next testimonial"
               >
@@ -414,6 +336,17 @@ export default function Testimonials() {
           </div>
         </div>
       </div>
+
+      {/* ── TestimonialModal — only render when user is authenticated */}
+      {isAuthenticated && (
+        <TestimonialModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          token={userToken}
+          existingReview={myReview}
+          onSuccess={handleModalSuccess}
+        />
+      )}
     </section>
   );
 }

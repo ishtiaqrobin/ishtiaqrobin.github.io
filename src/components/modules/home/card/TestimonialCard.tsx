@@ -49,7 +49,7 @@ export function TestimonialCard({ review, index }: TestimonialCardProps) {
           </div>
 
           {/* ── Stars ─────────────────────────────────────────────── */}
-          <div className="flex gap-1.5 mb-6">
+          {/* <div className="flex gap-1.5 mb-6">
             {[...Array(5)].map((_, i) => (
               <Star
                 key={i}
@@ -61,7 +61,7 @@ export function TestimonialCard({ review, index }: TestimonialCardProps) {
                 style={{ transitionDelay: `${i * 50}ms` }}
               />
             ))}
-          </div>
+          </div> */}
 
           {/* ── Comment ───────────────────────────────────────────── */}
           <div className="grow">

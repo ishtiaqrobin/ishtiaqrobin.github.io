@@ -6,27 +6,21 @@ import { motion, AnimatePresence } from "motion/react";
 import { HiSun, HiMoon } from "react-icons/hi";
 import { useTheme } from "next-themes";
 import { useAuth } from "@/hooks/useAuth";
-import { NAV_LINKS } from "@/utils/constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { getInitials } from "@/utils/helpers";
-import { LayoutDashboard } from "lucide-react";
-import { LogoutButton } from "../modules/authentication/LogoutButton";
+
+export const NAV_LINKS = [
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Projects", href: "/projects" },
+  // { name: "Blogs", href: "/blogs" },
+  { name: "Contact", href: "/contact" },
+];
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const { theme, setTheme } = useTheme();
-  const { user, isAuthenticated } = useAuth();
+  const { user } = useAuth();
   const pathname = usePathname();
 
   useEffect(() => {
@@ -123,6 +117,41 @@ export function Navbar() {
                 </Link>
               );
             })}
+
+            {/* Dashboard Button - ADMIN only */}
+            {user?.role === "ADMIN" && (
+              <Link
+                href="/admin-dashboard"
+                className={`group relative flex items-center gap-2 px-2 text-sm font-normal leading-5 rounded-lg transition-colors duration-200 ${
+                  pathname === "/admin-dashboard"
+                    ? "text-secondary"
+                    : "text-secondary"
+                }`}
+              >
+                {pathname === "/admin-dashboard" ? (
+                  <motion.div
+                    className="w-1.5 h-1.5 rounded-full bg-primary shrink-0"
+                    layoutId="activeNav"
+                    transition={{
+                      type: "spring",
+                      stiffness: 380,
+                      damping: 30,
+                    }}
+                  />
+                ) : (
+                  <div className="w-1.5 h-1.5 rounded-full bg-transparent shrink-0" />
+                )}
+
+                <div className="relative block h-5 overflow-hidden">
+                  <span className="block transition-transform duration-500 ease-in-out group-hover:-translate-y-full">
+                    Dashboard
+                  </span>
+                  <span className="absolute top-0 left-0 block transition-transform duration-500 ease-in-out translate-y-full group-hover:translate-y-0 text-gray-900 dark:text-white">
+                    Dashboard
+                  </span>
+                </div>
+              </Link>
+            )}
           </div>
 
           {/* Right side */}
@@ -157,64 +186,6 @@ export function Navbar() {
                 )}
               </AnimatePresence>
             </motion.button>
-
-            {/* Auth section */}
-            {/* {isAuthenticated ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <motion.button className="flex items-center gap-2 h-10 p-1 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 border border-gray-200 dark:border-white/10 transition-all">
-                    <Avatar className="h-8 w-8 rounded-lg">
-                      <AvatarImage
-                        src={user?.image || undefined}
-                        alt={user?.name}
-                      />
-                      <AvatarFallback className="rounded-full bg-primary text-white text-xs font-bold">
-                        {user?.name ? getInitials(user.name) : "U"}
-                      </AvatarFallback>
-                    </Avatar>
-                  </motion.button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="end"
-                  className="w-56 rounded-xl overflow-hidden"
-                >
-                  <DropdownMenuLabel>
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                        {user?.name}
-                      </p>
-                      <p className="text-xs leading-none text-muted-foreground">
-                        {user?.email}
-                      </p>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link href={getDashboardUrl()} className="cursor-pointer">
-                      <LayoutDashboard className="mr-2 h-4 w-4" />
-                      Dashboard
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <LogoutButton
-                      variant="ghost"
-                      className="w-full justify-start px-2 text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 cursor-pointer"
-                    />
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <Link href="/login">
-                <Button
-                  variant={"default"}
-                  size={"sm"}
-                  className="hidden lg:inline-flex cursor-pointer"
-                >
-                  Hire Me
-                </Button>
-              </Link>
-            )} */}
           </div>
         </nav>
       </motion.header>

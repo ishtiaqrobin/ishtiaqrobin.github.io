@@ -1,8 +1,9 @@
 export interface IReview {
   id: string;
   userId: string;
-  rating: number;
-  comment?: string;
+  position: string;
+  companyName: string;
+  comment: string;
   isApproved: boolean;
   isPinned: boolean;
 
@@ -17,6 +18,7 @@ export interface IReview {
 }
 
 export interface IReviewForm {
-  rating: number;
-  comment?: string;
+  position: string;
+  companyName: string;
+  comment: string;
 }
