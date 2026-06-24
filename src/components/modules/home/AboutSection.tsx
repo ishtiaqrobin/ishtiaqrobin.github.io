@@ -50,7 +50,7 @@ export function AboutSection() {
         <div className="absolute bottom-[10%] right-[-5%] w-[40%] h-[40%] rounded-full bg-primary/20 dark:bg-primary/15 blur-[120px]" />
       </div>
 
-      <div className="container-custom mx-auto px-4 md:px-6 lg:px-8 relative z-10">
+      <div className="container-custom relative z-10">
         <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-16 items-center">
           {/* Left - Image */}
           <motion.div
