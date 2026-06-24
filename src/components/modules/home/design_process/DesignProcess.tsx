@@ -147,20 +147,20 @@ export default function DesignProcess() {
         {/* Use framer motion for animation of horizontal scroll track */}
         <motion.div
           style={{ x }}
-          className="flex flex-row items-center gap-5 whitespace-nowrap will-change-transform pr-5"
+          className="flex flex-row items-stretch gap-5 whitespace-nowrap will-change-transform pr-5"
         >
           {doubledCards.map((card, index) => (
             /* ─── Single card ─── */
             <div
               key={index}
-              className="w-[280px] sm:w-[300px] bg-accent border border-zinc-200 dark:border-zinc-800/60 rounded-3xl p-6 flex flex-col items-start gap-4 shadow-3xs shrink-0"
+              className="w-[280px] sm:w-[300px] h-full bg-accent border border-zinc-200 dark:border-zinc-800/60 rounded-3xl p-6 flex flex-col items-start gap-4 shadow-3xs shrink-0"
             >
               <div className="p-3.5 flex items-center justify-center rounded-full text-primary text-xl bg-[#E5E7EB] dark:bg-[#191920] border border-zinc-300 dark:border-zinc-800 shrink-0">
                 {card.icon}
               </div>
 
               {/* Card info */}
-              <div className="flex flex-col gap-1.5 whitespace-normal">
+              <div className="flex flex-col gap-1.5 whitespace-normal flex-1">
                 <span className="text-xl leading-7 font-medium tracking-normal text-text-primary">
                   {card.number}
                 </span>
