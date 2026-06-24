@@ -14,51 +14,29 @@ export default function Home() {
     <div className="min-h-screen">
       {/* flex flex-col */}
       <HeroSection />
-      {/* <TextMarquee /> */}
+      <TextMarquee />
 
       <ScrollRevealText text="I'm Ishtiaq Robin, with over 3+ years of experience in design & development with strong focus on producing high quality & impactful digital experiences. I have worked with some of the most innovative industry leaders to help build their top-notch products." />
 
-      {/* <SelectedProjects /> */}
-
-      {/* <ExpertiseSection /> */}
-
+      <SelectedProjects />
+      <ExpertiseSection />
       <Testimonials />
       <CtaSection />
 
-      {/* Dynamic Content */}
+      {/* Previous Section */}
       {/* <EducationSection /> */}
-
-      {/* Dynamic Content */}
       {/* <ExperienceSection /> */}
-
-      {/* Dynamic Content */}
       {/* <SkillsSection /> */}
-
-      {/* Dynamic Content */}
       {/* <ServiceSection /> */}
-
-      {/* Dynamic Content */}
       {/* <GallerySection /> */}
-
-      {/* Dynamic Content */}
       {/* <ProjectSection /> */}
-
       {/* Certificate Section */}
       {/* <CertificateSection /> */}
-
       {/* Appointments Section */}
       {/* <AppointmentsSection /> */}
-
-      {/* Dynamic Content */}
       {/* <VideoSection /> */}
-
-      {/* Dynamic Content */}
       {/* <TestimonialSection /> */}
-
-      {/* Dynamic Content */}
       {/* <ContactSection /> */}
-
-      {/* Static Content */}
       {/* <CTASection /> */}
     </div>
   );
