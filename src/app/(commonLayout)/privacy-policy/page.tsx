@@ -247,7 +247,7 @@ const PrivacyPolicyPage = () => {
                         Email Support
                       </p>
                       <p className="mt-1 font-bold text-primary">
-                        contact@ishtiaqrobin.me@gmail.com
+                        ishtiaqrobin.me@gmail.com
                       </p>
                     </div>
                     <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-primary/5 to-transparent p-6">

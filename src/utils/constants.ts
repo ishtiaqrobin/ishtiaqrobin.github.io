@@ -5,8 +5,8 @@ import { AwardItem } from "@/types/awards.type";
 
 export const PERSONAL_INFO = {
   name: "Ishtiaq Robin",
-  linkedin: "https://linkedin.com/in/ishtiaq-robin",
-  facebook: "https://facebook.com/ishtiaqrobins",
+  linkedin: "https://linkedin.com/in/ishtiaqrobin",
+  facebook: "https://www.facebook.com/ishtiaqrobin.me",
   instagram: "https://instagram.com/ishtiaqrobins",
   whatsapp: "+8801762627422",
   email: "ishtiaqrobin.me@gmail.com",
