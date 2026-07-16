@@ -1,525 +1,292 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiFacebook, FiLinkedin, FiMail, FiShare2 } from "react-icons/fi";
+import { FiLinkedin, FiMail, FiShare2 } from "react-icons/fi";
 import { Home } from "lucide-react";
-import { RiArrowRightSLine, RiMenu2Line } from "react-icons/ri";
-import HoverButton from "../../shared/HoverButton";
+import { RiArrowRightSLine } from "react-icons/ri";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import OnThisPageMenu from "./OnThisPageMenu";
+import type { IProject } from "@/types";
+import HoverButton from "../../shared/HoverButton";
 
-interface SocialLink {
-  id: number;
-  icon: React.ReactNode;
-  href: string;
-  label: string;
+interface ProjectDetailsProps {
+  project: IProject;
+  previousProject?: { slug: string; title: string } | null;
+  nextProject?: { slug: string; title: string } | null;
 }
 
-const SOCIAL_LINKS: SocialLink[] = [
-  {
-    id: 1,
-    icon: <FiLinkedin className="w-5 h-5" />,
-    href: "https://www.linkedin.com/in/abdulrahman-al-egabi/",
-    label: "LinkedIn",
-  },
-  {
-    id: 2,
-    icon: <FiMail className="w-5 h-5" />,
-    href: `mailto:ishtiaqrobin@gmail.com`,
-    label: "Email",
-  },
-  {
-    id: 3,
-    icon: <FiFacebook className="w-5 h-5" />,
-    href: "https://www.facebook.com/abdulrahman.al.egabi/",
-    label: "Facebook",
-  },
-  {
-    id: 4,
-    icon: <FiShare2 className="w-5 h-5" />,
-    href: "https://www.facebook.com/abdulrahman.al.egabi/",
-    label: "Share",
-  },
-];
-
-// Mock teach stack data
-const ALL_TECH_STACK = [
-  "ReactJS",
-  "Zustand",
-  "TailwindCSS",
-  "TypeScript",
-  "Next.js",
-  "Framer Motion",
-  "Shadcn UI",
-];
-
-export default function ProjectDetails() {
+export default function ProjectDetails({
+  project,
+  previousProject,
+  nextProject,
+}: ProjectDetailsProps) {
   const pathname = usePathname();
   const [showAllTech, setShowAllTech] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
 
-  // স্ক্রল করার সময় ডানপাশের সাইডবারের সেকশন হাইলাইট করার রিয়েল-টাইম মেকানিজম
-  useEffect(() => {
-    const sections = ["features", "tech-used", "build-steps"];
+  const techStack = project.techStack || [];
+  const sections = project.sections || [];
 
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + 200;
-
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const top = element.offsetTop;
-          const height = element.offsetHeight;
-
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const renderRichContent = (html: string) => {
+    if (!html) return null;
+    return (
+      <div
+        className="prose prose-sm dark:prose-invert max-w-none
+          [&_pre]:!bg-[#1e1e2e] [&_pre]:!text-[#cdd6f4] [&_pre]:rounded-xl [&_pre]:p-4 [&_pre]:text-sm [&_pre]:font-mono [&_pre]:overflow-x-auto [&_pre]:my-4
+          [&_code:not(pre_code)]:bg-zinc-100 [&_code:not(pre_code)]:dark:bg-zinc-800 [&_code:not(pre_code)]:px-1.5 [&_code:not(pre_code)]:py-0.5 [&_code:not(pre_code)]:rounded [&_code:not(pre_code)]:text-sm [&_code:not(pre_code)]:font-mono
+          [&_blockquote]:border-l-[3px] [&_blockquote]:border-primary [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-zinc-600 [&_blockquote]:dark:text-zinc-400 [&_blockquote]:my-4 [&_blockquote]:bg-zinc-50/50 [&_blockquote]:dark:bg-zinc-900/30 [&_blockquote]:py-2 [&_blockquote]:pr-2 [&_blockquote]:rounded-r-lg
+          [&_ul]:list-disc [&_ul]:list-outside [&_ul]:space-y-1.5 [&_ul]:pl-4 [&_ul]:text-zinc-600 [&_ul]:dark:text-zinc-400
+          [&_ol]:list-decimal [&_ol]:list-outside [&_ol]:space-y-1.5 [&_ol]:pl-4 [&_ol]:text-zinc-600 [&_ol]:dark:text-zinc-400
+          [&_li]:leading-relaxed
+          [&_h1]:text-2xl [&_h1]:font-clash [&_h1]:font-medium [&_h1]:tracking-tight [&_h1]:text-secondary [&_h1]:mb-4
+          [&_h2]:text-xl [&_h2]:font-clash [&_h2]:font-medium [&_h2]:tracking-tight [&_h2]:text-secondary [&_h2]:mb-3
+          [&_h3]:text-lg [&_h3]:font-clash [&_h3]:font-medium [&_h3]:tracking-tight [&_h3]:text-secondary [&_h3]:mb-2
+          [&_p]:text-base [&_p]:leading-relaxed [&_p]:text-zinc-600 [&_p]:dark:text-zinc-400 [&_p]:mb-3
+          [&_a]:text-primary [&_a]:underline [&_a]:underline-offset-2
+          [&_img]:rounded-xl [&_img]:my-4 [&_img]:max-w-full
+          [&_table]:w-full [&_table]:border-collapse [&_table]:my-4
+          [&_td]:border [&_td]:border-zinc-200 [&_td]:dark:border-zinc-800 [&_td]:p-2
+          [&_th]:border [&_th]:border-zinc-200 [&_th]:dark:border-zinc-800 [&_th]:p-2 [&_th]:bg-zinc-100 [&_th]:dark:bg-zinc-800 [&_th]:font-semibold
+          [&_hr]:my-6 [&_hr]:border-zinc-200 [&_hr]:dark:border-zinc-800"
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+    );
+  };
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-24 text-zinc-900 dark:text-zinc-100 font-satoshi transition-colors duration-300">
-      {/* ─── 1. BREADCRUMBS ─── */}
-      <nav className="flex items-center gap-1 text-sm leading-5 text-text-primary font-normal mb-6">
-        <Home className="w-4 h-4" />
-        <RiArrowRightSLine className="w-5 h-5" />
-        <Link href="/projects">Projects</Link>
-        <RiArrowRightSLine className="w-5 h-5" />
-        <span>Code Screenshot</span>
-      </nav>
+      {/* BREADCRUMBS */}
+      <div className="flex justify-between items-center mb-4">
+        <nav className="flex items-center gap-1 text-sm leading-5 text-text-primary font-normal">
+          <Link href="/">
+            <Home className="w-4 h-4" />
+          </Link>
+          <RiArrowRightSLine className="w-5 h-5" />
+          <Link href="/projects">Projects</Link>
+          <RiArrowRightSLine className="w-5 h-5" />
+          <span>{project.title}</span>
+        </nav>
 
-      {/* ─── 2. PROJECT THUMBNAIL (Aspect Video Ratio) ─── */}
-      <div className="w-full aspect-7/2 mb-8 relative rounded-2xl overflow-hidden border border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-100 dark:bg-zinc-900 shadow-xs">
-        <Image
-          src="https://res.cloudinary.com/dcfhqij0i/image/upload/v1781234828/7vb2vqt67mtyky8nwpvh_ngfhce.webp"
-          alt="Code Screenshot Thumbnail"
-          fill
-          className="object-cover"
-          priority
-        />
+        {/* PROJECT YEAR */}
+        {project.year && (
+          <div>
+            <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-sm bg-zinc-50 dark:bg-zinc-900 text-sm font-normal text-text-primary border border-gray-300 dark:border-zinc-800/60">
+              {project.year}
+            </span>
+          </div>
+        )}
       </div>
+
+      {/* BANNER IMAGE */}
+      {(project.bannerImage || project.thumbnail) && (
+        <div className="w-full aspect-7/2 mb-8 relative rounded-2xl overflow-hidden border border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-100 dark:bg-zinc-900 shadow-xs">
+          <Image
+            src={project.bannerImage || project.thumbnail!}
+            alt={project.title}
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
+      )}
 
       {/* TITLE, DESCRIPTION, METADATA, TECH STACK */}
       <div className="space-y-6">
-        {/* ─── ৩. HEADER INFO ROW (Title & Check it out) ─── */}
         <div className="flex flex-col sm:flex-row sm:items-end gap-4 justify-between">
           <div>
             <h1 className="text-[28px] leading-7 font-clash font-semibold tracking-normal text-secondary">
-              Code Screenshot
+              {project.title}
             </h1>
           </div>
 
-          {/* Check it out Outline CTA Button */}
-          <Link href="https://github.com" target="_blank">
-            <HoverButton>Check it out</HoverButton>
-          </Link>
+          {(project.liveUrl || project.githubUrl) && (
+            <div className="flex items-center gap-3">
+              {project.liveUrl && (
+                <Link href={project.liveUrl} target="_blank">
+                  <HoverButton>Live Preview</HoverButton>
+                </Link>
+              )}
+
+              {project.githubUrl && (
+                <Link href={project.githubUrl} target="_blank">
+                  <HoverButton>Visit Github</HoverButton>
+                </Link>
+              )}
+            </div>
+          )}
         </div>
 
-        {/* ─── ৪. DESCRIPTION & METADATA GRID ─── */}
+        {/* DESCRIPTION & METADATA GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 border-b border-zinc-100 dark:border-zinc-900 items-start">
-          {/* Description */}
           <div className="lg:col-span-8">
             <p className="text-lg leading-6 text-text-primary font-normal max-w-3xl">
-              A powerful tool for sharing code snippets with additional
-              features. Share beautiful screenshots of your code on your social
-              media platforms. Supports multiple languages and themes seamlessly
-              without setting up any local heavy compilers.
+              {project.description}
             </p>
           </div>
 
-          {/* Roles & Client */}
           <div className="lg:col-span-4 flex flex-col gap-2 text-base text-text-primary">
-            <div className="flex items-start gap-2">
-              <span className="font-semibold leading-6 w-14 shrink-0">
-                Roles:
-              </span>
-              <span className="leading-snug">Full-stack Developer.</span>
-            </div>
-            <div className="flex items-start gap-2">
-              <span className="font-semibold leading-6 w-14 shrink-0">
-                Client:
-              </span>
-              <span className="leading-snug">Personal Project</span>
-            </div>
+            {(project.roles || project.client) && (
+              <>
+                {project.roles && (
+                  <div className="flex items-start gap-2">
+                    <span className="font-semibold leading-6 w-14 shrink-0">
+                      Roles:
+                    </span>
+                    <span className="leading-snug">{project.roles}</span>
+                  </div>
+                )}
+                {project.client && (
+                  <div className="flex items-start gap-2">
+                    <span className="font-semibold leading-6 w-14 shrink-0">
+                      Client:
+                    </span>
+                    <span className="leading-snug">{project.client}</span>
+                  </div>
+                )}
+              </>
+            )}
+            {/* {project.category && (
+              <div className="flex items-start gap-8">
+                <span className="font-semibold leading-6 w-14 shrink-0">
+                  Category:
+                </span>
+                <span className="leading-snug">{project.category.name}</span>
+              </div>
+            )} */}
           </div>
         </div>
 
-        {/* ─── ৫. TECH STACK ─── */}
-        <div className="flex flex-wrap items-center gap-2">
-          {/* First 3 or All */}
-          {(showAllTech ? ALL_TECH_STACK : ALL_TECH_STACK.slice(0, 3)).map(
-            (tech, idx) => (
-              <span
-                key={idx}
-                className="px-3 py-1 bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800/80 rounded-full text-sm leading-5 font-normal text-text-primary"
+        {/* TECH STACK */}
+        {techStack.length > 0 && (
+          <div className="flex flex-wrap items-center gap-2">
+            {(showAllTech ? techStack : techStack.slice(0, 3)).map(
+              (tech, idx) => (
+                <span
+                  key={idx}
+                  className="px-3 py-1 bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800/80 rounded-full text-sm leading-5 font-normal text-text-primary"
+                >
+                  {tech}
+                </span>
+              ),
+            )}
+            {techStack.length > 3 && (
+              <button
+                onClick={() => setShowAllTech(!showAllTech)}
+                className="px-3 py-1 bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800/80 rounded-full text-sm leading-5 font-normal text-text-primary transition-all duration-200"
               >
-                {tech}
-              </span>
-            ),
-          )}
-
-          {/* Dynamic loop controller */}
-          {!showAllTech ? (
-            <button
-              onClick={() => setShowAllTech(true)}
-              className="px-3 py-1 bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800/80 rounded-full text-sm leading-5 font-normal text-text-primary transition-all duration-200"
-            >
-              +{ALL_TECH_STACK.length - 3}
-            </button>
-          ) : (
-            <button
-              onClick={() => setShowAllTech(false)}
-              className="px-3 py-1 bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800/80 rounded-full text-sm leading-5 font-normal text-text-primary transition-all duration-300"
-            >
-              Show Less
-            </button>
-          )}
-        </div>
+                {showAllTech ? "Show Less" : `+${techStack.length - 3}`}
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
-      {/* 6.2 Column Layout (Left Column: Content, Right Column: Better-Auth Sidebar) */}
+      {/* 2 COLUMN LAYOUT */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 pt-12 items-start relative">
-        {/* Left Column (Sections and Documentation Content) */}
+        {/* LEFT COLUMN - Section Content */}
         <div className="lg:col-span-8 flex flex-col gap-10">
-          {/* The Goal */}
-          <section id="landing-page" className="scroll-mt-24">
-            <h3 className="text-2xl font-clash font-medium tracking-tight text-secondary mb-4">
-              The Goal
-            </h3>
+          {sections.length > 0 ? (
+            sections.map((section) => (
+              <section
+                key={section.id}
+                id={section.id}
+                className="scroll-mt-24"
+              >
+                <h3 className="text-2xl font-clash font-medium tracking-tight text-secondary mb-4">
+                  {section.label}
+                </h3>
+                {renderRichContent(section.content)}
+              </section>
+            ))
+          ) : (
+            <div className="text-center py-16 text-text-primary/60">
+              <p className="text-lg">
+                No detailed sections available for this project.
+              </p>
+            </div>
+          )}
 
-            <p className="text-base leading-snug text-zinc-500 dark:text-zinc-400 font-normal">
-              To create a modern, two-page website that effectively communicates
-              Veni Labs expertise in Development, UI/UX Design, and Branding
-              while offering a smooth, high-performance user experience.
-            </p>
-          </section>
+          {/* PREVIOUS / NEXT NAVIGATION */}
+          {(previousProject || nextProject) && (
+            <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
+              {previousProject ? (
+                <Link
+                  href={`/projects/${previousProject.slug}`}
+                  className="w-full sm:w-1/2 group flex flex-col gap-1.5 items-start text-left p-4 border border-zinc-300 dark:border-zinc-800 rounded-xl"
+                >
+                  <span className="text-sm leading-5 font-medium text-text-primary tracking-widest inline-flex items-center transition-transform duration-300">
+                    <MdKeyboardArrowLeft className="w-5 h-5" /> Previous
+                  </span>
+                  <span className="text-base leading-snug font-normal text-secondary mt-0.5">
+                    {previousProject.title}
+                  </span>
+                </Link>
+              ) : (
+                <div className="w-full sm:w-1/2" />
+              )}
 
-          {/* Features Section */}
-          <section id="features" className="scroll-mt-24">
-            <h3 className="text-2xl font-clash font-medium tracking-tight text-secondary mb-6">
-              Features
-            </h3>
-            <ul className="list-disc list-outside space-y-2 text-base text-zinc-500 dark:text-zinc-400 marker:text-zinc-300 dark:marker:text-zinc-700 pl-4">
-              <li className="leading-relaxed">
-                10+ elegant themes (light + dark theme included).
-              </li>
-              <li className="leading-relaxed">
-                12+ font styles (popular whitespace monospace fonts optimized
-                for IDE layouts).
-              </li>
-              <li className="leading-relaxed">
-                Interactive scaling, multi-padding options and live code format
-                highlights.
-              </li>
-            </ul>
-            <ul className="list-disc list-outside space-y-2 text-base text-zinc-500 dark:text-zinc-400 marker:text-zinc-300 dark:marker:text-zinc-700 pl-4">
-              <li className="leading-relaxed">
-                10+ elegant themes (light + dark theme included).
-              </li>
-              <li className="leading-relaxed">
-                12+ font styles (popular whitespace monospace fonts optimized
-                for IDE layouts).
-              </li>
-              <li className="leading-relaxed">
-                Interactive scaling, multi-padding options and live code format
-                highlights.
-              </li>
-            </ul>
-            <ul className="list-disc list-outside space-y-2 text-base text-zinc-500 dark:text-zinc-400 marker:text-zinc-300 dark:marker:text-zinc-700 pl-4">
-              <li className="leading-relaxed">
-                10+ elegant themes (light + dark theme included).
-              </li>
-              <li className="leading-relaxed">
-                12+ font styles (popular whitespace monospace fonts optimized
-                for IDE layouts).
-              </li>
-              <li className="leading-relaxed">
-                Interactive scaling, multi-padding options and live code format
-                highlights.
-              </li>
-            </ul>
-            <ul className="list-disc list-outside space-y-2 text-base text-zinc-500 dark:text-zinc-400 marker:text-zinc-300 dark:marker:text-zinc-700 pl-4">
-              <li className="leading-relaxed">
-                10+ elegant themes (light + dark theme included).
-              </li>
-              <li className="leading-relaxed">
-                12+ font styles (popular whitespace monospace fonts optimized
-                for IDE layouts).
-              </li>
-              <li className="leading-relaxed">
-                Interactive scaling, multi-padding options and live code format
-                highlights.
-              </li>
-            </ul>
-            <ul className="list-disc list-outside space-y-2 text-base text-zinc-500 dark:text-zinc-400 marker:text-zinc-300 dark:marker:text-zinc-700 pl-4">
-              <li className="leading-relaxed">
-                10+ elegant themes (light + dark theme included).
-              </li>
-              <li className="leading-relaxed">
-                12+ font styles (popular whitespace monospace fonts optimized
-                for IDE layouts).
-              </li>
-              <li className="leading-relaxed">
-                Interactive scaling, multi-padding options and live code format
-                highlights.
-              </li>
-            </ul>
-            <ul className="list-disc list-outside space-y-2 text-base text-zinc-500 dark:text-zinc-400 marker:text-zinc-300 dark:marker:text-zinc-700 pl-4">
-              <li className="leading-relaxed">
-                10+ elegant themes (light + dark theme included).
-              </li>
-              <li className="leading-relaxed">
-                12+ font styles (popular whitespace monospace fonts optimized
-                for IDE layouts).
-              </li>
-              <li className="leading-relaxed">
-                Interactive scaling, multi-padding options and live code format
-                highlights.
-              </li>
-            </ul>
-            <ul className="list-disc list-outside space-y-2 text-base text-zinc-500 dark:text-zinc-400 marker:text-zinc-300 dark:marker:text-zinc-700 pl-4">
-              <li className="leading-relaxed">
-                10+ elegant themes (light + dark theme included).
-              </li>
-              <li className="leading-relaxed">
-                12+ font styles (popular whitespace monospace fonts optimized
-                for IDE layouts).
-              </li>
-              <li className="leading-relaxed">
-                Interactive scaling, multi-padding options and live code format
-                highlights.
-              </li>
-            </ul>
-            <ul className="list-disc list-outside space-y-2 text-base text-zinc-500 dark:text-zinc-400 marker:text-zinc-300 dark:marker:text-zinc-700 pl-4">
-              <li className="leading-relaxed">
-                10+ elegant themes (light + dark theme included).
-              </li>
-              <li className="leading-relaxed">
-                12+ font styles (popular whitespace monospace fonts optimized
-                for IDE layouts).
-              </li>
-              <li className="leading-relaxed">
-                Interactive scaling, multi-padding options and live code format
-                highlights.
-              </li>
-            </ul>
-          </section>
-
-          {/* Landing Page */}
-          <section id="landing-page" className="scroll-mt-24">
-            <h3 className="text-2xl font-clash font-medium tracking-tight text-secondary mb-4">
-              Landing Page
-            </h3>
-
-            <p className="text-base leading-relaxed text-zinc-500 dark:text-zinc-400 font-normal">
-              An engaging hero section showcasing the agency’s value
-              proposition, followed by succinct service descriptions and
-              testimonials for credibility.
-            </p>
-
-            <Image
-              src={
-                "https://res.cloudinary.com/da6yr9lro/image/upload/v1784209306/wnjtyh0ima1484jlxxcd_xcc1v3.webp"
-              }
-              alt="Landing Page"
-              // fill
-              width={1000}
-              height={1000}
-              className="w-full aspect-video object-cover my-4"
-            />
-          </section>
-
-          {/* Technologies Used Section */}
-          <section id="tech-used" className="scroll-mt-24">
-            <h3 className="text-2xl font-clash font-medium tracking-tight text-secondary mb-4">
-              Technologies used
-            </h3>
-            <p className="text-base leading-relaxed text-zinc-500 dark:text-zinc-400 font-normal">
-              This system utilizes advanced hybrid hydration architectures
-              provided by Next.js App router. State tracking and immediate
-              screen layout caching layers are powered securely with client-side
-              Zustand stores.
-            </p>
-            {/* Quote Element (Quote Display Block) */}
-            <blockquote className="border-l-2 border-primary pl-4 italic text-zinc-600 dark:text-zinc-400 my-4 text-sm bg-zinc-50/50 dark:bg-zinc-900/30 py-2 pr-2 rounded-r-lg">
-              Zustand allows managing lightning-fast user configuration
-              parameters securely without triggers forcing heavy rendering
-              cycles.
-            </blockquote>
-            <p className="text-base leading-relaxed text-zinc-500 dark:text-zinc-400 font-normal">
-              This system utilizes advanced hybrid hydration architectures
-              provided by Next.js App router. State tracking and immediate
-              screen layout caching layers are powered securely with client-side
-              Zustand stores.
-            </p>
-            {/* Quote Element (Quote Display Block) */}
-            <blockquote className="border-l-2 border-primary pl-4 italic text-zinc-600 dark:text-zinc-400 my-4 text-sm bg-zinc-50/50 dark:bg-zinc-900/30 py-2 pr-2 rounded-r-lg">
-              Zustand allows managing lightning-fast user configuration
-              parameters securely without triggers forcing heavy rendering
-              cycles.
-            </blockquote>
-            <p className="text-base leading-relaxed text-zinc-500 dark:text-zinc-400 font-normal">
-              This system utilizes advanced hybrid hydration architectures
-              provided by Next.js App router. State tracking and immediate
-              screen layout caching layers are powered securely with client-side
-              Zustand stores.
-            </p>
-            {/* Quote Element (Quote Display Block) */}
-            <blockquote className="border-l-2 border-primary pl-4 italic text-zinc-600 dark:text-zinc-400 my-4 text-sm bg-zinc-50/50 dark:bg-zinc-900/30 py-2 pr-2 rounded-r-lg">
-              Zustand allows managing lightning-fast user configuration
-              parameters securely without triggers forcing heavy rendering
-              cycles.
-            </blockquote>
-            <p className="text-base leading-relaxed text-zinc-500 dark:text-zinc-400 font-normal">
-              This system utilizes advanced hybrid hydration architectures
-              provided by Next.js App router. State tracking and immediate
-              screen layout caching layers are powered securely with client-side
-              Zustand stores.
-            </p>
-            {/* Quote Element (Quote Display Block) */}
-            <blockquote className="border-l-2 border-primary pl-4 italic text-zinc-600 dark:text-zinc-400 my-4 text-sm bg-zinc-50/50 dark:bg-zinc-900/30 py-2 pr-2 rounded-r-lg">
-              Zustand allows managing lightning-fast user configuration
-              parameters securely without triggers forcing heavy rendering
-              cycles.
-            </blockquote>
-          </section>
-
-          {/* Build Steps Section */}
-          <section id="build-steps" className="scroll-mt-24">
-            <h3 className="text-2xl font-clash font-medium tracking-tight text-secondary mb-4">
-              Build steps
-            </h3>
-            <p className="text-base leading-relaxed text-zinc-500 dark:text-zinc-400 font-normal mb-4">
-              Follow these simple configurations to replicate the staging
-              workspace parameters:
-            </p>
-            {/* Fake Code Block */}
-            <pre className="bg-zinc-950 p-4 rounded-xl text-zinc-300 text-xs font-mono overflow-x-auto border border-zinc-900 leading-relaxed">
-              <code>{`npm install\nnpm run dev\n# Output target: http://localhost:3000`}</code>
-            </pre>
-            <p className="text-base leading-relaxed text-zinc-500 dark:text-zinc-400 font-normal mb-4">
-              Follow these simple configurations to replicate the staging
-              workspace parameters:
-            </p>
-            {/* Fake Code Block */}
-            <pre className="bg-zinc-950 p-4 rounded-xl text-zinc-300 text-xs font-mono overflow-x-auto border border-zinc-900 leading-relaxed">
-              <code>{`npm install\nnpm run dev\n# Output target: http://localhost:3000`}</code>
-            </pre>
-            <p className="text-base leading-relaxed text-zinc-500 dark:text-zinc-400 font-normal mb-4">
-              Follow these simple configurations to replicate the staging
-              workspace parameters:
-            </p>
-            {/* Fake Code Block */}
-            <pre className="bg-zinc-950 p-4 rounded-xl text-zinc-300 text-xs font-mono overflow-x-auto border border-zinc-900 leading-relaxed">
-              <code>{`npm install\nnpm run dev\n# Output target: http://localhost:3000`}</code>
-            </pre>
-            <p className="text-base leading-relaxed text-zinc-500 dark:text-zinc-400 font-normal mb-4">
-              Follow these simple configurations to replicate the staging
-              workspace parameters:
-            </p>
-            {/* Fake Code Block */}
-            <pre className="bg-zinc-950 p-4 rounded-xl text-zinc-300 text-xs font-mono overflow-x-auto border border-zinc-900 leading-relaxed">
-              <code>{`npm install\nnpm run dev\n# Output target: http://localhost:3000`}</code>
-            </pre>
-            <p className="text-base leading-relaxed text-zinc-500 dark:text-zinc-400 font-normal mb-4">
-              Follow these simple configurations to replicate the staging
-              workspace parameters:
-            </p>
-            {/* Fake Code Block */}
-            <pre className="bg-zinc-950 p-4 rounded-xl text-zinc-300 text-xs font-mono overflow-x-auto border border-zinc-900 leading-relaxed">
-              <code>{`npm install\nnpm run dev\n# Output target: http://localhost:3000`}</code>
-            </pre>
-          </section>
-
-          {/* ─── Bottom Navigation Button (Previous & Next Page) ─── */}
-          <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4">
-            {/* Previous Button */}
-            <Link
-              href="/projects/previous-project"
-              className="w-full sm:w-1/2 group flex flex-col gap-1.5 items-start text-left p-4 border border-zinc-300 dark:border-zinc-800 rounded-xl"
-            >
-              <span className="text-sm leading-5 font-medium text-text-primary tracking-widest inline-flex items-center transition-transform duration-300">
-                <MdKeyboardArrowLeft className="w-5 h-5" /> Previous Page
-              </span>
-              <span className="text-base leading-snug font-normal text-secondary mt-0.5">
-                Portfolio Design
-              </span>
-            </Link>
-
-            {/* Next Button */}
-            <Link
-              href="/projects/next-project"
-              className="w-full sm:w-1/2 group flex flex-col gap-1.5 items-end text-right p-4 border border-zinc-300 dark:border-zinc-800 rounded-xl"
-            >
-              <span className="text-sm leading-5 font-medium text-text-primary tracking-widest inline-flex items-center transition-transform duration-300">
-                Next Page <MdKeyboardArrowRight className="w-5 h-5" />
-              </span>
-              <span className="text-base leading-snug font-normal text-secondary mt-0.5">
-                Fitness Tracker App
-              </span>
-            </Link>
-          </div>
+              {nextProject ? (
+                <Link
+                  href={`/projects/${nextProject.slug}`}
+                  className="w-full sm:w-1/2 group flex flex-col gap-1.5 items-end text-right p-4 border border-zinc-300 dark:border-zinc-800 rounded-xl"
+                >
+                  <span className="text-sm leading-5 font-medium text-text-primary tracking-widest inline-flex items-center transition-transform duration-300">
+                    Next <MdKeyboardArrowRight className="w-5 h-5" />
+                  </span>
+                  <span className="text-base leading-snug font-normal text-secondary mt-0.5">
+                    {nextProject.title}
+                  </span>
+                </Link>
+              ) : (
+                <div className="w-full sm:w-1/2" />
+              )}
+            </div>
+          )}
         </div>
 
-        {/* ─── Right Side Column (Position: Sticky) ─── */}
-        <aside className="lg:col-span-4 lg:sticky lg:top-24 hidden lg:flex flex-col gap-8 self-start transition-all duration-300">
-          {/* On this page menu*/}
-          <div className="flex flex-col">
-            <div className="flex items-center gap-2 text-text-primary text-sm font-medium leading-5 tracking-wider">
-              <RiMenu2Line className="w-4 h-4" />
-              On this page
-            </div>
+        {/* RIGHT SIDEBAR */}
+        {sections.length > 0 && (
+          <aside className="lg:col-span-4 lg:sticky lg:top-24 hidden lg:flex flex-col gap-8 self-start transition-all duration-300">
+            <OnThisPageMenu sections={sections} />
 
-            {/* Sidebar Navigation Links */}
-            <div className="flex flex-col relative py-3">
-              {[
-                { id: "features", label: "Features" },
-                { id: "tech-used", label: "Technologies used" },
-                { id: "build-steps", label: "Build steps" },
-              ].map((item) => {
-                const isSelected = activeSection === item.id;
-                return (
-                  <a
-                    key={item.id}
-                    href={`${pathname}#${item.id}`}
-                    className={`relative pl-[14px] py-1.5 text-sm font-normal transition-all duration-300 border-l-[1.5px] ${
-                      isSelected
-                        ? "text-primary border-primary font-normal"
-                        : "text-text-primary border-zinc-300/60 dark:border-zinc-800"
-                    }`}
-                  >
-                    {item.label}
-                  </a>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Share This Project Zone */}
-          <div className="flex flex-col">
-            <div className="text-text-primary text-base leading-snug font-normal tracking-normal mb-3.5 inline-flex items-center gap-2">
-              Share this project
-            </div>
-            <div className="flex items-center gap-4 text-text-primary group/socials">
-              {SOCIAL_LINKS.map((social) => (
-                <button
-                  key={social.id}
-                  className="transition-all duration-300 hover:text-text-primary hover:!opacity-100 group-hover/socials:opacity-40 text-base cursor-pointer"
+            <div className="flex flex-col">
+              <div className="text-text-primary text-base leading-snug font-normal tracking-normal mb-3.5 inline-flex items-center gap-2">
+                Share this project
+              </div>
+              <div className="flex items-center gap-4 text-text-primary group/socials">
+                <a
+                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${typeof window !== "undefined" ? window.location.href : ""}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-all duration-300 hover:text-text-primary hover:!opacity-100 group-hover/socials:opacity-40"
                 >
-                  {social.icon}
+                  <FiLinkedin className="w-5 h-5" />
+                </a>
+                <a
+                  href={`mailto:?subject=${encodeURIComponent(project.title)}&body=${encodeURIComponent(typeof window !== "undefined" ? window.location.href : "")}`}
+                  className="transition-all duration-300 hover:text-text-primary hover:!opacity-100 group-hover/socials:opacity-40"
+                >
+                  <FiMail className="w-5 h-5" />
+                </a>
+                <button
+                  onClick={() => {
+                    if (typeof navigator !== "undefined" && navigator.share) {
+                      navigator.share({
+                        title: project.title,
+                        url: window.location.href,
+                      });
+                    }
+                  }}
+                  className="transition-all duration-300 hover:text-text-primary hover:!opacity-100 group-hover/socials:opacity-40"
+                >
+                  <FiShare2 className="w-5 h-5" />
                 </button>
-              ))}
+              </div>
             </div>
-          </div>
-        </aside>
+          </aside>
+        )}
       </div>
     </div>
   );

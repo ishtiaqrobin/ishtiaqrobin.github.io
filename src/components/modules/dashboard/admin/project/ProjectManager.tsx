@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { RefObject, useState } from "react";
+import { RefObject, useState, useCallback } from "react";
 import Image from "next/image";
 import {
   MoreHorizontal,
@@ -16,10 +16,13 @@ import {
   Github,
   Check,
   Tags,
-  ImagePlus,
-  X,
   Eye,
   Edit,
+  User,
+  Briefcase,
+  Laptop,
+  Calendar,
+  FileSliders,
 } from "lucide-react";
 import { motion } from "motion/react";
 import { toast } from "sonner";
@@ -69,7 +72,8 @@ import {
   deleteProjectAction,
 } from "@/actions/project.action";
 import { useImageUpload } from "@/hooks/useImageUpload";
-import { IProject } from "@/types";
+import { IProject, IProjectSection } from "@/types";
+import ProjectSectionsEditor from "./ProjectSectionsEditor";
 
 interface ProjectManagerProps {
   projects: IProject[];
@@ -96,105 +100,6 @@ function FieldLabel({
   );
 }
 
-// ─── Project Images Multi-Upload Component ────────────────────────────────────
-function ProjectImagesUpload({
-  existingImages,
-  onFilesChange,
-}: {
-  existingImages?: IProject["images"];
-  onFilesChange: (files: File[]) => void;
-}) {
-  const [previews, setPreviews] = useState<string[]>([]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []);
-    if (!files.length) return;
-
-    onFilesChange(files);
-    const urls = files.map((f) => URL.createObjectURL(f));
-    setPreviews(urls);
-  };
-
-  const removePreview = (idx: number) => {
-    setPreviews((prev) => prev.filter((_, i) => i !== idx));
-  };
-
-  return (
-    <div className="space-y-3">
-      <div className="flex items-center gap-2 p-3 rounded-xl border-2 border-dashed border-primary/20 hover:border-primary/40 transition-colors cursor-pointer bg-muted/20">
-        <ImagePlus className="h-4 w-4 text-muted-foreground shrink-0" />
-        <div className="flex-1">
-          <Input
-            id="projectImages"
-            type="file"
-            name="projectImages"
-            accept="image/*"
-            multiple
-            onChange={handleChange}
-            className="border-none shadow-none p-0 h-auto text-sm cursor-pointer bg-transparent"
-          />
-        </div>
-      </div>
-      <p className="text-[11px] text-muted-foreground">
-        Max 10 images · Project screenshots/gallery
-      </p>
-
-      {/* New image previews */}
-      {previews.length > 0 && (
-        <div className="grid grid-cols-3 gap-2">
-          {previews.map((url, i) => (
-            <div
-              key={i}
-              className="relative group aspect-video rounded-lg overflow-hidden border"
-            >
-              <Image
-                src={url}
-                alt={`preview-${i}`}
-                fill
-                className="object-cover"
-              />
-              <button
-                type="button"
-                onClick={() => removePreview(i)}
-                className="absolute top-1 right-1 h-5 w-5 rounded-full bg-black/70 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-                <X className="h-3 w-3" />
-              </button>
-              <span className="absolute bottom-1 left-1 text-[9px] bg-black/60 text-white px-1.5 py-0.5 rounded font-bold">
-                NEW
-              </span>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Existing images (edit mode) */}
-      {existingImages && existingImages.length > 0 && previews.length === 0 && (
-        <div className="space-y-2">
-          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wide">
-            Current Images ({existingImages.length}) — Upload new to replace
-          </p>
-          <div className="grid grid-cols-3 gap-2">
-            {existingImages.map((img, i) => (
-              <div
-                key={img.id}
-                className="relative aspect-video rounded-lg overflow-hidden border"
-              >
-                <Image
-                  src={img.url}
-                  alt={img.alt || `image-${i}`}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
 // ─── Project Form ─────────────────────────────────────────────────────────────
 function ProjectForm({
   item,
@@ -202,15 +107,40 @@ function ProjectForm({
   thumbnailRef,
   handleThumbnailChange,
   isCompressing,
-  onImagesChange,
+  bannerImageRef,
+  handleBannerImageChange,
+  isBannerCompressing,
+  sections,
+  onSectionsChange,
+  onSlugChange,
 }: {
   item: IProject | null;
   categories: any[];
   thumbnailRef: React.RefObject<HTMLInputElement>;
   handleThumbnailChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isCompressing: boolean;
-  onImagesChange: (files: File[]) => void;
+  bannerImageRef: React.RefObject<HTMLInputElement>;
+  handleBannerImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  isBannerCompressing: boolean;
+  sections: IProjectSection[];
+  onSectionsChange: (sections: IProjectSection[]) => void;
+  onSlugChange: (slug: string) => void;
 }) {
+  const slugify = (text: string) =>
+    text
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const title = e.target.value;
+    const slugInput = document.getElementById("slug") as HTMLInputElement;
+    if (slugInput && slugInput.dataset.auto === "true") {
+      slugInput.value = slugify(title);
+      onSlugChange(slugify(title));
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       {/* Title */}
@@ -220,10 +150,35 @@ function ProjectForm({
           id="title"
           name="title"
           defaultValue={item?.title || ""}
+          onChange={handleTitleChange}
           placeholder="e.g. E-Commerce Dashboard"
           required
           className="rounded-xl h-10"
         />
+      </div>
+
+      {/* Slug */}
+      <div className="space-y-1.5 sm:col-span-2">
+        <FieldLabel htmlFor="slug">Slug *</FieldLabel>
+        <div className="relative">
+          <FileSliders className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+          <Input
+            id="slug"
+            name="slug"
+            defaultValue={item?.slug || ""}
+            data-auto={item ? "false" : "true"}
+            onChange={(e) => {
+              e.currentTarget.dataset.auto = "false";
+              onSlugChange(e.target.value);
+            }}
+            placeholder="e.g. e-commerce-dashboard"
+            required
+            className="rounded-xl h-10 pl-8 font-mono text-sm"
+          />
+        </div>
+        <p className="text-[10px] text-muted-foreground">
+          Auto-generated from title. Edit manually if needed.
+        </p>
       </div>
 
       {/* Category */}
@@ -233,7 +188,7 @@ function ProjectForm({
           <SelectTrigger id="categoryId" className="rounded-xl h-10">
             <SelectValue placeholder="Select category" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent position="popper">
             {categories.map((cat) => (
               <SelectItem key={cat.id} value={cat.id}>
                 {cat.name}
@@ -295,13 +250,81 @@ function ProjectForm({
         )}
       </div>
 
-      {/* Project Images (Gallery) */}
+      {/* Banner Image */}
       <div className="space-y-1.5 sm:col-span-2">
-        <FieldLabel htmlFor="projectImages">Project Gallery Images</FieldLabel>
-        <ProjectImagesUpload
-          existingImages={item?.images}
-          onFilesChange={onImagesChange}
+        <FieldLabel htmlFor="bannerImage">Banner Image</FieldLabel>
+        <Input
+          id="bannerImage"
+          type="file"
+          name="bannerImage"
+          accept="image/*"
+          ref={bannerImageRef}
+          onChange={handleBannerImageChange}
+          disabled={isBannerCompressing}
+          className="rounded-xl h-10 cursor-pointer"
         />
+        {isBannerCompressing ? (
+          <p className="text-[11px] text-primary flex items-center gap-1">
+            <Loader2 className="h-3 w-3 animate-spin" />
+            Compressing…
+          </p>
+        ) : (
+          <p className="text-[11px] text-muted-foreground">
+            Optional · Larger hero/banner image for the project detail page
+          </p>
+        )}
+        {item?.bannerImage && (
+          <div className="flex items-center gap-2 mt-1">
+            <Image
+              src={item.bannerImage}
+              alt={item.title}
+              width={96}
+              height={48}
+              className="rounded-lg object-cover aspect-video"
+            />
+            <span className="text-[10px] text-muted-foreground truncate max-w-[200px]">
+              {item.bannerImage.split("/").pop()}
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* Year */}
+      <div className="space-y-1.5">
+        <FieldLabel htmlFor="year">Project Year</FieldLabel>
+        <div className="relative">
+          <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+          <Input
+            id="year"
+            name="year"
+            defaultValue={item?.year || ""}
+            placeholder="e.g. 2024"
+            className="rounded-xl h-10 pl-8"
+          />
+        </div>
+      </div>
+
+      {/* bgColor */}
+      <div className="space-y-1.5">
+        <FieldLabel htmlFor="bgColor">Card Background Color</FieldLabel>
+        <div className="flex items-center gap-2">
+          <Input
+            id="bgColor"
+            name="bgColor"
+            defaultValue={item?.bgColor || ""}
+            placeholder="e.g. #fef08a"
+            className="rounded-xl h-10 font-mono text-sm flex-1"
+          />
+          {item?.bgColor && (
+            <div
+              className="h-10 w-10 rounded-xl border shrink-0"
+              style={{ backgroundColor: item.bgColor }}
+            />
+          )}
+        </div>
+        <p className="text-[10px] text-muted-foreground">
+          Hex color for project card background on the listing page. Leave empty for default.
+        </p>
       </div>
 
       {/* Live URL */}
@@ -329,6 +352,53 @@ function ProjectForm({
             name="githubUrl"
             defaultValue={item?.githubUrl || ""}
             placeholder="https://github.com/..."
+            className="rounded-xl h-10 pl-8"
+          />
+        </div>
+      </div>
+
+      {/* Roles */}
+      <div className="space-y-1.5">
+        <FieldLabel htmlFor="roles">Roles</FieldLabel>
+        <div className="relative">
+          <User className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+          <Input
+            id="roles"
+            name="roles"
+            defaultValue={item?.roles || ""}
+            placeholder="e.g. Full-stack Developer"
+            className="rounded-xl h-10 pl-8"
+          />
+        </div>
+      </div>
+
+      {/* Client */}
+      <div className="space-y-1.5">
+        <FieldLabel htmlFor="client">Client</FieldLabel>
+        <div className="relative">
+          <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+          <Input
+            id="client"
+            name="client"
+            defaultValue={item?.client || ""}
+            placeholder="e.g. Personal Project, Company Name"
+            className="rounded-xl h-10 pl-8"
+          />
+        </div>
+      </div>
+
+      {/* Tech Stack */}
+      <div className="space-y-1.5 sm:col-span-2">
+        <FieldLabel htmlFor="techStack">
+          Tech Stack (comma separated)
+        </FieldLabel>
+        <div className="relative">
+          <Laptop className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+          <Input
+            id="techStack"
+            name="techStack"
+            defaultValue={(item?.techStack || []).join(", ") || ""}
+            placeholder="React, Next.js, TypeScript, Tailwind CSS"
             className="rounded-xl h-10 pl-8"
           />
         </div>
@@ -394,6 +464,14 @@ function ProjectForm({
           defaultChecked={item ? item.isPublished : true}
         />
       </div>
+
+      {/* Sections */}
+      <div className="sm:col-span-2">
+        <ProjectSectionsEditor
+          sections={sections}
+          onChange={onSectionsChange}
+        />
+      </div>
     </div>
   );
 }
@@ -421,33 +499,57 @@ export function ProjectManager({
     inputRef: thumbnailRef,
   } = useImageUpload({ maxSizeMB: 5 });
 
-  // Project gallery images (raw Files — no compression needed, backend handles)
-  const [projectImageFiles, setProjectImageFiles] = useState<File[]>([]);
+  // Banner Image
+  const {
+    file: bannerImageFile,
+    isCompressing: isBannerCompressing,
+    handleFileChange: handleBannerImageChange,
+    reset: resetBannerImage,
+    inputRef: bannerImageRef,
+  } = useImageUpload({ maxSizeMB: 5 });
+
+  // Project sections
+  const [sections, setSections] = useState<IProjectSection[]>([]);
+
+  // Sync sections when editing
+  const syncSections = useCallback((item: IProject | null) => {
+    setSections(item?.sections || []);
+  }, []);
 
   const resetAll = () => {
     resetThumbnail();
-    setProjectImageFiles([]);
+    resetBannerImage();
+    setSections([]);
   };
 
   // ─── Build FormData ────────────────────────────────────────────
   const buildFormData = (
     form: HTMLFormElement,
     thumbFile: File | null,
-    imageFiles: File[],
+    bannerFile: File | null,
   ) => {
     const fd = new FormData(form);
     const out = new FormData();
 
     out.append("title", fd.get("title") as string);
+    out.append("slug", fd.get("slug") as string);
     out.append("description", fd.get("description") as string);
     out.append("categoryId", fd.get("categoryId") as string);
 
     const liveUrl = fd.get("liveUrl") as string;
     const githubUrl = fd.get("githubUrl") as string;
     const sortOrder = fd.get("sortOrder") as string;
+    const roles = fd.get("roles") as string;
+    const client = fd.get("client") as string;
+    const year = fd.get("year") as string;
+    const bgColor = fd.get("bgColor") as string;
     if (liveUrl) out.append("liveUrl", liveUrl);
     if (githubUrl) out.append("githubUrl", githubUrl);
     if (sortOrder) out.append("sortOrder", sortOrder);
+    if (roles) out.append("roles", roles);
+    if (client) out.append("client", client);
+    if (year) out.append("year", year);
+    if (bgColor) out.append("bgColor", bgColor);
 
     const tagsRaw = fd.get("tags") as string;
     const tags = tagsRaw
@@ -456,14 +558,27 @@ export function ProjectManager({
       .filter(Boolean);
     out.append("tags", JSON.stringify(tags));
 
+    const techStackRaw = fd.get("techStack") as string;
+    const techStack = techStackRaw
+      ? techStackRaw
+          .split(",")
+          .map((t) => t.trim())
+          .filter(Boolean)
+      : [];
+    out.append("techStack", JSON.stringify(techStack));
+
+    if (sections.length > 0) {
+      out.append("sections", JSON.stringify(sections));
+    }
+
     out.append("isFeatured", String(fd.get("isFeatured") === "on"));
     out.append("isPublished", String(fd.get("isPublished") === "on"));
 
     // Thumbnail (single)
     if (thumbFile) out.append("thumbnail", thumbFile);
 
-    // Gallery images (multiple) — field name must be "images" to match multer config
-    imageFiles.forEach((file) => out.append("images", file));
+    // Banner Image
+    if (bannerFile) out.append("bannerImage", bannerFile);
 
     return out;
   };
@@ -473,7 +588,7 @@ export function ProjectManager({
     e.preventDefault();
     setLoading(true);
     const result = await createProjectAction(
-      buildFormData(e.currentTarget, thumbnailFile, projectImageFiles),
+      buildFormData(e.currentTarget, thumbnailFile, bannerImageFile),
       token,
     );
     if (result.success) {
@@ -493,7 +608,7 @@ export function ProjectManager({
     setLoading(true);
     const result = await updateProjectAction(
       selectedItem.id,
-      buildFormData(e.currentTarget, thumbnailFile, projectImageFiles),
+      buildFormData(e.currentTarget, thumbnailFile, bannerImageFile),
       token,
     );
     if (result.success) {
@@ -617,7 +732,6 @@ export function ProjectManager({
                   <TableHead className="w-16">Thumb</TableHead>
                   <TableHead>Title</TableHead>
                   <TableHead>Category</TableHead>
-                  <TableHead>Images</TableHead>
                   <TableHead>Links</TableHead>
                   <TableHead>Sort</TableHead>
                   <TableHead>Status</TableHead>
@@ -673,14 +787,6 @@ export function ProjectManager({
                       <Badge variant="secondary" className="text-[10px]">
                         {item.category?.name || "—"}
                       </Badge>
-                    </TableCell>
-
-                    {/* Gallery image count */}
-                    <TableCell>
-                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                        <ImagePlus className="h-3.5 w-3.5" />
-                        <span>{item.images?.length ?? 0}</span>
-                      </div>
                     </TableCell>
 
                     {/* Links */}
@@ -753,7 +859,9 @@ export function ProjectManager({
                           <DropdownMenuItem
                             onClick={() => {
                               setSelectedItem(item);
-                              resetAll();
+                              syncSections(item);
+                              resetThumbnail();
+                              resetBannerImage();
                               setEditDialog(true);
                             }}
                           >
@@ -823,7 +931,12 @@ export function ProjectManager({
                 thumbnailRef={thumbnailRef as RefObject<HTMLInputElement>}
                 handleThumbnailChange={handleThumbnailChange}
                 isCompressing={isCompressing}
-                onImagesChange={setProjectImageFiles}
+                bannerImageRef={bannerImageRef as RefObject<HTMLInputElement>}
+                handleBannerImageChange={handleBannerImageChange}
+                isBannerCompressing={isBannerCompressing}
+                sections={sections}
+                onSectionsChange={setSections}
+                onSlugChange={() => {}}
               />
             </div>
             <DialogFooter className="gap-2">
@@ -878,7 +991,12 @@ export function ProjectManager({
                 thumbnailRef={thumbnailRef as RefObject<HTMLInputElement>}
                 handleThumbnailChange={handleThumbnailChange}
                 isCompressing={isCompressing}
-                onImagesChange={setProjectImageFiles}
+                bannerImageRef={bannerImageRef as RefObject<HTMLInputElement>}
+                handleBannerImageChange={handleBannerImageChange}
+                isBannerCompressing={isBannerCompressing}
+                sections={sections}
+                onSectionsChange={setSections}
+                onSlugChange={() => {}}
               />
             </div>
             <DialogFooter className="gap-2">

@@ -25,11 +25,14 @@ export function ProjectCard({ item }: ProjectCardProps) {
       className="h-full"
     >
       <Card
-        onClick={() => router.push(`/projects/${item.id}`)}
+        onClick={() => router.push(`/projects/${item.slug}`)}
         className="p-0 group relative h-full overflow-hidden rounded-3xl border-none shadow-lg hover:shadow-2xl shadow-primary-400/25 hover:shadow-primary-400/50 transition-all duration-500 flex flex-col cursor-pointer gap-0"
       >
         {/* Image */}
-        <div className="relative aspect-video overflow-hidden">
+        <div
+          className="relative aspect-video overflow-hidden bg-zinc-100 dark:bg-zinc-900"
+          style={item.bgColor ? { backgroundColor: item.bgColor } : undefined}
+        >
           {item.thumbnail ? (
             <Image
               src={item.thumbnail}
@@ -38,7 +41,7 @@ export function ProjectCard({ item }: ProjectCardProps) {
               className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
           ) : (
-            <div className="absolute inset-0 bg-muted/50 flex items-center justify-center">
+            <div className="absolute inset-0 flex items-center justify-center">
               <LayoutGrid className="h-12 w-12 text-muted-foreground/20" />
             </div>
           )}
@@ -82,7 +85,7 @@ export function ProjectCard({ item }: ProjectCardProps) {
         <CardContent className="p-6 flex flex-col flex-1">
           <div className="flex-1">
             <h3 className="text-xl font-bold mb-3 flex items-center gap-1.5 group-hover:text-primary transition-colors duration-300">
-              <Link href={`/projects/${item.id}`}>{item.title}</Link>
+              <Link href={`/projects/${item.slug}`}>{item.title}</Link>
               <ArrowUpRight className="h-4 w-4 opacity-0 -translate-y-0.5 translate-x-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-1 transition-all duration-300 shrink-0" />
             </h3>
             <p className="text-sm text-muted-foreground line-clamp-3 mb-4 leading-relaxed">
