@@ -8,7 +8,6 @@ import DesignProcess from "@/components/modules/home/design_process/DesignProces
 
 export default function AboutPage() {
   return (
-    // <div className="flex flex-col min-h-screen">
     <div className="min-h-screen">
       <AboutSection />
       <div className="border-y bg-[#F7F8FA] dark:bg-[#0b0b0d]">
@@ -21,12 +20,6 @@ export default function AboutPage() {
       <CommunitySection />
 
       <CtaSection />
-
-      {/* <EducationSection />
-      <ExperienceSection />
-      <SkillsSection />
-      <ServiceSection />
-      <GallerySection /> */}
     </div>
   );
 }

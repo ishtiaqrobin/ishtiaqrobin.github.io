@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import ShimmerText from "../../shared/ShimmerText";
-import SplitTextReveal from "../../shared/SplitTextReveal";
 
 interface FaqItem {
   id: number;
