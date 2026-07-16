@@ -109,7 +109,7 @@ export function AvatarUpload({ currentImage, onUpdate, name }: AvatarUploadProps
                         </div>
                         <div className="flex justify-end gap-3">
                             <Button
-                                size={"md"}
+                                // size={"md"}
                                 variant="outline"
                                 onClick={() => handleOpenChange(false)}
                                 className="cursor-pointer"
@@ -117,7 +117,7 @@ export function AvatarUpload({ currentImage, onUpdate, name }: AvatarUploadProps
                                 Cancel
                             </Button>
                             <Button
-                                size={"md"}
+                                // size={"md"}
                                 onClick={handleUpdate}
                                 disabled={isUpdating || isCompressing || !file}
                                 className="cursor-pointer"
