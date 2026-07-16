@@ -5,14 +5,17 @@ import { IProject } from "@/types";
 const API_URL = env.NEXT_PUBLIC_API_URL;
 
 export const projectService = {
-  async getProjects(categoryId?: string): Promise<{
+  async getProjects(categoryId?: string, isFeatured?: boolean): Promise<{
     data: IProject[] | null;
     error: any;
   }> {
     try {
-      const url = categoryId 
-        ? `${API_URL}/projects?categoryId=${categoryId}`
-        : `${API_URL}/projects`;
+      const params = new URLSearchParams();
+      if (categoryId) params.append("categoryId", categoryId);
+      if (isFeatured !== undefined) params.append("isFeatured", String(isFeatured));
+
+      const queryString = params.toString();
+      const url = queryString ? `${API_URL}/projects?${queryString}` : `${API_URL}/projects`;
         
       const res = await fetch(url, {
         cache: "no-store",

@@ -1,6 +1,12 @@
 "use client";
 import { useState, useCallback } from "react";
-import { Plus, Trash2, ChevronDown, ChevronRight, ChevronUp } from "lucide-react";
+import {
+  Plus,
+  Trash2,
+  ChevronDown,
+  ChevronRight,
+  ChevronUp,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -52,7 +58,7 @@ function SectionCard({
           <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider w-6 shrink-0">
             #{index + 1}
           </span>
-          <span className="text-sm font-medium truncate max-w-[300px]">
+          <span className="text-sm font-medium truncate max-w-72">
             {section.label || "Untitled Section"}
           </span>
         </button>
@@ -138,9 +144,7 @@ export default function ProjectSectionsEditor({
 
   const handleUpdate = useCallback(
     (id: string, data: Partial<IProjectSection>) => {
-      onChange(
-        sections.map((s) => (s.id === id ? { ...s, ...data } : s)),
-      );
+      onChange(sections.map((s) => (s.id === id ? { ...s, ...data } : s)));
     },
     [sections, onChange],
   );
@@ -195,7 +199,8 @@ export default function ProjectSectionsEditor({
       {sections.length === 0 ? (
         <div className="text-center py-8 rounded-xl border-2 border-dashed border-muted-foreground/20">
           <p className="text-sm text-muted-foreground">
-            No sections yet. Click &quot;Add Section&quot; to start building your project details.
+            No sections yet. Click &quot;Add Section&quot; to start building
+            your project details.
           </p>
         </div>
       ) : (

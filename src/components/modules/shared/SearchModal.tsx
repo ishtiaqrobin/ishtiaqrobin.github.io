@@ -30,7 +30,7 @@ export default function SearchModal({
     }
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape" || e.key === "Enter") onClose();
     };
 
     window.addEventListener("keydown", handleKeyDown);

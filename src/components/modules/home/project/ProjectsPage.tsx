@@ -105,15 +105,21 @@ export default function ProjectsPage({
               >
                 <Link href={`/projects/${project.slug}`}>
                   <div
-                    className="w-full aspect-6/4 rounded-4xl flex items-center justify-center border border-transparent dark:border-zinc-900 overflow-hidden relative shadow-2xs bg-zinc-100 dark:bg-zinc-900"
-                    style={project.bgColor ? { backgroundColor: project.bgColor } : undefined}
+                    className="w-full p-8 sm:p-12 aspect-6/4 rounded-4xl flex items-center justify-center border border-transparent dark:border-zinc-900 overflow-hidden relative shadow-2xs bg-zinc-100 dark:bg-zinc-900"
+                    style={
+                      project.bgColor
+                        ? { backgroundColor: project.bgColor }
+                        : undefined
+                    }
                   >
-                    <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-sm transition-transform duration-500 ease-out group-hover:scale-[1.02]">
+                    <div className="relative w-full h-full rounded-xl sm:rounded-2xl overflow-hidden shadow-xl border-4 transition-transform duration-500 ease-out group-hover:scale-[1.02]">
                       {project.thumbnail ? (
                         <Image
                           src={project.thumbnail}
                           alt={project.title}
                           fill
+                          // width={500}
+                          // height={500}
                           sizes="(max-w-7xl) 50vw, 100vw"
                           className="object-cover"
                         />
