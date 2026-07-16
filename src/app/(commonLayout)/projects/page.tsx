@@ -6,7 +6,7 @@ export default function ProjectPage() {
   return (
     <div>
       <ProjectsPage />
-      {/* <ProjectDetails /> */}
+      <ProjectDetails />
       <CtaSection />
     </div>
   );

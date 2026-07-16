@@ -35,44 +35,9 @@ export const adminRoutes: Route[] = [
         icon: UserCog,
       },
       {
-        title: "Education",
-        url: "/admin-dashboard/education",
-        icon: GraduationCap,
-      },
-      {
         title: "Chatbot",
         url: "/admin-dashboard/chatbot",
         icon: MessageSquare,
-      },
-      {
-        title: "Blogs",
-        url: "/admin-dashboard/blogs",
-        icon: FolderKanban,
-      },
-      {
-        title: "Comments",
-        url: "/admin-dashboard/comments",
-        icon: MessageSquare,
-      },
-      {
-        title: "Experience",
-        url: "/admin-dashboard/experience",
-        icon: Briefcase,
-      },
-      {
-        title: "Certificates",
-        url: "/admin-dashboard/certificates",
-        icon: Landmark,
-      },
-      {
-        title: "Skills",
-        url: "/admin-dashboard/skills",
-        icon: Cpu,
-      },
-      {
-        title: "Services",
-        url: "/admin-dashboard/services",
-        icon: Wrench,
       },
       {
         title: "Contact",
@@ -80,19 +45,9 @@ export const adminRoutes: Route[] = [
         icon: Calendar,
       },
       {
-        title: "Gallery",
-        url: "/admin-dashboard/gallery",
-        icon: Image,
-      },
-      {
         title: "Projects",
         url: "/admin-dashboard/projects",
         icon: FolderKanban,
-      },
-      {
-        title: "Videos",
-        url: "/admin-dashboard/video",
-        icon: Video,
       },
       {
         title: "Reviews",
@@ -105,16 +60,10 @@ export const adminRoutes: Route[] = [
         icon: FolderKanban,
       },
       {
-        title: "Appointments",
-        url: "/admin-dashboard/appointments",
-        icon: Calendar,
-      },
-      {
         title: "Users",
         url: "/admin-dashboard/users",
         icon: Users,
       },
-
       {
         title: "Profile",
         url: "/admin-dashboard/profile",

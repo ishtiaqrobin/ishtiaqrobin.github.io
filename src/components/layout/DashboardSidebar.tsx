@@ -33,11 +33,6 @@ export function DashboardSidebar(
             icon: Settings,
           },
           {
-            title: "Stats",
-            url: "/admin-dashboard/stats",
-            icon: ChartColumn,
-          },
-          {
             title: "Analytics",
             url: "/admin-dashboard/analytics",
             icon: TrendingUp,

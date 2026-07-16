@@ -597,7 +597,7 @@ export function ProjectManager({
             </p>
           </div>
           <Button
-            size="sm"
+            // size="sm"
             onClick={() => {
               resetAll();
               setCreateDialog(true);
@@ -788,7 +788,7 @@ export function ProjectManager({
               </p>
               <Button
                 variant="outline"
-                size="sm"
+                // size="sm"
                 className="mt-4 cursor-pointer"
                 onClick={() => setCreateDialog(true)}
               >

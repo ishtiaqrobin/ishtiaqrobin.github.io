@@ -188,7 +188,20 @@ export default function ProjectDetails() {
       {/* 6.2 Column Layout (Left Column: Content, Right Column: Better-Auth Sidebar) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 pt-12 items-start relative">
         {/* Left Column (Sections and Documentation Content) */}
-        <div className="lg:col-span-8 flex flex-col gap-16">
+        <div className="lg:col-span-8 flex flex-col gap-10">
+          {/* The Goal */}
+          <section id="landing-page" className="scroll-mt-24">
+            <h3 className="text-2xl font-clash font-medium tracking-tight text-secondary mb-4">
+              The Goal
+            </h3>
+
+            <p className="text-base leading-snug text-zinc-500 dark:text-zinc-400 font-normal">
+              To create a modern, two-page website that effectively communicates
+              Veni Labs expertise in Development, UI/UX Design, and Branding
+              while offering a smooth, high-performance user experience.
+            </p>
+          </section>
+
           {/* Features Section */}
           <section id="features" className="scroll-mt-24">
             <h3 className="text-2xl font-clash font-medium tracking-tight text-secondary mb-6">
@@ -298,6 +311,30 @@ export default function ProjectDetails() {
                 highlights.
               </li>
             </ul>
+          </section>
+
+          {/* Landing Page */}
+          <section id="landing-page" className="scroll-mt-24">
+            <h3 className="text-2xl font-clash font-medium tracking-tight text-secondary mb-4">
+              Landing Page
+            </h3>
+
+            <p className="text-base leading-relaxed text-zinc-500 dark:text-zinc-400 font-normal">
+              An engaging hero section showcasing the agency’s value
+              proposition, followed by succinct service descriptions and
+              testimonials for credibility.
+            </p>
+
+            <Image
+              src={
+                "https://res.cloudinary.com/da6yr9lro/image/upload/v1784209306/wnjtyh0ima1484jlxxcd_xcc1v3.webp"
+              }
+              alt="Landing Page"
+              // fill
+              width={1000}
+              height={1000}
+              className="w-full aspect-video object-cover my-4"
+            />
           </section>
 
           {/* Technologies Used Section */}
