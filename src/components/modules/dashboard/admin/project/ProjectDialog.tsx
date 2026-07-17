@@ -247,7 +247,7 @@ export default function ProjectDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-3xl! max-h-[90vh] overflow-y-auto">
         <form ref={formRef} onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>
@@ -516,6 +516,7 @@ export default function ProjectDialog({
               <div className="space-y-1.5 sm:col-span-2">
                 <FieldLabel htmlFor="techStack">
                   Tech Stack (comma separated)
+                  <span className="text-red-500">*</span>
                 </FieldLabel>
                 <div className="relative">
                   <Laptop className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
@@ -531,7 +532,9 @@ export default function ProjectDialog({
 
               {/* Tags */}
               <div className="space-y-1.5 sm:col-span-2">
-                <FieldLabel htmlFor="tags">Tags (comma separated)</FieldLabel>
+                <FieldLabel htmlFor="tags">
+                  Tags (comma separated) <span className="text-red-500">*</span>
+                </FieldLabel>
                 <div className="relative">
                   <Tags className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
                   <Input

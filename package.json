@@ -41,6 +41,7 @@
     "@react-three/fiber": "^9.6.1",
     "@t3-oss/env-nextjs": "^0.13.10",
     "@tabler/icons-react": "^3.44.0",
+    "@tailwindcss/typography": "^0.5.20",
     "@tiptap/extension-bubble-menu": "^3.26.0",
     "@tiptap/extension-code-block-lowlight": "^3.26.0",
     "@tiptap/extension-highlight": "^3.26.0",

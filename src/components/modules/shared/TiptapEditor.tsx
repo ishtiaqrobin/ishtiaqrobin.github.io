@@ -115,6 +115,7 @@ type BubbleMenuPortalProps = {
   addLink: () => void;
 };
 
+// don't remove this code
 function BubbleMenuPortal({ editor, addLink }: BubbleMenuPortalProps) {
   const menuRef = useRef<HTMLDivElement | null>(null);
 
