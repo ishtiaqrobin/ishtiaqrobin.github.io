@@ -60,6 +60,11 @@ export const adminRoutes: Route[] = [
         icon: FolderKanban,
       },
       {
+        title: "Experience",
+        url: "/admin-dashboard/experience",
+        icon: Briefcase,
+      },
+      {
         title: "Users",
         url: "/admin-dashboard/users",
         icon: Users,

@@ -13,17 +13,16 @@ export interface ActionResult {
 }
 
 export async function createExperienceAction(
-  data: any,
+  formData: FormData,
   token: string,
 ): Promise<ActionResult> {
   try {
     const res = await fetch(`${API_URL}/experiences`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(data),
+      body: formData,
     });
 
     const result = await res.json();
@@ -42,17 +41,16 @@ export async function createExperienceAction(
 
 export async function updateExperienceAction(
   id: string,
-  data: any,
+  formData: FormData,
   token: string,
 ): Promise<ActionResult> {
   try {
     const res = await fetch(`${API_URL}/experiences/${id}`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(data),
+      body: formData,
     });
 
     const result = await res.json();
