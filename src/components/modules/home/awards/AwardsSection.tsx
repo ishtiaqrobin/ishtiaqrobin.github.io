@@ -88,9 +88,36 @@ export default function AwardsSection() {
             </span>
           </div>
 
-          <span className="text-sm leading-5 font-normal tracking-widest text-text-primary whitespace-nowrap uppercase">
-            {award.date}
-          </span>
+          <div className="flex items-center gap-1.5 shrink-0">
+            <span className="text-sm leading-5 font-normal tracking-widest text-text-primary whitespace-nowrap uppercase">
+              {award.date}
+            </span>
+
+            <span
+              className="text-text-primary"
+              style={{
+                display: "inline-block",
+                transition: "transform 350ms cubic-bezier(0.25, 1, 0.5, 1)",
+                transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+              }}
+              aria-hidden="true"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="hidden sm:block"
+              >
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </span>
+          </div>
         </div>
 
         {/* ─── Accordion বডি — initial={false} দেওয়া আছে তাই

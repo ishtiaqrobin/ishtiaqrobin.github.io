@@ -98,7 +98,7 @@ export default function CommunitySection() {
           </div>
 
           <Link
-            href="https://www.facebook.com/groups/288111895977592"
+            href="https://www.facebook.com/ishtiaqrobin.dev"
             target="_blank"
             rel="noopener noreferrer"
           >
