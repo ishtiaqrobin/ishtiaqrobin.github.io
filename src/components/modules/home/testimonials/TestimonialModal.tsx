@@ -242,6 +242,7 @@ export default function TestimonialModal({
               onChange={handleChange}
               placeholder="Share your experience working with me..."
               rows={4}
+              maxLength={500}
               className={`w-full bg-zinc-50 dark:bg-zinc-800/60 border rounded-lg px-3 py-2.5 text-sm text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus-visible:ring-2 resize-none transition-colors duration-200 ${
                 errors.comment
                   ? "border-red-400 dark:border-red-600"
@@ -257,7 +258,7 @@ export default function TestimonialModal({
                 <span />
               )}
               <span className="text-xs text-zinc-400 dark:text-zinc-500 ml-auto">
-                {form.comment.length}/500
+                {form.comment.length} / 500
               </span>
             </div>
           </div>

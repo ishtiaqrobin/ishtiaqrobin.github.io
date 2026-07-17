@@ -138,7 +138,7 @@ export function Navbar() {
             })}
 
             {/* Dashboard Button - ADMIN only */}
-            {user?.role === "ADMIN" && (
+            {user?.role === "ADMIN" || user?.role === "USER" ? (
               <Link
                 href="/admin-dashboard"
                 className={`group relative flex items-center gap-2 px-2 text-sm font-normal leading-5 rounded-lg transition-colors duration-200 ${
@@ -174,7 +174,7 @@ export function Navbar() {
                   </span>
                 </div>
               </Link>
-            )}
+            ) : null}
           </div>
 
           {/* Right side */}

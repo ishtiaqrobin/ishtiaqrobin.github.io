@@ -25,7 +25,6 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/hooks/useAuth";
 import { Route } from "@/types";
-import { PERSONAL_INFO } from "@/utils/constants";
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   routes: Route[];
@@ -66,13 +65,12 @@ export function AppSidebar({
         {/* Logo */}
         <Link href="/" className="p-2.5">
           <motion.div
-            className="text-2xl font-bold font-mono text-gray-900 dark:text-white hover:text-primary transition-colors cursor-pointer"
+            className={`
+                        text-2xl px-2 font-bold font-clash italic text-secondary transition-all duration-300 cursor-pointer`}
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
           >
-            <span className="text-primary">&lt;</span>
-            {PERSONAL_INFO.name.split(" ")[0]}
-            <span className="text-primary"> /&gt;</span>
+            IR
           </motion.div>
         </Link>
       </SidebarHeader>

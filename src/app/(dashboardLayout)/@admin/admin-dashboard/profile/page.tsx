@@ -1,5 +1,5 @@
 import { sessionService } from "@/services/session.service";
-import { AdminProfileClient } from "./AdminProfileClient";
+import { ProfileClient } from "../../../../../components/modules/dashboard/profile/ProfileClient";
 import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
@@ -13,5 +13,5 @@ export default async function AdminProfilePage() {
 
     const userToken = sessionData.session.token;
 
-    return <AdminProfileClient userToken={userToken} />;
+    return <ProfileClient userToken={userToken} role="admin" />;
 }

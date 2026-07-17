@@ -100,12 +100,15 @@ export function ExperienceDialog({
 
     out.append("position", fd.get("position") as string);
     out.append("companyName", fd.get("companyName") as string);
-    out.append("startDate", new Date(fd.get("startDate") as string).toISOString());
+    out.append(
+      "startDate",
+      new Date(fd.get("startDate") as string).toISOString(),
+    );
 
     const endDate = fd.get("endDate") as string;
     if (endDate) out.append("endDate", new Date(endDate).toISOString());
 
-      const companyUrl = fd.get("companyUrl") as string;
+    const companyUrl = fd.get("companyUrl") as string;
     if (companyUrl) out.append("companyUrl", companyUrl);
 
     const responsibilitiesRaw = (fd.get("responsibilities") as string) || "";
@@ -130,9 +133,7 @@ export function ExperienceDialog({
     setSaving(true);
 
     const toastId = toast.loading(
-      mode === "add"
-        ? "Creating experience..."
-        : "Updating experience...",
+      mode === "add" ? "Creating experience..." : "Updating experience...",
     );
 
     try {
@@ -161,10 +162,9 @@ export function ExperienceDialog({
       onSuccess?.();
       handleClose();
     } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "Operation failed",
-        { id: toastId },
-      );
+      toast.error(error instanceof Error ? error.message : "Operation failed", {
+        id: toastId,
+      });
     } finally {
       setSaving(false);
     }
@@ -247,9 +247,7 @@ export function ExperienceDialog({
               </div>
 
               <div className="space-y-1.5">
-                <FieldLabel htmlFor="endDate">
-                  End Date
-                </FieldLabel>
+                <FieldLabel htmlFor="endDate">End Date</FieldLabel>
                 <div className="relative">
                   <CalendarDays className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
                   <Input
@@ -295,9 +293,7 @@ export function ExperienceDialog({
               </div>
 
               <div className="space-y-1.5 sm:col-span-2">
-                <FieldLabel htmlFor="companyUrl">
-                  Company URL
-                </FieldLabel>
+                <FieldLabel htmlFor="companyUrl">Company URL</FieldLabel>
                 <div className="relative">
                   <Globe className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
                   <Input
@@ -312,9 +308,7 @@ export function ExperienceDialog({
               </div>
 
               <div className="space-y-1.5 sm:col-span-2">
-                <FieldLabel htmlFor="companyLogo">
-                  Company Logo <span className="text-red-500">*</span>
-                </FieldLabel>
+                <FieldLabel htmlFor="companyLogo">Company Logo</FieldLabel>
                 <Input
                   id="companyLogo"
                   type="file"
@@ -332,7 +326,8 @@ export function ExperienceDialog({
                   </p>
                 ) : (
                   <p className="text-[11px] text-muted-foreground">
-                    Max 5MB · Auto-compressed to WebP · Image will be stored in Cloudinary
+                    Max 5MB · Auto-compressed to WebP · Image will be stored in
+                    Cloudinary
                   </p>
                 )}
                 {logoPreview && (
@@ -391,9 +386,7 @@ export function ExperienceDialog({
                 <Switch
                   id="isPublished"
                   name="isPublished"
-                  defaultChecked={
-                    experience ? experience.isPublished : true
-                  }
+                  defaultChecked={experience ? experience.isPublished : true}
                 />
               </div>
             </div>
@@ -408,13 +401,8 @@ export function ExperienceDialog({
             >
               Cancel
             </Button>
-            <Button
-              type="submit"
-              disabled={saving || isCompressing}
-            >
-              {saving && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              )}
+            <Button type="submit" disabled={saving || isCompressing}>
+              {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {isEdit ? "Save Changes" : "Create"}
             </Button>
           </DialogFooter>

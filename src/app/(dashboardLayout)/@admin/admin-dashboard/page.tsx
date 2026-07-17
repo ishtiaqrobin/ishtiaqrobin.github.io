@@ -46,7 +46,7 @@ export default function AdminDashboardPage() {
         </div>
         <Button
           variant="outline"
-          size="xs"
+          // size="xs"
           onClick={fetchStats}
           disabled={isLoading}
           className="cursor-pointer"

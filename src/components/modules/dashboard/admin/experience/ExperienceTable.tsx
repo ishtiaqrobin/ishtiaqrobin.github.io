@@ -21,6 +21,7 @@ import {
   CalendarDays,
   ExternalLink,
   ArrowUpDown,
+  ImageIcon,
 } from "lucide-react";
 import Image from "next/image";
 import {
@@ -89,10 +90,7 @@ export function ExperienceTable({
   const doDelete = async () => {
     if (!deleting.experienceId) return;
     try {
-      const result = await deleteExperienceAction(
-        deleting.experienceId,
-        token,
-      );
+      const result = await deleteExperienceAction(deleting.experienceId, token);
       if (!result.success) {
         toast.error(result.message);
         return;
@@ -101,9 +99,7 @@ export function ExperienceTable({
       cancelDelete();
       onDeleteSuccess?.();
     } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "Delete failed",
-      );
+      toast.error(error instanceof Error ? error.message : "Delete failed");
     }
   };
 
@@ -118,7 +114,7 @@ export function ExperienceTable({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-10"></TableHead>
+              <TableHead className="w-10">Logo</TableHead>
               <TableHead>Position</TableHead>
               <TableHead>Company</TableHead>
               <TableHead>Duration</TableHead>
@@ -169,7 +165,7 @@ export function ExperienceTable({
               experiences.map((item) => (
                 <TableRow key={item.id} className="align-middle">
                   <TableCell>
-                    <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 overflow-hidden">
+                    <div className="h-9 w-9 rounded-full border-2 bg-primary/10 flex items-center justify-center shrink-0 overflow-hidden">
                       {item.companyLogo ? (
                         <Image
                           src={item.companyLogo}
@@ -179,7 +175,7 @@ export function ExperienceTable({
                           className="h-full w-full object-cover"
                         />
                       ) : (
-                        <Briefcase className="h-4 w-4 text-primary" />
+                        <ImageIcon className="h-4 w-4 text-primary" />
                       )}
                     </div>
                   </TableCell>
@@ -214,9 +210,7 @@ export function ExperienceTable({
                       <CalendarDays className="h-3.5 w-3.5 shrink-0" />
                       <span>
                         {formatDate(item.startDate)} –{" "}
-                        {item.endDate
-                          ? formatDate(item.endDate)
-                          : "Present"}
+                        {item.endDate ? formatDate(item.endDate) : "Present"}
                       </span>
                     </div>
                   </TableCell>
@@ -233,9 +227,7 @@ export function ExperienceTable({
 
                   <TableCell>
                     <Badge
-                      variant={
-                        item.isPublished ? "default" : "secondary"
-                      }
+                      variant={item.isPublished ? "default" : "secondary"}
                       className="inline-flex items-center gap-1 text-[10px]"
                     >
                       {item.isPublished ? "Published" : "Draft"}
@@ -254,9 +246,7 @@ export function ExperienceTable({
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                          onClick={() => onEdit(item)}
-                        >
+                        <DropdownMenuItem onClick={() => onEdit(item)}>
                           <Pencil className="mr-2 h-4 w-4" />
                           Edit
                         </DropdownMenuItem>

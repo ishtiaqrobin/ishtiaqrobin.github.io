@@ -13,17 +13,21 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 import { useState, useEffect } from "react";
-import { User as UserType } from "@/types/user.type";
+import { User } from "@/types/user.type";
+import { Badge } from "@/components/ui/badge";
 import { ChangePasswordForm } from "@/components/modules/auth/ChangePasswordForm";
-import { User as UserIcon } from "lucide-react";
+import { Shield, UserCog, User as UserIcon } from "lucide-react";
 
-interface UserProfileClientProps {
+interface ProfileClientProps {
   userToken: string;
+  role: "admin" | "user";
 }
 
-export function UserProfileClient({ userToken }: UserProfileClientProps) {
-  const [user, setUser] = useState<UserType | null>(null);
+export function ProfileClient({ userToken, role }: ProfileClientProps) {
+  const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const isAdmin = role === "admin";
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -59,14 +63,12 @@ export function UserProfileClient({ userToken }: UserProfileClientProps) {
       toast.error("Failed to update profile picture");
     } else {
       toast.success("Profile picture updated successfully");
-      // Refetch profile to get updated data
       const { data } = await userService.getMe(userToken);
       if (data) setUser(data);
     }
   };
 
   const handleProfileUpdate = async () => {
-    // Refetch profile after successful update
     const { data } = await userService.getMe(userToken);
     if (data) setUser(data);
   };
@@ -137,7 +139,9 @@ export function UserProfileClient({ userToken }: UserProfileClientProps) {
       </div>
 
       <div className="grid gap-8 lg:grid-cols-12">
-        <Card className="lg:col-span-4 border-primary/10 shadow-lg shadow-primary-400/30 rounded-3xl overflow-hidden h-fit">
+        <Card
+          className={`lg:col-span-4 border-primary/10 shadow-lg rounded-3xl overflow-hidden h-fit ${!isAdmin ? "shadow-primary-400/30" : ""}`}
+        >
           <div className="h-24 bg-linear-to-r from-primary/20 to-primary/5" />
           <CardContent className="-mt-16 relative">
             <AvatarUpload
@@ -147,14 +151,30 @@ export function UserProfileClient({ userToken }: UserProfileClientProps) {
             />
 
             <div className="mt-8 space-y-4">
+              {isAdmin && (
+                <div className="p-4 rounded-2xl bg-linear-to-br from-primary/10 to-primary/5 border border-primary/20 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Shield className="h-4 w-4 text-primary" />
+                    <span className="text-sm font-semibold text-foreground">
+                      Role
+                    </span>
+                  </div>
+                  <Badge className="bg-primary text-primary-foreground font-black uppercase tracking-wider">
+                    <UserCog className="h-3 w-3 mr-1" />
+                    Admin
+                  </Badge>
+                </div>
+              )}
+
               <div className="p-4 rounded-2xl bg-muted/50 border border-muted flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">
                   Account Status
                 </span>
                 <span className="text-xs font-bold px-2 py-1 rounded-full bg-green-500/10 text-green-600">
-                  ACTIVE
+                  {user.isActive ? "ACTIVE" : "INACTIVE"}
                 </span>
               </div>
+
               <div className="p-4 rounded-2xl bg-muted/50 border border-muted flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">
                   Joined Since
@@ -165,20 +185,38 @@ export function UserProfileClient({ userToken }: UserProfileClientProps) {
                     : "N/A"}
                 </span>
               </div>
+
+              {isAdmin && (
+                <div className="p-4 rounded-2xl bg-amber-500/5 border border-amber-500/20">
+                  <p className="text-xs text-amber-600 dark:text-amber-400 leading-relaxed">
+                    <Shield className="h-3 w-3 inline mr-1" />
+                    You have full administrative privileges to manage users,
+                    categories, and bookings.
+                  </p>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
 
         <div className="lg:col-span-8 space-y-8">
-          <Card className="border-primary/10 shadow-lg shadow-primary-400/30 rounded-3xl">
+          <Card
+            className={`border-primary/10 shadow-lg rounded-3xl ${!isAdmin ? "shadow-primary-400/30" : ""}`}
+          >
             <CardHeader>
-              <CardTitle className="text-xl font-bold flex items-center gap-2">
-                <UserIcon className="h-5 w-5 text-primary" />
-                Profile Information
-              </CardTitle>
-              <CardDescription>
-                Update your profile information and preferences.
-              </CardDescription>
+              {isAdmin ? (
+                <CardTitle>Update Information</CardTitle>
+              ) : (
+                <>
+                  <CardTitle className="text-xl font-bold flex items-center gap-2">
+                    <UserIcon className="h-5 w-5 text-primary" />
+                    Profile Information
+                  </CardTitle>
+                  <CardDescription>
+                    Update your profile information and preferences.
+                  </CardDescription>
+                </>
+              )}
             </CardHeader>
             <CardContent>
               <ProfileForm
@@ -188,7 +226,6 @@ export function UserProfileClient({ userToken }: UserProfileClientProps) {
               />
             </CardContent>
           </Card>
-
           <ChangePasswordForm />
         </div>
       </div>

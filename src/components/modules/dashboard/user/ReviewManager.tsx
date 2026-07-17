@@ -423,6 +423,7 @@ export function ReviewManager({ token }: ReviewManagerProps) {
   const [isFetching, setIsFetching] = useState(true);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [commentValue, setCommentValue] = useState("");
 
   // ── Fetch my review ───────────────────────────────────────────────
   const fetchMyReview = useCallback(async () => {
@@ -445,6 +446,7 @@ export function ReviewManager({ token }: ReviewManagerProps) {
   }, [fetchMyReview]);
 
   const handleEditOpen = () => {
+    setCommentValue(review?.comment || "");
     setIsEditOpen(true);
   };
 
@@ -671,14 +673,24 @@ export function ReviewManager({ token }: ReviewManagerProps) {
                 <Textarea
                   id="comment"
                   name="comment"
-                  defaultValue={review?.comment || ""}
+                  value={commentValue}
+                  onChange={(e) => setCommentValue(e.target.value)}
                   placeholder="Tell us about your experience..."
                   required
-                  minLength={2}
-                  maxLength={200}
+                  maxLength={500}
                   className="rounded-xl resize-none text-base"
                   rows={5}
                 />
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-muted-foreground">
+                    {commentValue.length} / 500
+                  </span>
+                  {commentValue.length > 0 && commentValue.length < 20 && (
+                    <span className="text-xs text-red-500">
+                      String must contain at least 20 character(s)
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
 
