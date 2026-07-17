@@ -22,10 +22,17 @@ export default function NotFound() {
         </p>
 
         <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-          <Button size="md" className="cursor-pointer">
+          <Button
+            // size="md"
+            className="cursor-pointer"
+          >
             <Link href="/">Back to Home</Link>
           </Button>
-          <Button variant="outline" size="md" className="cursor-pointer">
+          <Button
+            variant="outline"
+            // size="md"
+            className="cursor-pointer"
+          >
             <Link href="/login">Login</Link>
           </Button>
         </div>

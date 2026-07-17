@@ -497,7 +497,7 @@ export default function TiptapEditor({
         </div>
 
         {/* BubbleMenu — portal into document.body, plugin controls visibility */}
-        <BubbleMenuPortal editor={editor} addLink={addLink} />
+        {/* <BubbleMenuPortal editor={editor} addLink={addLink} /> */}
 
         {/* Editor Area */}
         <EditorContent editor={editor} className="min-h-[400px]" />

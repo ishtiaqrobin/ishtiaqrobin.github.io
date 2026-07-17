@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { env } from "@/env";
 import { IProject } from "@/types";
 import ProjectDetails from "@/components/modules/home/project/ProjectDetails";
+import CtaSection from "@/components/modules/shared/CtaSection";
 
 async function getProjectBySlug(slug: string): Promise<IProject | null> {
   try {
@@ -58,19 +59,22 @@ export default async function ProjectDetailPage({
       : null;
 
   return (
-    <ProjectDetails
-      project={project}
-      previousProject={
-        previousProject
-          ? { slug: previousProject.slug, title: previousProject.title }
-          : null
-      }
-      nextProject={
-        nextProject
-          ? { slug: nextProject.slug, title: nextProject.title }
-          : null
-      }
-    />
+    <>
+      <ProjectDetails
+        project={project}
+        previousProject={
+          previousProject
+            ? { slug: previousProject.slug, title: previousProject.title }
+            : null
+        }
+        nextProject={
+          nextProject
+            ? { slug: nextProject.slug, title: nextProject.title }
+            : null
+        }
+      />
+      <CtaSection />
+    </>
   );
 }
 

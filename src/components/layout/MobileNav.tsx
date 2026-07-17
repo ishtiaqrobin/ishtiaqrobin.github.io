@@ -30,7 +30,7 @@ export function MobileNav() {
         <nav
           className={`${
             scrolled
-              ? "max-w-xs mx-auto bg-white/65 dark:bg-[#0a0a0a]/75 backdrop-blur-xl px-1.5 border rounded-full"
+              ? "max-w-xs mx-auto bg-white/65 dark:bg-dark-50/75 backdrop-blur-xl px-1.5 border rounded-full"
               : "container-custom bg-transparent border border-transparent"
           } duration-700 transition-all flex items-center justify-between py-1`}
         >
@@ -64,7 +64,8 @@ export function MobileNav() {
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             className={`
                 ${scrolled ? "p-2" : "p-2.5"}
-                rounded-full bg-white/80 hover:bg-gray-100 dark:bg-white/5 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300 hover:text-yellow-500 dark:hover:text-yellow-400 transition-all duration-300 border border-gray-200 dark:border-white/10`}
+                rounded-full bg-white/80 hover:bg-gray-100 dark:bg-white/5 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300 hover:text-yellow-500 dark:hover:text-yellow-400 transition-all duration-300 border border-transparent`}
+            // border-gray-200 dark:border-white/10
             aria-label="Toggle theme"
           >
             <AnimatePresence mode="wait">

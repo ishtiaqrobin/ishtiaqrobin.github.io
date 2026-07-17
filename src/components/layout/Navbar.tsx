@@ -69,7 +69,7 @@ export function Navbar() {
         <nav
           className={`${
             scrolled
-              ? "max-w-2xl mx-auto bg-white/65 dark:bg-[#0a0a0a]/75 backdrop-blur-xl px-1.5 border rounded-full"
+              ? "max-w-2xl mx-auto bg-white/65 dark:bg-dark-50/75 backdrop-blur-xl px-1.5 border rounded-full"
               : "container-custom bg-transparent border border-transparent"
           } duration-700 transition-all flex items-center justify-between py-1`}
         >
@@ -181,8 +181,9 @@ export function Navbar() {
           <div className="items-center gap-3">
             <motion.button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="p-2.5 rounded-full bg-gray-100/75 hover:bg-gray-100 dark:bg-white/5 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300 hover:text-yellow-500 dark:hover:text-yellow-400 transition-all duration-300 border border-gray-200 dark:border-white/10 cursor-pointer"
+              className="p-2.5 rounded-full bg-gray-100/75 hover:bg-gray-100 dark:bg-white/5 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300 hover:text-yellow-500 dark:hover:text-yellow-400 transition-all duration-300 border border-transparent cursor-pointer"
               aria-label="Toggle theme"
+              // border border-gray-200 dark:border-white/10
             >
               <AnimatePresence mode="wait">
                 {theme === "dark" ? (
