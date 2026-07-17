@@ -62,7 +62,7 @@ export default function SelectedProjects() {
                         : undefined
                     }
                   >
-                    <div className="relative w-full h-full rounded-xl sm:rounded-2xl overflow-hidden shadow-xl border-4 transition-transform duration-500 ease-out group-hover:scale-[1.02]">
+                    <div className="relative w-full h-full rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border-4 transition-transform duration-500 ease-out group-hover:scale-[1.02]">
                       {project.thumbnail ? (
                         <Image
                           src={project.thumbnail}

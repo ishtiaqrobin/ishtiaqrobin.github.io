@@ -137,7 +137,7 @@ const STAT_COLORS: Record<ContactStatus, string> = {
 // ── Helpers ───────────────────────────────────────────────────
 function Avatar({ name }: { name: string }) {
   return (
-    <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center flex-shrink-0 font-semibold text-xs uppercase">
+    <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 font-semibold text-xs uppercase">
       {name[0]}
     </div>
   );
@@ -1025,7 +1025,7 @@ export function ContactManager({
                       <Button
                         variant="outline"
                         className="flex-1 gap-2"
-                        asChild
+                        // asChild
                         onClick={() =>
                           handleStatusChange(selected.id, "REPLIED")
                         }
