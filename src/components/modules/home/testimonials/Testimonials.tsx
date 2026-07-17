@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import ShimmerText from "../../shared/ShimmerText";
@@ -10,6 +9,7 @@ import { IReview } from "@/types";
 import { reviewService } from "@/services/review.service";
 import { useAuth } from "@/hooks/useAuth";
 import TestimonialModal from "./TestimonialModal";
+import LoginModal from "./LoginModal";
 import TestimonialCard from "./TestimonialCard";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -30,7 +30,6 @@ function getCharLimit(): number {
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function Testimonials() {
-  const router = useRouter();
   const { user, session, isAuthenticated } = useAuth();
   const userToken = session?.token || "";
 
@@ -41,6 +40,7 @@ export default function Testimonials() {
 
   // ── Modal state ───────────────────────────────────────────────────────────
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   // ── Slider state ──────────────────────────────────────────────────────────
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -98,19 +98,39 @@ export default function Testimonials() {
     };
   }, [userToken, refetchCount]);
 
+  // ── After OAuth redirect — open testimonial modal if returning via ?feedback ──
+  if (
+    isAuthenticated &&
+    typeof window !== "undefined" &&
+    new URLSearchParams(window.location.search).get("feedback") === "true" &&
+    !isModalOpen
+  ) {
+    setIsModalOpen(true);
+  }
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("feedback") === "true") {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("feedback");
+      window.history.replaceState({}, "", url.toString());
+    }
+  }, []);
+
   // ── After modal submit — bump counter to refetch both lists ──────────────
   const handleModalSuccess = useCallback(() => {
     setRefetchCount((c) => c + 1);
   }, []);
 
-  // ── Feedback button click — auth check → modal or redirect to login ──────
+  // ── Feedback button click — auth check → modal or login modal ────────────
   const handleFeedbackClick = useCallback(() => {
     if (isAuthenticated) {
       setIsModalOpen(true);
     } else {
-      router.push("/login");
+      setIsLoginModalOpen(true);
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated]);
 
   // ── Touch refs ────────────────────────────────────────────────────────────
   const touchStartX = useRef<number | null>(null);
@@ -336,6 +356,17 @@ export default function Testimonials() {
           </div>
         </div>
       </div>
+
+      {/* ── LoginModal — shown when unauthenticated user clicks Give Feedback */}
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        callbackURL={
+          typeof window !== "undefined"
+            ? `${window.location.origin}${window.location.pathname}?feedback=true`
+            : undefined
+        }
+      />
 
       {/* ── TestimonialModal — only render when user is authenticated */}
       {isAuthenticated && (

@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { MessageSquareQuote, X } from "lucide-react";
+import { toast } from "sonner";
 import { IReview, IReviewForm } from "@/types";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -128,6 +129,7 @@ export default function TestimonialModal({
       );
 
       if (result.success) {
+        toast.success(result.message);
         onSuccess?.();
         onClose();
       } else {

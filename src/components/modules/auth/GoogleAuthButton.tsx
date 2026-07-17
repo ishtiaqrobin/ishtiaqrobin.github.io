@@ -89,11 +89,13 @@ import HoverButton from "../shared/HoverButton";
 interface GoogleAuthButtonProps {
   mode?: "login" | "signup";
   className?: string;
+  callbackURL?: string;
 }
 
 export function GoogleAuthButton({
   mode = "login",
   className,
+  callbackURL,
 }: GoogleAuthButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -103,7 +105,8 @@ export function GoogleAuthButton({
     try {
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: `${env.NEXT_PUBLIC_APP_URL}/user-dashboard`,
+        callbackURL:
+          callbackURL || `${env.NEXT_PUBLIC_APP_URL}/user-dashboard`,
       });
     } catch (error) {
       console.error("Google auth error:", error);

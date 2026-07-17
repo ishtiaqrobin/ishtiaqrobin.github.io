@@ -58,7 +58,7 @@ export function LogoutButton({
       className={className}
       onClick={handleLogout}
       disabled={isLoading}
-      size={size}
+      // size={size}
     >
       <LogOutIcon className="mr-2 h-4 w-4" />
       Logout
