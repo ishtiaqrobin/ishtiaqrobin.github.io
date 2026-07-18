@@ -313,7 +313,7 @@ export default function ProjectDialog({
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent position="popper">
-                    {categories.map((cat) => (
+                    {categories.filter((cat) => cat.isPublished).map((cat) => (
                       <SelectItem key={cat.id} value={cat.id}>
                         {cat.name}
                       </SelectItem>

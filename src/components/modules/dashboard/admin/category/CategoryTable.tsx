@@ -110,6 +110,7 @@ export default function CategoryTable({
             <TableRow>
               <TableHead>Name</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Sort Order</TableHead>
               <TableHead className="text-right">Action</TableHead>
             </TableRow>
           </TableHeader>
@@ -160,6 +161,12 @@ export default function CategoryTable({
                       )}
                       {category.isPublished ? "Published" : "Draft"}
                     </Badge>
+                  </TableCell>
+
+                  <TableCell>
+                    <span className="text-sm text-muted-foreground">
+                      {category.sortOrder}
+                    </span>
                   </TableCell>
 
                   <TableCell className="text-right">

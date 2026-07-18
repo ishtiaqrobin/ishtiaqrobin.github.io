@@ -37,15 +37,18 @@ export default function CategoryDialog({
 }: CategoryDialogProps) {
   const [saving, setSaving] = useState(false);
   const [name, setName] = useState("");
+  const [sortOrder, setSortOrder] = useState(0);
   const [isPublished, setIsPublished] = useState(true);
 
   useEffect(() => {
     if (open) {
       if (mode === "edit" && category) {
         setName(category.name || "");
+        setSortOrder(category.sortOrder ?? 0);
         setIsPublished(Boolean(category.isPublished));
       } else {
         setName("");
+        setSortOrder(0);
         setIsPublished(true);
       }
     }
@@ -53,6 +56,7 @@ export default function CategoryDialog({
 
   const handleClose = () => {
     setName("");
+    setSortOrder(0);
     setIsPublished(true);
     onOpenChange(false);
   };
@@ -73,6 +77,7 @@ export default function CategoryDialog({
     try {
       const payload: CategoryPayload = {
         name: trimmed,
+        sortOrder,
         isPublished,
       };
 
@@ -137,6 +142,23 @@ export default function CategoryDialog({
               onChange={(e) => setName(e.target.value)}
               className="rounded-xl h-10 bg-white"
               placeholder="Enter category name"
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <Label
+              htmlFor="sortOrder"
+              className="text-[11px] font-bold tracking-wider text-muted-foreground uppercase"
+            >
+              Sort Order
+            </Label>
+            <Input
+              id="sortOrder"
+              type="number"
+              value={sortOrder}
+              onChange={(e) => setSortOrder(Number(e.target.value))}
+              className="rounded-xl h-10 bg-white"
+              placeholder="0"
             />
           </div>
 

@@ -5,7 +5,7 @@ import { env } from "@/env";
 async function getProjectsAndCategories() {
   try {
     const [projRes, catRes] = await Promise.all([
-      fetch(`${env.NEXT_PUBLIC_API_URL}/projects`, {
+      fetch(`${env.NEXT_PUBLIC_API_URL}/projects?isPublished=true`, {
         next: { tags: ["project"] },
         cache: "no-store",
       }),
@@ -16,7 +16,8 @@ async function getProjectsAndCategories() {
     ]);
 
     const projects = projRes.ok ? (await projRes.json()).data || [] : [];
-    const categories = catRes.ok ? (await catRes.json()).data || [] : [];
+    const allCategories = catRes.ok ? (await catRes.json()).data || [] : [];
+    const categories = allCategories.filter((c: { isPublished: boolean }) => c.isPublished);
 
     return { projects, categories };
   } catch {
