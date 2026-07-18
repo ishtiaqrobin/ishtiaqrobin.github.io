@@ -65,6 +65,11 @@ export const adminRoutes: Route[] = [
         icon: Briefcase,
       },
       {
+        title: "Awards",
+        url: "/admin-dashboard/awards",
+        icon: Landmark,
+      },
+      {
         title: "Users",
         url: "/admin-dashboard/users",
         icon: Users,

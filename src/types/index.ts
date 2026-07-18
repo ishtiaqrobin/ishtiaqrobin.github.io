@@ -7,4 +7,5 @@ export type * from "./contact.type";
 export type * from "./review.type";
 export type * from "./setting.type";
 export type * from "./analytics.type";
+export type * from "./awards.type";
 // export type * from "./blog.type";
