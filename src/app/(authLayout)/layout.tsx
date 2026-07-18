@@ -2,6 +2,7 @@ import Footer from "@/components/layout/Footer";
 import { AuthNavbar } from "@/components/layout/AuthNavbar";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import React from "react";
+import MobileBottomBar from "@/components/layout/MobileBottomBar";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -12,7 +13,10 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
       </div>
 
       {/* Main content */}
-      <main className="flex-1">{children}</main>
+      <main className="flex-1">
+        {children}
+        <MobileBottomBar />
+      </main>
 
       {/* Footer */}
       <Footer />

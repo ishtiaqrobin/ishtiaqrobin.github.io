@@ -4,6 +4,7 @@ import { CustomCursor } from "@/components/common/CustomCursor";
 import React from "react";
 import Footer from "@/components/layout/Footer";
 import { MobileNav } from "@/components/layout/MobileNav";
+import MobileBottomBar from "@/components/layout/MobileBottomBar";
 
 const CommonLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -11,7 +12,10 @@ const CommonLayout = ({ children }: { children: React.ReactNode }) => {
       {/* <CustomCursor /> */}
       <Navbar />
       <MobileNav />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1">
+        {children}
+        <MobileBottomBar />
+      </main>
       <Footer />
       {/* <ScrollToTop /> */}
     </div>

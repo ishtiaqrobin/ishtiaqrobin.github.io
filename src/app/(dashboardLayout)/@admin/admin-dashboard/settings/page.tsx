@@ -48,7 +48,7 @@ export default function AdminSettingsPage() {
         </div>
         <Button
           variant="outline"
-          size="sm"
+          // size="sm"
           onClick={fetchAll}
           disabled={isLoading}
           className="cursor-pointer"

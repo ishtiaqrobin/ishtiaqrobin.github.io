@@ -31,13 +31,3 @@ export interface IProject {
   createdAt: string;
   updatedAt: string;
 }
-
-// For fake projects cards (legacy)
-export interface Project {
-  id: string;
-  title: string;
-  categories: string[];
-  year: string;
-  image: string;
-  bgColor: string;
-}

@@ -1,12 +1,6 @@
 export interface ISettings {
   id: string;
 
-  // Site identity
-  siteTitle?: string;
-  tagline?: string;
-  logoUrl?: string;
-  faviconUrl?: string;
-
   // Social Links
   linkedinUrl?: string;
   githubUrl?: string;

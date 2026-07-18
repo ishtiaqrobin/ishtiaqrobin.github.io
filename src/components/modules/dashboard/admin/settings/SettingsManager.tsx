@@ -24,7 +24,6 @@ import {
   MapPin,
   Calendar,
   Briefcase,
-  Globe,
   Save,
   Search,
   LucideIcon,
@@ -84,10 +83,6 @@ export function SettingsManager({
     const str = (key: string) => (fd.get(key) as string) || undefined;
 
     const data: Partial<ISettings> = {
-      // Site identity
-      siteTitle: str("siteTitle"),
-      tagline: str("tagline"),
-
       // Social
       linkedinUrl: str("linkedinUrl"),
       githubUrl: str("githubUrl"),
@@ -156,39 +151,6 @@ export function SettingsManager({
 
       <CardContent>
         <form onSubmit={handleSave} className="space-y-8">
-          {/* ── Site Identity ─────────────────────────────────────── */}
-          <div>
-            <SectionHeading>Site Identity</SectionHeading>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <FieldLabel htmlFor="siteTitle" icon={Globe}>
-                  Site Title
-                </FieldLabel>
-                <Input
-                  id="siteTitle"
-                  name="siteTitle"
-                  defaultValue={settings?.siteTitle || ""}
-                  placeholder="John Doe — Portfolio"
-                  className="rounded-xl h-10"
-                />
-              </div>
-              <div className="space-y-1.5">
-                <FieldLabel htmlFor="tagline" icon={Globe}>
-                  Tagline
-                </FieldLabel>
-                <Input
-                  id="tagline"
-                  name="tagline"
-                  defaultValue={settings?.tagline || ""}
-                  placeholder="Full-Stack Developer & Designer"
-                  className="rounded-xl h-10"
-                />
-              </div>
-            </div>
-          </div>
-
-          <Separator />
-
           {/* ── Social Links ──────────────────────────────────────── */}
           <div>
             <SectionHeading>Social Links</SectionHeading>
@@ -382,7 +344,7 @@ export function SettingsManager({
             <Button
               type="submit"
               disabled={loading}
-              className="cursor-pointer min-w-[160px]"
+              className="cursor-pointer min-w-40"
             >
               {loading ? (
                 <>
