@@ -51,6 +51,4 @@ export interface PageViewStat {
   totalViews: number;
 }
 
-export interface ResumeDownloadCount {
-  resumeDownloadCount: number;
-}
+

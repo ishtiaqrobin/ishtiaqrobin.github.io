@@ -15,7 +15,6 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Eye,
-  Download,
   TrendingUp,
   Globe,
   FileText,
@@ -27,14 +26,11 @@ import { cn } from "@/lib/utils";
 import type {
   PageView,
   PageViewStat,
-  ResumeDownloadLog,
 } from "@/types/analytics.type";
 
 interface AnalyticsManagerProps {
   pageViews: PageView[];
   pageViewStats: PageViewStat[];
-  resumeDownloads: ResumeDownloadLog[];
-  resumeDownloadCount: number;
   isLoading?: boolean;
 }
 
@@ -73,12 +69,10 @@ type Kpi = {
 function HeroCards({
   totalViews,
   uniquePages,
-  resumeDownloads,
   uniqueVisitors,
 }: {
   totalViews: number;
   uniquePages: number;
-  resumeDownloads: number;
   uniqueVisitors: number;
 }) {
   const kpis: Kpi[] = [
@@ -103,17 +97,6 @@ function HeroCards({
       ring: "ring-purple-500/20",
       gradient: "from-purple-500 to-fuchsia-500",
       glow: "shadow-purple-500/20",
-    },
-    {
-      title: "Resume Downloads",
-      value: resumeDownloads,
-      description: "Tracked via About singleton",
-      icon: Download,
-      text: "text-emerald-600 dark:text-emerald-400",
-      soft: "bg-emerald-500/10",
-      ring: "ring-emerald-500/20",
-      gradient: "from-emerald-500 to-teal-500",
-      glow: "shadow-emerald-500/20",
     },
     {
       title: "Unique Visitors",
@@ -330,57 +313,11 @@ function PageViewsTable({ rows }: { rows: PageView[] }) {
   );
 }
 
-function ResumeDownloadsTable({ rows }: { rows: ResumeDownloadLog[] }) {
-  if (rows.length === 0) {
-    return <EmptyState icon={Download} label="No resume downloads yet" />;
-  }
-  return (
-    <div className="rounded-lg border p-2">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Country</TableHead>
-            <TableHead>IP</TableHead>
-            <TableHead>User Agent</TableHead>
-            <TableHead className="text-right">When</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {rows.slice(0, 200).map((r) => (
-            <TableRow key={r.id}>
-              <TableCell>{r.country ?? "—"}</TableCell>
-              <TableCell className="font-mono text-xs">
-                {r.ipAddress ?? "—"}
-              </TableCell>
-              <TableCell
-                className="max-w-90 truncate text-xs"
-                title={r.userAgent ?? ""}
-              >
-                {truncate(r.userAgent, 64)}
-              </TableCell>
-              <TableCell className="whitespace-nowrap text-right text-xs text-muted-foreground">
-                {formatDate(r.createdAt)}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      {rows.length > 200 && (
-        <p className="border-t px-4 py-2 text-center text-xs text-muted-foreground">
-          Showing first 200 of {numberFmt.format(rows.length)} rows
-        </p>
-      )}
-    </div>
-  );
-}
-
 // ─── Main component ────────────────────────────────────────────────
 
 export function AnalyticsManager({
   pageViews,
   pageViewStats,
-  resumeDownloads,
-  resumeDownloadCount,
   isLoading,
 }: AnalyticsManagerProps) {
   const totals = useMemo(() => {
@@ -394,8 +331,8 @@ export function AnalyticsManager({
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {Array.from({ length: 4 }).map((_, i) => (
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 3 }).map((_, i) => (
           <Card key={i} className="h-32 animate-pulse border-border/60">
             <CardContent className="p-6">
               <div className="h-3 w-24 rounded bg-muted" />
@@ -413,7 +350,6 @@ export function AnalyticsManager({
       <HeroCards
         totalViews={totals.totalViews}
         uniquePages={totals.uniquePages}
-        resumeDownloads={resumeDownloadCount}
         uniqueVisitors={totals.uniqueVisitors}
       />
 
@@ -426,10 +362,6 @@ export function AnalyticsManager({
           <TabsTrigger value="views" className="gap-2">
             <Activity className="h-4 w-4" />
             Page Views ({numberFmt.format(pageViews.length)})
-          </TabsTrigger>
-          <TabsTrigger value="resume" className="gap-2">
-            <Download className="h-4 w-4" />
-            Resume Downloads ({numberFmt.format(resumeDownloads.length)})
           </TabsTrigger>
         </TabsList>
 
@@ -458,14 +390,6 @@ export function AnalyticsManager({
           <Card>
             <CardContent className="p-6">
               <PageViewsTable rows={pageViews} />
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="resume">
-          <Card>
-            <CardContent className="p-6">
-              <ResumeDownloadsTable rows={resumeDownloads} />
             </CardContent>
           </Card>
         </TabsContent>

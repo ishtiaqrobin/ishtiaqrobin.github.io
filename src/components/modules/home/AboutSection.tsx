@@ -106,8 +106,8 @@ export function AboutSection() {
 
             {/* Resume Button */}
             <div>
-              <Link href={resumeUrl} target="_blank" download>
-                <HoverButton onClick={() => ""}>My Resume</HoverButton>
+              <Link href={resumeUrl} target="_blank" rel="noopener noreferrer">
+                <HoverButton>My Resume</HoverButton>
               </Link>
             </div>
           </motion.div>

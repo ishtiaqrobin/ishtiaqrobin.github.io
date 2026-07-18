@@ -2,10 +2,8 @@ import { env } from "@/env";
 import type {
   AnalyticsQueryInput,
   CreatePageViewInput,
-  CreateResumeDownloadLogInput,
   PageView,
   PageViewStat,
-  ResumeDownloadCount,
   ResumeDownloadLog,
 } from "@/types/analytics.type";
 
@@ -121,35 +119,6 @@ export const analyticsService = {
   // ─── Resume Downloads ───────────────────────────────────────────
 
   /**
-   * Track a resume download (public). Called when a visitor downloads the resume.
-   * POST /analytics/resume-downloads
-   */
-  trackResumeDownload: async function (
-    payload: CreateResumeDownloadLogInput = {},
-  ): Promise<Result<ResumeDownloadLog>> {
-    try {
-      const res = await fetch(`${API_URL}/analytics/resume-downloads`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        keepalive: true,
-      });
-
-      const json = await res.json();
-      if (!res.ok) {
-        throw new Error(json.message || `HTTP ${res.status}`);
-      }
-      return { data: json.data, error: null };
-    } catch (err) {
-      console.error("Error tracking resume download:", err);
-      return {
-        data: null,
-        error: toError(err, "Error tracking resume download"),
-      };
-    }
-  },
-
-  /**
    * Get all resume download logs (admin only).
    * GET /analytics/resume-downloads
    */
@@ -177,31 +146,4 @@ export const analyticsService = {
     }
   },
 
-  /**
-   * Get resume download count from About singleton (admin only).
-   * GET /analytics/resume-downloads/count
-   */
-  getResumeDownloadCount: async function (
-    token: string,
-  ): Promise<Result<ResumeDownloadCount>> {
-    try {
-      const res = await fetch(`${API_URL}/analytics/resume-downloads/count`, {
-        headers: { Authorization: `Bearer ${token}` },
-        credentials: "include",
-        cache: "no-store",
-      });
-
-      const json = await res.json();
-      if (!res.ok) {
-        throw new Error(json.message || `HTTP ${res.status}`);
-      }
-      return { data: json.data, error: null };
-    } catch (err) {
-      console.error("Error fetching resume download count:", err);
-      return {
-        data: null,
-        error: toError(err, "Error fetching resume download count"),
-      };
-    }
-  },
 };
