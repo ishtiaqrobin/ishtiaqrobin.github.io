@@ -219,7 +219,7 @@ export function Chatbot() {
                     )}
                   >
                     {msg.role === "user" ? (
-                      <User className="h-3 w-3" />
+                      <User className="h-3 w-3 text-primary-foreground dark:text-dark-300" />
                     ) : (
                       // <Bot className="h-3 w-3 text-primary" />
                       <svg
@@ -241,7 +241,7 @@ export function Chatbot() {
                     className={cn(
                       "max-w-[78%] px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed",
                       msg.role === "user"
-                        ? "bg-primary text-primary-foreground rounded-br-sm"
+                        ? "bg-primary text-primary-foreground dark:text-dark-300 rounded-br-sm"
                         : "bg-zinc-200/50 dark:bg-zinc-800/50 text-foreground rounded-bl-sm",
                     )}
                   >
@@ -302,9 +302,9 @@ export function Chatbot() {
                   disabled={!input.trim() || isLoading}
                 >
                   {isLoading ? (
-                    <MdCheckBoxOutlineBlank className="h-4 w-4" />
+                    <MdCheckBoxOutlineBlank className="h-4 w-4 text-primary-foreground dark:text-dark-300" />
                   ) : (
-                    <IoArrowUpOutline className="h-4 w-4" />
+                    <IoArrowUpOutline className="h-4 w-4 text-primary-foreground dark:text-dark-300" />
                   )}
                 </Button>
               </div>
