@@ -1,6 +1,14 @@
 import React from "react";
 import { Separator } from "@/components/ui/separator";
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
   Cookie,
   Settings,
   Info,
@@ -121,10 +129,11 @@ const CookiePolicyPage = () => {
                     2. Why Do We Use Cookies?
                   </h2>
                   <p className="mb-6 text-muted-foreground">
-                    We use cookies for several reasons. Some cookies are
-                    required for technical reasons for our Website to operate,
-                    and we refer to these as &quot;essential&quot; or
-                    &quot;strictly necessary&quot; cookies.
+                    We use only essential and analytical cookies. Some cookies
+                    are required for technical reasons for our Website to
+                    operate, and we refer to these as &quot;essential&quot; or
+                    &quot;strictly necessary&quot; cookies. We do not use
+                    marketing or advertising cookies.
                   </p>
 
                   <div className="grid gap-6 sm:grid-cols-2">
@@ -133,9 +142,10 @@ const CookiePolicyPage = () => {
                         Essential Cookies
                       </h3>
                       <p className="text-sm text-muted-foreground">
-                        Required for core features like secure login, payment
-                        processing, and account management. The platform cannot
-                        function correctly without them.
+                        Required for core features like secure login, session
+                        management, and account security. The platform cannot
+                        function correctly without them. No consent is needed
+                        for these cookies.
                       </p>
                     </div>
                     <div className="rounded-2xl border border-border p-5 hover:border-primary/20 transition-colors">
@@ -144,28 +154,8 @@ const CookiePolicyPage = () => {
                       </h3>
                       <p className="text-sm text-muted-foreground">
                         Help us understand how users interact with our platform
-                        by collecting information anonymously. This allows us to
-                        improve the site layout and features.
-                      </p>
-                    </div>
-                    <div className="rounded-2xl border border-border p-5 hover:border-primary/20 transition-colors">
-                      <h3 className="mb-2 font-bold text-foreground">
-                        Functional Cookies
-                      </h3>
-                      <p className="text-sm text-muted-foreground">
-                        Used to remember your preferences, such as language
-                        settings or theme choices, providing a more personalized
-                        experience.
-                      </p>
-                    </div>
-                    <div className="rounded-2xl border border-border p-5 hover:border-primary/20 transition-colors">
-                      <h3 className="mb-2 font-bold text-foreground">
-                        Marketing Cookies
-                      </h3>
-                      <p className="text-sm text-muted-foreground">
-                        Used to track visitors across websites. The intention is
-                        to display ads that are relevant and engaging for the
-                        individual user.
+                        by collecting anonymous usage data. This allows us to
+                        improve site performance and user experience.
                       </p>
                     </div>
                   </div>
@@ -181,46 +171,49 @@ const CookiePolicyPage = () => {
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors">
                   <MousePointer2 className="h-5 w-5" />
                 </div>
-                <div className="w-full">
+                <div className="w-full min-w-0">
                   <h2 className="mb-4 text-2xl font-clash text-foreground">
                     3. Specific Cookies We Use
                   </h2>
-                  <div className="overflow-hidden rounded-2xl border border-border">
-                    <table className="w-full text-left text-sm">
-                      <thead className="bg-muted text-foreground">
-                        <tr>
-                          <th className="px-4 py-3 font-semibold">
-                            Cookie Name
-                          </th>
-                          <th className="px-4 py-3 font-semibold">Provider</th>
-                          <th className="px-4 py-3 font-semibold">Duration</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-border text-muted-foreground">
-                        <tr>
-                          <td className="px-4 py-3 font-medium text-foreground">
-                            portfolio-session
-                          </td>
-                          <td className="px-4 py-3">Ishtiaq Robin</td>
-                          <td className="px-4 py-3">Session</td>
-                        </tr>
-                        <tr>
-                          <td className="px-4 py-3 font-medium text-foreground">
-                            __stripe_mid
-                          </td>
-                          <td className="px-4 py-3">Stripe (Payment)</td>
-                          <td className="px-4 py-3">1 Year</td>
-                        </tr>
-                        <tr>
-                          <td className="px-4 py-3 font-medium text-foreground">
-                            _ga
-                          </td>
-                          <td className="px-4 py-3">Google Analytics</td>
-                          <td className="px-4 py-3">2 Years</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                  <div className="rounded-xl border bg-card">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Cookie Name</TableHead>
+                          <TableHead>Provider</TableHead>
+                          <TableHead>Purpose</TableHead>
+                          <TableHead>Duration</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell className="font-medium">
+                            better-auth.session_token
+                          </TableCell>
+                          <TableCell>Ishtiaq Robin</TableCell>
+                          <TableCell>
+                            Authentication session management
+                          </TableCell>
+                          <TableCell>Session</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">
+                            _vercel_analytics_*
+                          </TableCell>
+                          <TableCell>Vercel Analytics</TableCell>
+                          <TableCell>
+                            Anonymous page view and usage analytics
+                          </TableCell>
+                          <TableCell>Session</TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
                   </div>
+                  <p className="mt-4 text-sm text-muted-foreground">
+                    We do not use marketing, advertising, or third-party
+                    tracking cookies. No personal data is sold or shared with
+                    advertisers.
+                  </p>
                 </div>
               </div>
             </div>
@@ -240,7 +233,8 @@ const CookiePolicyPage = () => {
                   <p className="mb-6 leading-relaxed text-muted-foreground">
                     Most web browsers allow you to control cookies through their
                     settings. However, if you limit the ability of websites to
-                    set cookies, you may worsen your overall user experience.
+                    set essential cookies, some features of our platform may not
+                    function properly.
                   </p>
                   <div className="grid gap-3 sm:grid-cols-2">
                     {[
@@ -281,7 +275,7 @@ const CookiePolicyPage = () => {
 
             <Separator className="opacity-50" />
 
-            {/* 5. Help */}
+            {/* 5. Contact */}
             <div className="rounded-3xl bg-linear-to-br from-primary/10 to-primary/5 p-8 text-center border border-primary/10">
               <HelpCircle className="mx-auto mb-4 h-10 w-10 text-primary" />
               <h2 className="mb-2 text-2xl font-clash text-foreground">
