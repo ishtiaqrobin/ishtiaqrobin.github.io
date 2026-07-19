@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://ishtiaqrobin.com/cookie-policy",
+    url: "https://ishtiaqrobin.vercel.app/cookie-policy",
     title: "Cookie Policy — Ishtiaq Robin",
     description:
       "Learn how Ishtiaq Robin uses cookies and similar technologies to improve your experience on our portfolio.",

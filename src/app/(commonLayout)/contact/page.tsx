@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://ishtiaqrobin.com/contact",
+    url: "https://ishtiaqrobin.vercel.app/contact",
     title: "Contact Me — Ishtiaq Robin",
     description:
       "Get in touch with Ishtiaq Robin — an AI-Driven Software Engineer. I'd love to hear about your project or idea.",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: "https://ishtiaqrobin.com/contact",
+    canonical: "https://ishtiaqrobin.vercel.app/contact",
   },
 };
 

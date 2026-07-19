@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://ishtiaqrobin.com/privacy-policy",
+    url: "https://ishtiaqrobin.vercel.app/privacy-policy",
     title: "Privacy Policy — Ishtiaq Robin",
     description:
       "Privacy policy for Ishtiaq Robin's portfolio, detailing how we protect and manage your data.",

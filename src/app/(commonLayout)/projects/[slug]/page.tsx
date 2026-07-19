@@ -115,7 +115,7 @@ export async function generateMetadata({
     openGraph: {
       type: "article",
       locale: "en_US",
-      url: `https://ishtiaqrobin.com/projects/${slug}`,
+      url: `https://ishtiaqrobin.vercel.app/projects/${slug}`,
       title,
       description,
       siteName: "Ishtiaq Robin Portfolio",
@@ -158,7 +158,7 @@ export async function generateMetadata({
       },
     },
     alternates: {
-      canonical: `https://ishtiaqrobin.com/projects/${slug}`,
+      canonical: `https://ishtiaqrobin.vercel.app/projects/${slug}`,
     },
   };
 }

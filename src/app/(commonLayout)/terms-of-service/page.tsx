@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://ishtiaqrobin.com/terms-of-service",
+    url: "https://ishtiaqrobin.vercel.app/terms-of-service",
     title: "Terms of Service — Ishtiaq Robin",
     description:
       "Comprehensive terms and conditions for using Ishtiaq Robin's software engineering services.",

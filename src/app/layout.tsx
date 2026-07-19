@@ -48,6 +48,10 @@ const ClashDisplay = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://ishtiaqrobin.vercel.app"),
+  verification: {
+    google: "JoRoerhjgvMvBmow_qIN0ZjJci5dsPRaAkv-sWoKbA0",
+  },
   title: {
     default: "Ishtiaq Robin — AI-Driven Software Engineer | AI Automation",
     template: "%s — Ishtiaq Robin",
@@ -71,7 +75,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://ishtiaqrobin.com",
+    url: "https://ishtiaqrobin.vercel.app",
     title: "Ishtiaq Robin — AI-Driven Software Engineer | AI Automation",
     description:
       "Explore the portfolio of Ishtiaq Robin — an AI-Driven Software Engineer building intelligent, high-impact digital solutions.",
@@ -112,7 +116,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+      <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta
+          name="msvalidate.01"
+          content="C69ABF4F360DC1D3AEB1BA928A599428"
+        />
+      </head>
       <body
         className={`${Satoshi.variable} ${ClashDisplay.variable} antialiased relative min-h-screen`}
       >

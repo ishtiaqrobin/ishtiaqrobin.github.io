@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://ishtiaqrobin.com",
+    url: "https://ishtiaqrobin.vercel.app",
     title: "Ishtiaq Robin — AI-Driven Software Engineer | AI Automation",
     description:
       "Welcome to the portfolio of Ishtiaq Robin — an AI-Driven Software Engineer crafting intelligent, high-impact digital solutions.",

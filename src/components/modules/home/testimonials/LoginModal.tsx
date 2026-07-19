@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { X, LogIn } from "lucide-react";
+import { X } from "lucide-react";
 import { GoogleAuthButton } from "@/components/modules/auth/GoogleAuthButton";
 
 interface LoginModalProps {
