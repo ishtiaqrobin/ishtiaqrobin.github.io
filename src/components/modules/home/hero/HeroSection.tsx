@@ -31,7 +31,7 @@ export default function HeroSection() {
   return (
     <section
       ref={ref}
-      className="pt-32 sm:pt-44 pb-16 sm:pb-24 bg-[#f9f9f9] dark:bg-transparent overflow-hidden select-none relative"
+      className="pt-32 sm:pt-44 pb-16 sm:pb-24 bg-[#f9f9f9] dark:bg-transparent overflow-hidden relative"
     >
       {/* Decorative Background Color */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -43,7 +43,7 @@ export default function HeroSection() {
         {/* Top Part: Greeting and Main Title */}
         <div className="flex flex-col items-start w-full">
           {/* Small greeting */}
-          <div className="inline-flex items-center gap-1 mb-8 select-none">
+          <div className="inline-flex items-center gap-1 mb-8 ">
             <span className="text-2xl text-primary animate-wave-tilted inline-block">
               <HiOutlineHand />
             </span>

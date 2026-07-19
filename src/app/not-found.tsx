@@ -1,13 +1,21 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Home, MessageCircle } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "404 — Page Not Found",
+  description:
+    "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
+  robots: { index: false, follow: false },
+};
 
 export default function NotFound() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 text-center">
       <div className="relative mb-8 flex items-center justify-center">
         <div className="absolute -inset-4 animate-pulse rounded-full bg-primary/10 blur-3xl" />
-        <h1 className="relative text-9xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-linear-to-r from-primary-500 via-violet-500 to-primary-500">
+        <h1 className="relative text-9xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-linear-to-r from-primary-500 to-primary-600">
           404
         </h1>
       </div>

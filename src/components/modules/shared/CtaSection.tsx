@@ -7,7 +7,7 @@ import SocialIcons from "./SocialIcons";
 
 export default function CtaSection() {
   return (
-    <div className="container-custom pt-16 sm:pt-22 select-none">
+    <div className="container-custom pt-16 sm:pt-22 ">
       <div className="bg-white dark:bg-[#111116] border border-zinc-100 dark:border-zinc-800/50 rounded-3xl py-16 sm:py-14 flex flex-col items-center justify-center text-center shadow-xs">
         {/* ─── AVAILABLE FOR WORK BADGE ─── */}
         <div className="inline-flex items-center gap-1.5 px-3.5 py-[7.5px] bg-[#F7FFF0] dark:bg-[#21291F] border border-emerald-100/50 dark:border-emerald-900/20 rounded-full mb-3.5">

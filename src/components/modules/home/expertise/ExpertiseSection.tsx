@@ -65,7 +65,7 @@ export default function ExpertiseSection() {
   };
 
   return (
-    <section className="container-custom py-16 sm:py-24 select-none">
+    <section className="container-custom py-16 sm:py-24 ">
       {/* ─── Top Layer ─── */}
       <div className="mb-8">
         <ShimmerText className="mb-3.5">Speciality</ShimmerText>

@@ -1,25 +1,64 @@
-"use client";
+import type { Metadata } from "next";
+import HomeContent from "./HomeContent";
 
-import CtaSection from "@/components/modules/shared/CtaSection";
-import HeroSection from "@/components/modules/home/hero/HeroSection";
-import TextMarquee from "@/components/modules/shared/TextMarquee";
-import Testimonials from "@/components/modules/home/testimonials/Testimonials";
-import ScrollRevealText from "@/components/modules/shared/ScrollRevealText";
-import ExpertiseSection from "@/components/modules/home/expertise/ExpertiseSection";
-import SelectedProjects from "@/components/modules/home/selected_projects/SelectedProjects";
+export const metadata: Metadata = {
+  title: "Ishtiaq Robin — AI-Driven Software Engineer | AI Automation",
+  description:
+    "Welcome to the portfolio of Ishtiaq Robin — an AI-Driven Software Engineer specializing in modern web technologies, AI automation, and scalable full-stack solutions.",
+  keywords: [
+    "Ishtiaq Robin",
+    "AI-Driven Software Engineer",
+    "AI Automation",
+    "Full Stack Developer",
+    "MERN Stack",
+    "PERN Stack",
+    "Next.js Developer",
+    "React Developer",
+    "Frontend Engineer",
+    "Backend Engineer",
+    "Problem Solver",
+  ],
+  authors: [{ name: "Ishtiaq Robin" }],
+  creator: "Ishtiaq Robin",
+  publisher: "Ishtiaq Robin",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://ishtiaqrobin.com",
+    title: "Ishtiaq Robin — AI-Driven Software Engineer | AI Automation",
+    description:
+      "Welcome to the portfolio of Ishtiaq Robin — an AI-Driven Software Engineer crafting intelligent, high-impact digital solutions.",
+    siteName: "Ishtiaq Robin Portfolio",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Ishtiaq Robin — AI-Driven Software Engineer Portfolio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ishtiaq Robin — AI-Driven Software Engineer | AI Automation",
+    description:
+      "Welcome to the portfolio of Ishtiaq Robin — an AI-Driven Software Engineer crafting intelligent, high-impact digital solutions.",
+    images: ["/twitter-image.jpg"],
+    creator: "@ishtiaq_robin",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+};
 
 export default function Home() {
-  return (
-    <div className="min-h-screen">
-      <HeroSection />
-      <TextMarquee />
-
-      <ScrollRevealText text="I'm Ishtiaq Robin, with over 3+ years of experience in design & development with strong focus on producing high quality & impactful digital experiences. I have worked with some of the most innovative industry leaders to help build their top-notch products." />
-
-      <SelectedProjects />
-      <ExpertiseSection />
-      <Testimonials />
-      <CtaSection />
-    </div>
-  );
+  return <HomeContent />;
 }

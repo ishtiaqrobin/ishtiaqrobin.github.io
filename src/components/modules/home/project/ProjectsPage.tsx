@@ -35,7 +35,7 @@ export default function ProjectsPage({
   });
 
   return (
-    <section className="container-custom pt-28 sm:pt-40 pb-12 sm:pb-16 transition-colors duration-300 select-none min-h-screen">
+    <section className="container-custom pt-28 sm:pt-40 pb-12 sm:pb-16 transition-colors duration-300  min-h-screen">
       <div className="mb-8 max-w-2xl">
         <ShimmerText className="mb-3.5">My Work</ShimmerText>
         <h2 className="text-4xl lg:text-5xl text-secondary font-clash font-medium tracking-tight">

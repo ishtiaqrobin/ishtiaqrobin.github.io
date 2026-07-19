@@ -52,9 +52,9 @@ export function MobileNav() {
             <div
               className={`
               ${scrolled ? "flex items-center" : "hidden"}
-               gap-1.5 border px-2 py-1 rounded-full bg-accent dark:bg-white/5 text-gray-900 dark:text-white duration-700 transition-all shrink-0`}
+               gap-1.5 border px-2.5 py-1 rounded-full bg-accent dark:bg-white/5 text-gray-900 dark:text-white duration-700 transition-all shrink-0`}
             >
-              <PiCalendarCheckFill className="text-2xl" />
+              {/* <PiCalendarCheckFill className="text-2xl" /> */}
               <span>Book a call</span>
             </div>
           </Link>

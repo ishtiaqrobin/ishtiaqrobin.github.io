@@ -5,20 +5,11 @@ import {
   Calendar,
   FolderKanban,
   UserCog,
-  TrendingUp,
   Landmark,
-  Settings,
-  Image,
-  GraduationCap,
   Briefcase,
-  Wrench,
-  Video,
   MessageSquare,
-  Cpu,
-  ChartColumn,
+  ChartBarIcon,
 } from "lucide-react";
-
-import { IoIosStats } from "react-icons/io";
 
 export const adminRoutes: Route[] = [
   {
@@ -45,6 +36,11 @@ export const adminRoutes: Route[] = [
         icon: Calendar,
       },
       {
+        title: "Category",
+        url: "/admin-dashboard/categories",
+        icon: ChartBarIcon,
+      },
+      {
         title: "Projects",
         url: "/admin-dashboard/projects",
         icon: FolderKanban,
@@ -53,11 +49,6 @@ export const adminRoutes: Route[] = [
         title: "Reviews",
         url: "/admin-dashboard/reviews",
         icon: MessageSquare,
-      },
-      {
-        title: "Category",
-        url: "/admin-dashboard/categories",
-        icon: FolderKanban,
       },
       {
         title: "Experience",

@@ -10,10 +10,42 @@ import {
   HelpCircle,
 } from "lucide-react";
 
-export const metadata = {
-  title: "Cookie Policy | Ishtiaq Robin",
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Cookie Policy",
   description:
     "Learn how Ishtiaq Robin uses cookies and similar technologies to improve your experience on our portfolio.",
+  keywords: [
+    "Ishtiaq Robin",
+    "Cookie Policy",
+    "Cookie Usage",
+    "AI-Driven Software Engineer",
+  ],
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://ishtiaqrobin.com/cookie-policy",
+    title: "Cookie Policy — Ishtiaq Robin",
+    description:
+      "Learn how Ishtiaq Robin uses cookies and similar technologies to improve your experience on our portfolio.",
+    siteName: "Ishtiaq Robin Portfolio",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Cookie Policy — Ishtiaq Robin",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cookie Policy — Ishtiaq Robin",
+    description:
+      "Learn how Ishtiaq Robin uses cookies and similar technologies to improve your experience on our portfolio.",
+    images: ["/twitter-image.jpg"],
+  },
 };
 
 const CookiePolicyPage = () => {
@@ -32,7 +64,7 @@ const CookiePolicyPage = () => {
           <div className="mb-6 inline-flex items-center justify-center rounded-full bg-primary/10 p-3 text-primary">
             <Cookie className="h-8 w-8" />
           </div>
-          <h1 className="mb-6 text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+          <h1 className="mb-6 text-4xl font-clash tracking-tight text-foreground sm:text-5xl lg:text-6xl">
             Cookie Policy
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground sm:text-xl">
@@ -52,11 +84,11 @@ const CookiePolicyPage = () => {
             {/* 1. What are Cookies */}
             <div className="group relative">
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors">
                   <Info className="h-5 w-5" />
                 </div>
                 <div>
-                  <h2 className="mb-4 text-2xl font-bold text-foreground">
+                  <h2 className="mb-4 text-2xl font-clash text-foreground">
                     1. What Are Cookies?
                   </h2>
                   <p className="leading-relaxed text-muted-foreground">
@@ -81,11 +113,11 @@ const CookiePolicyPage = () => {
             {/* 2. Why we use them */}
             <div className="group relative">
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors">
                   <ShieldCheck className="h-5 w-5" />
                 </div>
                 <div>
-                  <h2 className="mb-4 text-2xl font-bold text-foreground">
+                  <h2 className="mb-4 text-2xl font-clash text-foreground">
                     2. Why Do We Use Cookies?
                   </h2>
                   <p className="mb-6 text-muted-foreground">
@@ -146,11 +178,11 @@ const CookiePolicyPage = () => {
             {/* 3. Detailed Cookie List */}
             <div className="group relative">
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors">
                   <MousePointer2 className="h-5 w-5" />
                 </div>
                 <div className="w-full">
-                  <h2 className="mb-4 text-2xl font-bold text-foreground">
+                  <h2 className="mb-4 text-2xl font-clash text-foreground">
                     3. Specific Cookies We Use
                   </h2>
                   <div className="overflow-hidden rounded-2xl border border-border">
@@ -198,11 +230,11 @@ const CookiePolicyPage = () => {
             {/* 4. How to control cookies */}
             <div className="group relative">
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors">
                   <Settings className="h-5 w-5" />
                 </div>
                 <div>
-                  <h2 className="mb-4 text-2xl font-bold text-foreground">
+                  <h2 className="mb-4 text-2xl font-clash text-foreground">
                     4. How to Manage Cookies?
                   </h2>
                   <p className="mb-6 leading-relaxed text-muted-foreground">
@@ -250,9 +282,9 @@ const CookiePolicyPage = () => {
             <Separator className="opacity-50" />
 
             {/* 5. Help */}
-            <div className="rounded-3xl bg-gradient-to-br from-primary/10 to-primary/5 p-8 text-center border border-primary/10">
+            <div className="rounded-3xl bg-linear-to-br from-primary/10 to-primary/5 p-8 text-center border border-primary/10">
               <HelpCircle className="mx-auto mb-4 h-10 w-10 text-primary" />
-              <h2 className="mb-2 text-2xl font-bold text-foreground">
+              <h2 className="mb-2 text-2xl font-clash text-foreground">
                 Need More Clarity?
               </h2>
               <p className="mb-6 text-muted-foreground">
@@ -260,7 +292,7 @@ const CookiePolicyPage = () => {
                 technologies, please email us.
               </p>
               <a
-                href="mailto:contact@ishtiaqrobin.me@gmail.com"
+                href="mailto:ishtiaqrobin.me@gmail.com"
                 className="inline-flex items-center justify-center rounded-full bg-primary px-8 py-3 text-sm font-bold text-primary-foreground hover:opacity-90 transition-opacity"
               >
                 Contact Support

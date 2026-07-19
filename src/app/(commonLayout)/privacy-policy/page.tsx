@@ -11,10 +11,42 @@ import {
   Globe,
 } from "lucide-react";
 
-export const metadata = {
-  title: "Privacy Policy | Ishtiaq Robin",
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
   description:
     "Privacy policy for Ishtiaq Robin's portfolio, detailing how we protect and manage your data.",
+  keywords: [
+    "Ishtiaq Robin",
+    "Privacy Policy",
+    "Data Protection",
+    "AI-Driven Software Engineer",
+  ],
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://ishtiaqrobin.com/privacy-policy",
+    title: "Privacy Policy — Ishtiaq Robin",
+    description:
+      "Privacy policy for Ishtiaq Robin's portfolio, detailing how we protect and manage your data.",
+    siteName: "Ishtiaq Robin Portfolio",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Privacy Policy — Ishtiaq Robin",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Privacy Policy — Ishtiaq Robin",
+    description:
+      "Privacy policy for Ishtiaq Robin's portfolio, detailing how we protect and manage your data.",
+    images: ["/twitter-image.jpg"],
+  },
 };
 
 const PrivacyPolicyPage = () => {
@@ -33,7 +65,7 @@ const PrivacyPolicyPage = () => {
           <div className="mb-6 inline-flex items-center justify-center rounded-full bg-primary/10 p-3 text-primary">
             <Shield className="h-8 w-8" />
           </div>
-          <h1 className="mb-6 text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+          <h1 className="mb-6 text-4xl font-clash tracking-tight text-foreground sm:text-5xl lg:text-6xl">
             Privacy Policy
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground sm:text-xl">
@@ -54,11 +86,11 @@ const PrivacyPolicyPage = () => {
             {/* 1. Overview */}
             <div className="group relative">
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors">
                   <Globe className="h-5 w-5" />
                 </div>
                 <div>
-                  <h2 className="mb-4 text-2xl font-bold text-foreground">
+                  <h2 className="mb-4 text-2xl font-clash text-foreground">
                     1. Introduction & Scope
                   </h2>
                   <p className="leading-relaxed text-muted-foreground">
@@ -79,11 +111,11 @@ const PrivacyPolicyPage = () => {
             {/* 2. Information Collection */}
             <div className="group relative">
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors">
                   <Eye className="h-5 w-5" />
                 </div>
                 <div>
-                  <h2 className="mb-4 text-2xl font-bold text-foreground">
+                  <h2 className="mb-4 text-2xl font-clash text-foreground">
                     2. Information We Collect
                   </h2>
                   <div className="space-y-6">
@@ -133,11 +165,11 @@ const PrivacyPolicyPage = () => {
             {/* 3. Use of Information */}
             <div className="group relative">
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors">
                   <UserCheck className="h-5 w-5" />
                 </div>
                 <div>
-                  <h2 className="mb-4 text-2xl font-bold text-foreground">
+                  <h2 className="mb-4 text-2xl font-clash text-foreground">
                     3. How We Use Your Data
                   </h2>
                   <p className="mb-4 text-muted-foreground">
@@ -171,11 +203,11 @@ const PrivacyPolicyPage = () => {
             {/* 4. Data Sharing */}
             <div className="group relative">
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors">
                   <Share2 className="h-5 w-5" />
                 </div>
                 <div>
-                  <h2 className="mb-4 text-2xl font-bold text-foreground">
+                  <h2 className="mb-4 text-2xl font-clash text-foreground">
                     4. Information Sharing
                   </h2>
                   <p className="leading-relaxed text-muted-foreground">
@@ -194,11 +226,11 @@ const PrivacyPolicyPage = () => {
             {/* 5. Data Security */}
             <div className="group relative">
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors">
                   <Lock className="h-5 w-5" />
                 </div>
                 <div>
-                  <h2 className="mb-4 text-2xl font-bold text-foreground">
+                  <h2 className="mb-4 text-2xl font-clash text-foreground">
                     5. Data Security & Retention
                   </h2>
                   <p className="mb-4 leading-relaxed text-muted-foreground">
@@ -229,11 +261,11 @@ const PrivacyPolicyPage = () => {
             {/* 6. Contact */}
             <div className="group relative">
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors">
                   <Mail className="h-5 w-5" />
                 </div>
                 <div>
-                  <h2 className="mb-4 text-2xl font-bold text-foreground">
+                  <h2 className="mb-4 text-2xl font-clash text-foreground">
                     6. Contact Our Privacy Team
                   </h2>
                   <p className="mb-6 leading-relaxed text-muted-foreground">
@@ -242,7 +274,7 @@ const PrivacyPolicyPage = () => {
                     deletion), please reach out to us:
                   </p>
                   <div className="grid gap-4 sm:grid-cols-2">
-                    <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-primary/5 to-transparent p-6">
+                    <div className="rounded-2xl border border-primary/10 bg-linear-to-br from-primary/5 to-transparent p-6">
                       <p className="text-xs uppercase tracking-wider text-muted-foreground">
                         Email Support
                       </p>
@@ -250,7 +282,7 @@ const PrivacyPolicyPage = () => {
                         ishtiaqrobin.me@gmail.com
                       </p>
                     </div>
-                    <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-primary/5 to-transparent p-6">
+                    <div className="rounded-2xl border border-primary/10 bg-linear-to-br from-primary/5 to-transparent p-6">
                       <p className="text-xs uppercase tracking-wider text-muted-foreground">
                         Location
                       </p>

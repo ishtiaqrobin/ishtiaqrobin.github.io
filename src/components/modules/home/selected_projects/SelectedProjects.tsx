@@ -21,7 +21,7 @@ export default function SelectedProjects() {
   }, []);
 
   return (
-    <section className="container-custom pt-10 sm:pt-24 pb-16 sm:pb-24 transition-colors duration-300 select-none min-h-screen">
+    <section className="container-custom pt-10 sm:pt-24 pb-16 sm:pb-24 transition-colors duration-300  min-h-screen">
       {/* ─── Header ─── */}
       <div className="max-w-2xl">
         <ShimmerText className="mb-3.5">My Work</ShimmerText>

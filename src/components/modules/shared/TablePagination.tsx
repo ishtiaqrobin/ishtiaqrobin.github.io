@@ -72,7 +72,7 @@ export default function TablePagination({
                     p === "..." ? (
                         <span
                             key={`ellipsis-${idx}`}
-                            className="px-3 py-1.5 text-gray-500 select-none"
+                            className="px-3 py-1.5 text-gray-500 "
                         >
                             …
                         </span>

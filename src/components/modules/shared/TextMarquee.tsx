@@ -17,7 +17,7 @@ export default function TextMarquee() {
   const doubledTexts = [...MARQUEE_TEXTS, ...MARQUEE_TEXTS, ...MARQUEE_TEXTS];
 
   return (
-    <div className="w-full py-8 bg-[#f9f9f9] dark:bg-zinc-950 overflow-hidden select-none border border-zinc-200 dark:border-zinc-900">
+    <div className="w-full py-8 bg-[#f9f9f9] dark:bg-zinc-950 overflow-hidden  border border-zinc-200 dark:border-zinc-900">
       {/* ─── FADE OVERLAY MASK ─── */}
       <div className="relative w-full flex overflow-hidden mask-[linear-gradient(to_right,transparent,white_15%,white_85%,transparent)]">
         {/* Animation container (moves from right to left) */}

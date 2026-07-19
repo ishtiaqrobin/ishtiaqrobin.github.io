@@ -42,7 +42,7 @@ export function AboutSection() {
     <section
       id="about"
       ref={ref}
-      className="py-16 sm:py-28 relative bg-[#F7F8FA] dark:bg-transparent overflow-hidden select-none"
+      className="py-16 sm:py-28 relative bg-[#F7F8FA] dark:bg-transparent overflow-hidden "
     >
       {/* Decorative Background Color */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -71,8 +71,8 @@ export function AboutSection() {
                   alt={PERSONAL_INFO.name}
                   width={390}
                   height={520}
-                  className="w-full h-full aspect-3/4 object-cover"
                   priority
+                  className="w-full h-full aspect-3/4 object-cover"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-gray-900/15 dark:from-[#0a0a0a]/30 to-transparent" />
               </div>

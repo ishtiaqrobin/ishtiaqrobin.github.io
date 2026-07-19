@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { env } from "@/env";
 import { IProject } from "@/types";
 import ProjectDetails from "@/components/modules/home/project/ProjectDetails";
@@ -82,18 +83,82 @@ export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
-}) {
+}): Promise<Metadata> {
   const { slug } = await params;
   const project = await getProjectBySlug(slug);
-  if (!project) return { title: "Project Not Found" };
+  if (!project) {
+    return {
+      title: "Project Not Found",
+      description: "The requested project could not be found.",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const title = `${project.title}`;
+  const description =
+    project.description ||
+    `Explore the ${project.title} project by Ishtiaq Robin.`;
 
   return {
-    title: `${project.title} | Portfolio`,
-    description: project.description,
+    title,
+    description,
+    keywords: [
+      project.title,
+      "Ishtiaq Robin",
+      "Web Development Project",
+      "Portfolio Project",
+      ...(project.tags || []),
+    ],
+    authors: [{ name: "Ishtiaq Robin" }],
+    creator: "Ishtiaq Robin",
+    publisher: "Ishtiaq Robin",
     openGraph: {
-      title: project.title,
-      description: project.description,
-      images: project.thumbnail ? [{ url: project.thumbnail }] : [],
+      type: "article",
+      locale: "en_US",
+      url: `https://ishtiaqrobin.com/projects/${slug}`,
+      title,
+      description,
+      siteName: "Ishtiaq Robin Portfolio",
+      images: project.thumbnail
+        ? [
+            {
+              url: project.thumbnail,
+              width: 1200,
+              height: 630,
+              alt: `${project.title} — Ishtiaq Robin`,
+            },
+          ]
+        : [
+            {
+              url: "/og-image.jpg",
+              width: 1200,
+              height: 630,
+              alt: "Ishtiaq Robin Portfolio",
+            },
+          ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: project.thumbnail
+        ? [project.thumbnail]
+        : ["/twitter-image.jpg"],
+      creator: "@ishtiaqrobin",
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+    alternates: {
+      canonical: `https://ishtiaqrobin.com/projects/${slug}`,
     },
   };
 }

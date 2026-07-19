@@ -83,7 +83,7 @@ export function LoginForm({ ...props }: React.ComponentProps<"div">) {
 
   return (
     <div
-      className="w-full max-w-lg mx-auto bg-white dark:bg-[#111116] border border-zinc-100 dark:border-zinc-800/40 rounded-3xl p-8 shadow-xs select-none"
+      className="w-full max-w-lg mx-auto bg-white dark:bg-[#111116] border border-zinc-100 dark:border-zinc-800/40 rounded-3xl p-8 shadow-xs "
       {...props}
     >
       {/* Header */}

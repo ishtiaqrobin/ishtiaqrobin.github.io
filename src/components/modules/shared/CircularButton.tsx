@@ -6,7 +6,7 @@ export default function CircularButton() {
   const text = "LETS TALK • LETS TALK • LETS TALK • ";
 
   return (
-    <div className="relative bg-white dark:bg-[#111116] rounded-full w-36 h-36 flex items-center justify-center group select-none shadow-sm">
+    <div className="relative bg-white dark:bg-[#111116] rounded-full w-36 h-36 flex items-center justify-center group  shadow-sm">
       {/* 
         ─── Rotating text layer ───
         'animate-spin-slow' will cause it to spin continuously

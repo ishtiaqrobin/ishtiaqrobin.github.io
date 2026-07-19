@@ -49,15 +49,18 @@ const ClashDisplay = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: "Ishtiaq Robin | Professional Full Stack Web Developer",
-    template: "%s | Ishtiaq Robin",
+    default: "Ishtiaq Robin — AI-Driven Software Engineer | AI Automation",
+    template: "%s — Ishtiaq Robin",
   },
   description:
-    "Professional portfolio of Ishtiaq Robin, a creative Full Stack Web Developer specializing in modern web technologies.",
+    "Professional portfolio of Ishtiaq Robin — an AI-Driven Software Engineer specializing in modern web technologies and AI automation.",
   keywords: [
     "Ishtiaq Robin",
+    "AI-Driven Software Engineer",
+    "AI Automation",
     "Full Stack Web Developer",
     "MERN Stack Developer",
+    "PERN Stack Developer",
     "Next.js Expert",
     "Backend Engineer",
     "Problem Solver",
@@ -69,9 +72,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://ishtiaqrobin.com",
-    title: "Ishtiaq Robin | Professional Full Stack Web Developer",
+    title: "Ishtiaq Robin — AI-Driven Software Engineer | AI Automation",
     description:
-      "Explore the creative works of Ishtiaq Robin. specializing in high-end branding and visual design.",
+      "Explore the portfolio of Ishtiaq Robin — an AI-Driven Software Engineer building intelligent, high-impact digital solutions.",
     siteName: "Ishtiaq Robin Portfolio",
     images: [
       {
@@ -84,11 +87,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ishtiaq Robin | Professional Full Stack Web Developer",
+    title: "Ishtiaq Robin — AI-Driven Software Engineer | AI Automation",
     description:
-      "Explore the creative works of Ishtiaq Robin. specializing in high-end branding and visual design.",
+      "Explore the portfolio of Ishtiaq Robin — an AI-Driven Software Engineer building intelligent, high-impact digital solutions.",
     images: ["/twitter-image.jpg"],
-    creator: "@ishtiaqrobin",
+    creator: "@ishtiaq_robin",
   },
   robots: {
     index: true,

@@ -72,7 +72,7 @@ export function ContactSection() {
   };
 
   return (
-    <section ref={ref} className="container-custom py-24 sm:py-28 select-none">
+    <section ref={ref} className="container-custom py-24 sm:py-28 ">
       <div className="mb-8">
         <ShimmerText className="mb-3.5">Connect With Me</ShimmerText>
         <h2 className="text-4xl sm:text-5xl font-clash font-medium tracking-tight text-secondary leading-12 max-w-2xl">
@@ -182,6 +182,7 @@ export function ContactSection() {
                 alt="Ishtiaq Robin"
                 width={100}
                 height={100}
+                priority
                 className="w-full h-full rounded-full object-cover"
               />
             </div>

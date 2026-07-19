@@ -11,10 +11,42 @@ import {
   Zap,
 } from "lucide-react";
 
-export const metadata = {
-  title: "Terms of Service | Ishtiaq Robin",
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Terms of Service",
   description:
     "Comprehensive terms and conditions for using Ishtiaq Robin's design services.",
+  keywords: [
+    "Ishtiaq Robin",
+    "Terms of Service",
+    "Terms and Conditions",
+    "AI-Driven Software Engineer",
+  ],
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://ishtiaqrobin.com/terms-of-service",
+    title: "Terms of Service — Ishtiaq Robin",
+    description:
+      "Comprehensive terms and conditions for using Ishtiaq Robin's design services.",
+    siteName: "Ishtiaq Robin Portfolio",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Terms of Service — Ishtiaq Robin",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Terms of Service — Ishtiaq Robin",
+    description:
+      "Comprehensive terms and conditions for using Ishtiaq Robin's design services.",
+    images: ["/twitter-image.jpg"],
+  },
 };
 
 const TermsOfServicePage = () => {
@@ -33,7 +65,7 @@ const TermsOfServicePage = () => {
           <div className="mb-6 inline-flex items-center justify-center rounded-full bg-primary/10 p-3 text-primary">
             <FileText className="h-8 w-8" />
           </div>
-          <h1 className="mb-6 text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+          <h1 className="mb-6 text-4xl font-clash tracking-tight text-foreground sm:text-5xl lg:text-6xl">
             Terms of Service
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground sm:text-xl">
@@ -54,11 +86,11 @@ const TermsOfServicePage = () => {
             {/* 1. Acceptance of Terms */}
             <div className="group relative">
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors">
                   <Handshake className="h-5 w-5" />
                 </div>
                 <div>
-                  <h2 className="mb-4 text-2xl font-bold text-foreground">
+                  <h2 className="mb-4 text-2xl font-clash text-foreground">
                     1. Acceptance of Terms
                   </h2>
                   <p className="leading-relaxed text-muted-foreground">
@@ -77,11 +109,11 @@ const TermsOfServicePage = () => {
             {/* 2. User Accounts */}
             <div className="group relative">
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors">
                   <UserPlus className="h-5 w-5" />
                 </div>
                 <div>
-                  <h2 className="mb-4 text-2xl font-bold text-foreground">
+                  <h2 className="mb-4 text-2xl font-clash text-foreground">
                     2. Account Registration & Security
                   </h2>
                   <p className="mb-4 leading-relaxed text-muted-foreground">
@@ -121,11 +153,11 @@ const TermsOfServicePage = () => {
             {/* 3. Platform Conduct */}
             <div className="group relative">
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors">
                   <AlertCircle className="h-5 w-5" />
                 </div>
                 <div>
-                  <h2 className="mb-4 text-2xl font-bold text-foreground">
+                  <h2 className="mb-4 text-2xl font-clash text-foreground">
                     3. Conduct & Safety
                   </h2>
                   <p className="mb-4 text-muted-foreground">
@@ -159,11 +191,11 @@ const TermsOfServicePage = () => {
             {/* 4. Payments & Refunds */}
             <div className="group relative">
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors">
                   <CreditCard className="h-5 w-5" />
                 </div>
                 <div>
-                  <h2 className="mb-4 text-2xl font-bold text-foreground">
+                  <h2 className="mb-4 text-2xl font-clash text-foreground">
                     4. Financial Terms
                   </h2>
                   <div className="space-y-6">
@@ -200,11 +232,11 @@ const TermsOfServicePage = () => {
             {/* 5. Limitation of Liability */}
             <div className="group relative">
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors">
                   <Scale className="h-5 w-5" />
                 </div>
                 <div>
-                  <h2 className="mb-4 text-2xl font-bold text-foreground">
+                  <h2 className="mb-4 text-2xl font-clash text-foreground">
                     5. Disclaimers & Liability
                   </h2>
                   <p className="mb-4 leading-relaxed text-muted-foreground">
@@ -225,7 +257,7 @@ const TermsOfServicePage = () => {
 
             {/* 6. Governing Law */}
             <div className="bg-muted/50 rounded-3xl p-8 text-center border border-border">
-              <h2 className="mb-2 text-xl font-bold text-foreground">
+              <h2 className="mb-2 text-2xl font-clash text-foreground">
                 Questions About These Terms?
               </h2>
               <p className="mb-6 text-muted-foreground">
@@ -234,10 +266,10 @@ const TermsOfServicePage = () => {
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <a
-                  href="mailto:contact@ishtiaqrobin.me@gmail.com"
+                  href="mailto:ishtiaqrobin.me@gmail.com"
                   className="font-bold text-primary hover:underline"
                 >
-                  contact@ishtiaqrobin.me@gmail.com
+                  ishtiaqrobin.me@gmail.com
                 </a>
                 <span className="text-muted-foreground hidden sm:inline">
                   •

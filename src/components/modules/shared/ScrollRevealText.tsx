@@ -37,7 +37,7 @@ function Word({
   return (
     <span className="relative inline-block">
       {/* Permanently blurred base layer — so that the text layout does not shift */}
-      <span className="absolute opacity-[0.12] text-zinc-900 dark:text-white font-medium select-none">
+      <span className="absolute opacity-[0.12] text-zinc-900 dark:text-white font-medium ">
         {word}
       </span>
 
@@ -71,7 +71,7 @@ export default function ScrollRevealText({
   const words = text.split(" ");
 
   return (
-    <div className="w-full flex flex-col items-center text-center justify-center py-20 bg-accent select-none px-4">
+    <div className="w-full flex flex-col items-center text-center justify-center py-20 bg-accent  px-4">
       {/* Top badge */}
       <ShimmerText className="mb-6">About Me</ShimmerText>
 

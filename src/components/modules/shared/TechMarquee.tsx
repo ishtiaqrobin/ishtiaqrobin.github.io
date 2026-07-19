@@ -257,7 +257,7 @@ export default function TechMarquee() {
   const doubledLogos = [...techLogos, ...techLogos];
 
   return (
-    <div className="w-full py-8 overflow-hidden select-none">
+    <div className="w-full py-8 overflow-hidden ">
       {/* Parent container with vignette masking. It masks the left and right side of the logos so they don't go out of the screen and fade them out */}
       <div className="marquee-container relative w-full flex overflow-hidden mask-[linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]">
         <div className="animate-marquee flex flex-row items-center gap-4 whitespace-nowrap pr-12 will-change-transform">

@@ -50,10 +50,10 @@ export function AuthNavbar() {
           <Link href="/">
             <div
               className={`
-               flex items-center gap-1.5 border px-2 py-1 rounded-full bg-accent dark:bg-white/5 text-gray-900 dark:text-white duration-700 transition-all shrink-0`}
+               flex items-center gap-1.5 border px-2.5 py-1 rounded-full bg-accent dark:bg-white/5 text-gray-900 dark:text-white duration-700 transition-all shrink-0`}
             >
               {/* <TiHome className="text-2xl" /> */}
-              <RiHome8Fill className="text-2xl" />
+              {/* <RiHome8Fill className="text-2xl" /> */}
               <span>Back to Home</span>
             </div>
           </Link>

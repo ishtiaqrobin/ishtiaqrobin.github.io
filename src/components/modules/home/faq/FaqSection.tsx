@@ -47,7 +47,7 @@ export default function FaqSection() {
   };
 
   return (
-    <section className="container-custom py-10 sm:py-24 select-none">
+    <section className="container-custom py-10 sm:py-24 ">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-start">
         {/* ─── বামপাশ: Heading ─── */}
         <div className="lg:col-span-4">

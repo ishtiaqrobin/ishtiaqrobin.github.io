@@ -126,7 +126,7 @@ export default function DesignProcess() {
   return (
     <section
       ref={containerRef}
-      className="w-full py-20 overflow-hidden select-none"
+      className="w-full py-20 overflow-hidden "
     >
       {/* ─── HEADING ─── */}
       <div className="container-custom mb-8 flex flex-col items-start">

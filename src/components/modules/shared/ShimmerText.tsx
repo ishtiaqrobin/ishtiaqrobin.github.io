@@ -7,7 +7,7 @@ interface ShimmerTextProps {
 
 export default function ShimmerText({ children, className }: ShimmerTextProps) {
   return (
-    <div className={`flex items-center gap-2 select-none ${className}`}>
+    <div className={`flex items-center gap-2  ${className}`}>
       {/* ─── Left side sparkle or glare icon ─── */}
       <svg
         viewBox="0 0 24 24"
