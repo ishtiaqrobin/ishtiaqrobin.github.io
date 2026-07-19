@@ -8,4 +8,5 @@ export type * from "./review.type";
 export type * from "./setting.type";
 export type * from "./analytics.type";
 export type * from "./awards.type";
+export type * from "./faq.type";
 // export type * from "./blog.type";
