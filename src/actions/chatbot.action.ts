@@ -147,3 +147,65 @@ export async function updateChatbotConfigAction(
     };
   }
 }
+
+// ── Chatbot Logs ───────────────────────────────────────────
+
+/**
+ * Get chatbot logs (admin only)
+ */
+export async function getChatbotLogsAction(
+  token: string,
+  limit?: number,
+): Promise<ActionResult> {
+  try {
+    const { data, error } = await chatbotService.getChatbotLogs(token, limit);
+
+    if (error) {
+      return { success: false, message: error.message };
+    }
+
+    return {
+      success: true,
+      message: "Retrieved chatbot logs successfully",
+      data: data,
+    };
+  } catch (err) {
+    return {
+      success: false,
+      message: err instanceof Error ? err.message : "An error occurred",
+    };
+  }
+}
+
+/**
+ * Delete chatbot logs (admin only)
+ * If sessionId is provided, deletes only that session's logs.
+ * If sessionId is omitted, deletes ALL logs.
+ */
+export async function deleteChatbotLogsAction(
+  token: string,
+  sessionId?: string,
+): Promise<ActionResult> {
+  try {
+    const { data, error } = await chatbotService.deleteChatbotLogs(
+      token,
+      sessionId,
+    );
+
+    if (error) {
+      return { success: false, message: error.message };
+    }
+
+    revalidatePath("/admin-dashboard/chatbot");
+
+    return {
+      success: true,
+      message: data?.message || "Chatbot logs deleted successfully",
+    };
+  } catch (err) {
+    return {
+      success: false,
+      message: err instanceof Error ? err.message : "An error occurred",
+    };
+  }
+}

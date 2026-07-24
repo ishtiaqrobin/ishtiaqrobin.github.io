@@ -73,3 +73,19 @@ export interface IChatMessage {
   content: string;
   timestamp: Date;
 }
+
+// ── Chatbot Log ───────────────────────────────────────────
+
+export interface IChatbotLog {
+  id: string;
+  sessionId: string;
+  role: string;
+  message: string;
+  ipAddress: string | null;
+  createdAt: string;
+}
+
+export interface IChatbotLogResponse {
+  data: IChatbotLog[];
+  meta: { total: number };
+}

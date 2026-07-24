@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { toast } from "sonner";
 import {
   Bot,
@@ -16,6 +16,9 @@ import {
   Link,
   ToggleLeft,
   MessageSquare,
+  Trash2,
+  Database,
+  AlertTriangle,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -43,8 +46,10 @@ import {
 import {
   upsertAiProviderConfigAction,
   upsertChatbotConfigAction,
+  getChatbotLogsAction,
+  deleteChatbotLogsAction,
 } from "@/actions/chatbot.action";
-import type { IAiProviderConfig, IChatbotConfig } from "@/types/chatbot.type";
+import type { IAiProviderConfig, IChatbotConfig, IChatbotLog } from "@/types/chatbot.type";
 
 interface ChatbotManagerProps {
   aiConfig: IAiProviderConfig | null;
@@ -106,6 +111,41 @@ export function ChatbotManager({
     chatbotConfig?.systemPrompt ?? "",
   );
   const [botSaving, setBotSaving] = useState(false);
+
+  // ── Chat Logs state ──────────────────────────────────────
+  const [logs, setLogs] = useState<IChatbotLog[]>([]);
+  const [logTotal, setLogTotal] = useState(0);
+  const [logsLoading, setLogsLoading] = useState(false);
+  const [clearing, setClearing] = useState(false);
+  const [confirmClear, setConfirmClear] = useState(false);
+
+  const fetchLogs = useCallback(async () => {
+    setLogsLoading(true);
+    const result = await getChatbotLogsAction(token, 50);
+    if (result.success && result.data) {
+      setLogs(result.data.data ?? []);
+      setLogTotal(result.data.meta?.total ?? 0);
+    }
+    setLogsLoading(false);
+  }, [token]);
+
+  useEffect(() => {
+    fetchLogs();
+  }, [fetchLogs]);
+
+  const handleClearAllLogs = async () => {
+    setClearing(true);
+    const result = await deleteChatbotLogsAction(token);
+    if (result.success) {
+      toast.success(result.message);
+      setLogs([]);
+      setLogTotal(0);
+      setConfirmClear(false);
+    } else {
+      toast.error(result.message);
+    }
+    setClearing(false);
+  };
 
   // ── Provider change — auto-fill preset ───────────────────
   const handleProviderChange = (val: string) => {
@@ -171,7 +211,7 @@ export function ChatbotManager({
 
   return (
     <Tabs defaultValue="ai-config" className="space-y-6">
-      <TabsList className="grid grid-cols-2 w-full max-w-sm">
+      <TabsList className="grid grid-cols-3 w-full max-w-md">
         <TabsTrigger value="ai-config" className="gap-2">
           <Key className="h-3.5 w-3.5" />
           AI Provider
@@ -179,6 +219,10 @@ export function ChatbotManager({
         <TabsTrigger value="bot-config" className="gap-2">
           <Settings className="h-3.5 w-3.5" />
           Chatbot
+        </TabsTrigger>
+        <TabsTrigger value="logs" className="gap-2">
+          <Database className="h-3.5 w-3.5" />
+          Logs
         </TabsTrigger>
       </TabsList>
 
@@ -457,6 +501,112 @@ export function ChatbotManager({
                 </>
               )}
             </Button>
+          </CardContent>
+        </Card>
+      </TabsContent>
+
+      {/* ── Chat Logs ── */}
+      <TabsContent value="logs" className="space-y-6">
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <Database className="h-4 w-4 text-primary" />
+                  Chat Logs
+                </CardTitle>
+                <CardDescription className="mt-1">
+                  View recent conversations. Clear all logs to free up database
+                  space.
+                </CardDescription>
+              </div>
+              <Badge variant="secondary">{logTotal} total</Badge>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {logsLoading ? (
+              <div className="flex items-center justify-center py-8">
+                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+              </div>
+            ) : logs.length === 0 ? (
+              <div className="text-center py-8 text-muted-foreground text-sm">
+                No chat logs yet.
+              </div>
+            ) : (
+              <div className="max-h-[400px] overflow-y-auto space-y-2">
+                {logs.map((log) => (
+                  <div
+                    key={log.id}
+                    className="flex gap-3 p-3 rounded-lg bg-muted/30 text-sm"
+                  >
+                    <div className="shrink-0">
+                      <Badge
+                        variant={
+                          log.role === "user" ? "default" : "secondary"
+                        }
+                        className="text-[10px] uppercase tracking-wider"
+                      >
+                        {log.role}
+                      </Badge>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs text-muted-foreground truncate">
+                        {log.message}
+                      </p>
+                      <p className="text-[10px] text-muted-foreground/50 mt-1">
+                        {new Date(log.createdAt).toLocaleString()}
+                        {log.ipAddress ? ` · ${log.ipAddress}` : ""}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="border-t border-border/50 pt-4">
+              {confirmClear ? (
+                <div className="flex items-center gap-3 p-3 rounded-lg border border-destructive/30 bg-destructive/5">
+                  <AlertTriangle className="h-5 w-5 text-destructive shrink-0" />
+                  <p className="text-sm text-destructive flex-1">
+                    Are you sure? This will permanently delete all {logTotal}{" "}
+                    chat logs.
+                  </p>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setConfirmClear(false)}
+                      disabled={clearing}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={handleClearAllLogs}
+                      disabled={clearing}
+                    >
+                      {clearing ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        "Delete All"
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full text-destructive border-destructive/30 hover:bg-destructive/10"
+                  onClick={() => setConfirmClear(true)}
+                  disabled={logTotal === 0}
+                >
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Clear All Logs
+                </Button>
+              )}
+            </div>
           </CardContent>
         </Card>
       </TabsContent>

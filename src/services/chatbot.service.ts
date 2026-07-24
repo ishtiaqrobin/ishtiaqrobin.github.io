@@ -2,6 +2,7 @@ import { env } from "@/env";
 import type {
   IAiProviderConfig,
   IChatbotConfig,
+  IChatbotLog,
   ICreateAiProviderConfigInput,
   ICreateChatbotConfigInput,
   ISendMessageInput,
@@ -238,6 +239,68 @@ export const chatbotService = {
       return {
         data: null,
         error: toError(err, "Error updating chatbot config"),
+      };
+    }
+  },
+
+  // ── Chatbot Logs (Admin) ────────────────────────────────────────
+
+  /**
+   * Get chatbot logs (admin only)
+   * GET /chatbot/logs?limit=50
+   */
+  getChatbotLogs: async function (
+    token: string,
+    limit?: number,
+  ): Promise<Result<{ data: IChatbotLog[]; meta: { total: number } }>> {
+    try {
+      const params = limit ? `?limit=${limit}` : "";
+      const res = await fetch(`${API_URL}/chatbot/logs${params}`, {
+        headers: { Authorization: `Bearer ${token}` },
+        credentials: "include",
+        cache: "no-store",
+      });
+
+      const json = await res.json();
+      if (!res.ok) {
+        throw new Error(json.message || `HTTP ${res.status}`);
+      }
+      return { data: json, error: null };
+    } catch (err) {
+      console.error("Error fetching chatbot logs:", err);
+      return {
+        data: null,
+        error: toError(err, "Error fetching chatbot logs"),
+      };
+    }
+  },
+
+  /**
+   * Delete chatbot logs (admin only)
+   * DELETE /chatbot/logs (all) or ?sessionId=xxx (specific)
+   */
+  deleteChatbotLogs: async function (
+    token: string,
+    sessionId?: string,
+  ): Promise<Result<{ message: string }>> {
+    try {
+      const params = sessionId ? `?sessionId=${sessionId}` : "";
+      const res = await fetch(`${API_URL}/chatbot/logs${params}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+        credentials: "include",
+      });
+
+      const json = await res.json();
+      if (!res.ok) {
+        throw new Error(json.message || `HTTP ${res.status}`);
+      }
+      return { data: json, error: null };
+    } catch (err) {
+      console.error("Error deleting chatbot logs:", err);
+      return {
+        data: null,
+        error: toError(err, "Error deleting chatbot logs"),
       };
     }
   },
