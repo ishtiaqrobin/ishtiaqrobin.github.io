@@ -3,7 +3,13 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FiLinkedin, FiMail, FiShare2, FiTwitter, FiLink } from "react-icons/fi";
+import {
+  FiLinkedin,
+  FiMail,
+  FiShare2,
+  FiTwitter,
+  FiLink,
+} from "react-icons/fi";
 import { Home } from "lucide-react";
 import { RiArrowRightSLine } from "react-icons/ri";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
@@ -45,6 +51,38 @@ export default function ProjectDetails({
       }
     }
   }, []);
+
+  //   const handleShare = async () => {
+  //   const url = window.location.href;
+  //   if (typeof navigator !== "undefined" && navigator.share) {
+  //     try {
+  //       await navigator.share({
+  //         title: project.title,
+  //         text: project.description,
+  //         url,
+  //       });
+  //     } catch {
+  //       // user cancelled or error — silent
+  //     }
+  //   } else {
+  //     try {
+  //       await navigator.clipboard.writeText(url);
+  //     } catch {
+  //       // clipboard unavailable — silent
+  //     }
+  //   }
+  // };
+
+  const handleShare = () => {
+    const url = window.location.href;
+    if (typeof navigator !== "undefined" && navigator.share) {
+      navigator
+        .share({ title: project.title, text: project.description, url })
+        .catch(() => {});
+    } else if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(url).catch(() => {});
+    }
+  };
 
   const renderRichContent = (html: string) => {
     if (!html) return null;
@@ -268,14 +306,7 @@ export default function ProjectDetails({
                   <FiMail className="w-5 h-5" />
                 </a>
                 <button
-                  onClick={() => {
-                    if (typeof navigator !== "undefined" && navigator.share) {
-                      navigator.share({
-                        title: project.title,
-                        url: window.location.href,
-                      });
-                    }
-                  }}
+                  onClick={handleShare}
                   className="transition-all duration-300 hover:text-text-primary hover:!opacity-100 group-hover/socials:opacity-40"
                 >
                   <FiShare2 className="w-5 h-5" />
@@ -393,15 +424,10 @@ export default function ProjectDetails({
                   >
                     <FiMail className="w-5 h-5" />
                   </a>
+
+                  {/* WEB SHARE */}
                   <button
-                    onClick={() => {
-                      if (typeof navigator !== "undefined" && navigator.share) {
-                        navigator.share({
-                          title: project.title,
-                          url: window.location.href,
-                        });
-                      }
-                    }}
+                    onClick={handleShare}
                     className="transition-all duration-300 hover:text-text-primary hover:!opacity-100 group-hover/socials:opacity-40"
                   >
                     <FiShare2 className="w-5 h-5" />
