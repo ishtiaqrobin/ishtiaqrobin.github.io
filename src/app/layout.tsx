@@ -6,7 +6,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Chatbot } from "@/components/layout/Chatbot";
 
-// ─── Satoshi (Root / Body Font) ───────────────────────────────────────────────
+// ─── Satoshi (Root / Body Font) ───
 const Satoshi = localFont({
   src: [
     {
@@ -29,7 +29,7 @@ const Satoshi = localFont({
   display: "swap",
 });
 
-// ─── Clash Display (Heading / Display Font) ───────────────────────────────────
+// ─── Clash Display (Heading / Display Font) ───
 const ClashDisplay = localFont({
   src: [
     {
@@ -37,11 +37,6 @@ const ClashDisplay = localFont({
       weight: "500",
       style: "normal",
     },
-    // {
-    //   path: "../fonts/clashDisplay/ClashDisplay-Bold.otf",
-    //   weight: "800",
-    //   style: "normal",
-    // },
   ],
   variable: "--font-clash-display",
   display: "swap",
@@ -116,12 +111,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-      <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
-        <meta
-          name="msvalidate.01"
-          content="C69ABF4F360DC1D3AEB1BA928A599428"
-        />
+        <meta name="msvalidate.01" content="C69ABF4F360DC1D3AEB1BA928A599428" />
       </head>
       <body
         className={`${Satoshi.variable} ${ClashDisplay.variable} antialiased relative min-h-screen`}
@@ -132,7 +124,8 @@ export default function RootLayout({
             pointer-events-none is given so that it doesn't interfere with mouse clicks or scrolling.
             due to z-50 it will flash over all content.
           */}
-          <div className="fixed top-0 left-0 right-0 h-6 bg-linear-to-b from-white/65 via-white/40 to-transparent dark:from-neutral-950 dark:via-neutral-950/70 dark:to-transparent pointer-events-none z-50" />
+          <div className="fixed top-0 left-0 right-0 h-6 bg-linear-to-b from-white/65 via-white/25 to-transparent dark:from-neutral-950 dark:via-neutral-950/70 dark:to-transparent pointer-events-none z-50" />
+          {/* before: via-white/40 */}
 
           {/* ─── CONTENT ─── */}
           {children}
@@ -143,7 +136,8 @@ export default function RootLayout({
           <SpeedInsights />
 
           {/* ─── BOTTOM FADE OVERLAY ─── */}
-          <div className="fixed bottom-0 left-0 right-0 h-6.5 bg-linear-to-t from-white/65 via-white/40 to-transparent dark:from-neutral-950 dark:via-neutral-950/70 dark:to-transparent pointer-events-none z-50" />
+          <div className="fixed bottom-0 left-0 right-0 h-6.5 bg-linear-to-t from-white/65 via-white/25 to-transparent dark:from-neutral-950 dark:via-neutral-950/70 dark:to-transparent pointer-events-none z-50" />
+          {/* before: via-white/40 */}
         </Providers>
       </body>
     </html>

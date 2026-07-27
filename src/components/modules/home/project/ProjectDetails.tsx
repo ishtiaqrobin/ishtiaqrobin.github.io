@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FiLinkedin, FiMail, FiShare2, FiTwitter } from "react-icons/fi";
+import { FiLinkedin, FiMail, FiShare2, FiTwitter, FiLink } from "react-icons/fi";
 import { Home } from "lucide-react";
 import { RiArrowRightSLine } from "react-icons/ri";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
@@ -18,6 +18,14 @@ interface ProjectDetailsProps {
   nextProject?: { slug: string; title: string } | null;
 }
 
+const labelToHash = (label: string) =>
+  label
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "") || "section";
+
 export default function ProjectDetails({
   project,
   previousProject,
@@ -27,6 +35,16 @@ export default function ProjectDetails({
 
   const techStack = project.techStack || [];
   const sections = project.sections || [];
+
+  useEffect(() => {
+    const hash = window.location.hash.slice(1);
+    if (hash) {
+      const el = document.getElementById(hash);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  }, []);
 
   const renderRichContent = (html: string) => {
     if (!html) return null;
@@ -188,18 +206,31 @@ export default function ProjectDetails({
           {/* LEFT COLUMN - Section Content */}
           <div className="lg:col-span-8 flex flex-col gap-10">
             {sections.length > 0 ? (
-              sections.map((section) => (
-                <section
-                  key={section.id}
-                  id={section.id}
-                  className="scroll-mt-24"
-                >
-                  <h3 className="text-2xl font-clash font-medium tracking-tight text-secondary mb-4">
-                    {section.label}
-                  </h3>
-                  {renderRichContent(section.content)}
-                </section>
-              ))
+              sections.map((section) => {
+                const sectionHash = labelToHash(section.label);
+                return (
+                  <section
+                    key={section.id}
+                    id={sectionHash}
+                    className="scroll-mt-24"
+                  >
+                    <h3 className="text-2xl font-clash font-medium tracking-tight text-secondary mb-4">
+                      <a
+                        href={`#${sectionHash}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          window.location.hash = sectionHash;
+                        }}
+                        className="inline-flex items-center gap-2 group"
+                      >
+                        {section.label}
+                        <FiLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all duration-300 text-primary" />
+                      </a>
+                    </h3>
+                    {renderRichContent(section.content)}
+                  </section>
+                );
+              })
             ) : (
               <div className="text-center py-16 text-text-primary/60">
                 <p className="text-lg">

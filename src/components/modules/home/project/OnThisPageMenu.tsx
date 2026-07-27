@@ -9,6 +9,14 @@ interface OnThisPageMenuProps {
   className?: string;
 }
 
+const labelToHash = (label: string) =>
+  label
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "") || "section";
+
 export default function OnThisPageMenu({
   sections,
   className = "",
@@ -18,7 +26,7 @@ export default function OnThisPageMenu({
   useEffect(() => {
     if (!sections.length) return;
 
-    const ids = sections.map((s) => s.id);
+    const ids = sections.map((s) => labelToHash(s.label));
 
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 120;
@@ -49,6 +57,19 @@ export default function OnThisPageMenu({
     return () => window.removeEventListener("scroll", handleScroll);
   }, [sections]);
 
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.slice(1);
+      if (hash) {
+        setActiveSection(hash);
+      }
+    };
+
+    handleHashChange();
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
   if (!sections.length) return null;
 
   return (
@@ -61,19 +82,17 @@ export default function OnThisPageMenu({
       {/* Sidebar Navigation Links */}
       <div className="flex flex-col relative py-3">
         {sections.map((section) => {
-          const isActive = activeSection === section.id;
+          const isActive = activeSection === labelToHash(section.label);
           return (
             <a
               key={section.id}
-              href={`#${section.id}`}
-              onClick={(e) => {
-                e.preventDefault();
-                const el = document.getElementById(section.id);
-                if (el) {
-                  el.scrollIntoView({ behavior: "smooth", block: "start" });
-                }
-                setActiveSection(section.id);
-              }}
+              href={`#${labelToHash(section.label)}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  const sectionHash = labelToHash(section.label);
+                  window.location.hash = sectionHash;
+                  setActiveSection(sectionHash);
+                }}
               className={`relative py-1.5 text-sm font-normal transition-all duration-300 border-l-2 ${
                 section.label.length === 2 ? "pl-[30px]" : "pl-[14px]"
               } ${
