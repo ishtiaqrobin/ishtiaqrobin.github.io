@@ -10,7 +10,6 @@ export interface ISettings {
   youtubeUrl?: string;
 
   // Contact info
-  resumeLink?: string;
   contactEmail?: string;
   contactPhone?: string;
   whatsappNumber?: string;

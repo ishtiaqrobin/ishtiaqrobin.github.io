@@ -92,7 +92,6 @@ export function SettingsManager({
       youtubeUrl: str("youtubeUrl"),
 
       // Contact
-      resumeLink: str("resumeLink"),
       contactEmail: str("contactEmail"),
       contactPhone: str("contactPhone"),
       whatsappNumber: str("whatsappNumber"),
@@ -128,7 +127,7 @@ export function SettingsManager({
           {Array.from({ length: 3 }).map((_, i) => (
             <div key={i} className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {Array.from({ length: 4 }).map((_, j) => (
-                <Skeleton key={j} className="h-12 rounded-xl" />
+                <Skeleton key={j} className="h-12 rounded-lg" />
               ))}
             </div>
           ))}
@@ -203,7 +202,7 @@ export function SettingsManager({
                     type="url"
                     defaultValue={(settings as any)?.[id] || ""}
                     placeholder={placeholder}
-                    className="rounded-xl h-10"
+                    className="rounded-lg h-10"
                   />
                 </div>
               ))}
@@ -226,20 +225,20 @@ export function SettingsManager({
                   type="email"
                   defaultValue={settings?.contactEmail || ""}
                   placeholder="hello@example.com"
-                  className="rounded-xl h-10"
+                  className="rounded-lg h-10"
                 />
               </div>
+
               <div className="space-y-1.5">
-                <FieldLabel htmlFor="resumeLink" icon={FileText}>
-                  Resume Link
+                <FieldLabel htmlFor="experience" icon={Briefcase}>
+                  Experience (text)
                 </FieldLabel>
                 <Input
-                  id="resumeLink"
-                  name="resumeLink"
-                  type="url"
-                  defaultValue={settings?.resumeLink || ""}
-                  placeholder="https://drive.google.com/..."
-                  className="rounded-xl h-10"
+                  id="experience"
+                  name="experience"
+                  defaultValue={settings?.experience || ""}
+                  placeholder="3+ Years of professional experience"
+                  className="rounded-lg h-10"
                 />
               </div>
               <div className="space-y-1.5">
@@ -252,7 +251,7 @@ export function SettingsManager({
                   type="tel"
                   defaultValue={settings?.contactPhone || ""}
                   placeholder="+880 1XXX XXXXXX"
-                  className="rounded-xl h-10"
+                  className="rounded-lg h-10"
                 />
               </div>
               <div className="space-y-1.5">
@@ -265,7 +264,7 @@ export function SettingsManager({
                   type="tel"
                   defaultValue={settings?.whatsappNumber || ""}
                   placeholder="+880 1XXX XXXXXX"
-                  className="rounded-xl h-10"
+                  className="rounded-lg h-10"
                 />
               </div>
               <div className="space-y-1.5">
@@ -277,7 +276,7 @@ export function SettingsManager({
                   name="address"
                   defaultValue={settings?.address || ""}
                   placeholder="Dhaka, Bangladesh"
-                  className="rounded-xl h-10"
+                  className="rounded-lg h-10"
                 />
               </div>
               <div className="space-y-1.5">
@@ -289,19 +288,7 @@ export function SettingsManager({
                   name="availability"
                   defaultValue={settings?.availability || ""}
                   placeholder="Full-time / Freelance"
-                  className="rounded-xl h-10"
-                />
-              </div>
-              <div className="space-y-1.5 md:col-span-2">
-                <FieldLabel htmlFor="experience" icon={Briefcase}>
-                  Experience (text)
-                </FieldLabel>
-                <Input
-                  id="experience"
-                  name="experience"
-                  defaultValue={settings?.experience || ""}
-                  placeholder="3+ Years of professional experience"
-                  className="rounded-xl h-10"
+                  className="rounded-lg h-10"
                 />
               </div>
             </div>
@@ -322,7 +309,7 @@ export function SettingsManager({
                   name="metaDescription"
                   defaultValue={settings?.metaDescription || ""}
                   placeholder="A short description for search engines (150–160 chars)"
-                  className="rounded-xl h-10"
+                  className="rounded-lg h-10"
                 />
               </div>
               <div className="space-y-1.5">
@@ -334,7 +321,7 @@ export function SettingsManager({
                   name="metaKeywords"
                   defaultValue={settings?.metaKeywords || ""}
                   placeholder="portfolio, developer, react, nextjs"
-                  className="rounded-xl h-10"
+                  className="rounded-lg h-10"
                 />
               </div>
             </div>

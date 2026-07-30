@@ -73,21 +73,6 @@ export default function ProjectDetails({
   //   }
   // };
 
-  // const handleShare = () => {
-  //   const url = window.location.href;
-  //   if (typeof navigator !== "undefined" && navigator.share) {
-  //     navigator
-  //       .share({
-  //         title: project.title,
-  //         text: project.title + " ─ " + project.description,
-  //         url,
-  //       })
-  //       .catch(() => {});
-  //   } else if (typeof navigator !== "undefined" && navigator.clipboard) {
-  //     navigator.clipboard.writeText(url).catch(() => {});
-  //   }
-  // };
-
   const handleShare = () => {
     const url = window.location.href;
 

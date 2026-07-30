@@ -73,8 +73,8 @@ export function AboutManager({ about, token, onRefresh }: AboutManagerProps) {
             <div>
               <CardTitle className="text-xl">About Section Settings</CardTitle>
               <CardDescription>
-                Configure the homepage about section text, image,
-                and resume URL.
+                Configure the homepage about section text, image, and resume
+                URL.
               </CardDescription>
             </div>
             <Badge className="" variant={isEditing ? "default" : "secondary"}>
@@ -91,7 +91,7 @@ export function AboutManager({ about, token, onRefresh }: AboutManagerProps) {
                     name="title"
                     defaultValue={about?.title ?? ""}
                     placeholder="Homepage about headline"
-                    className="rounded-xl"
+                    className="rounded-lg"
                   />
                 </div>
                 <div className="space-y-2">
@@ -100,7 +100,7 @@ export function AboutManager({ about, token, onRefresh }: AboutManagerProps) {
                     name="subtitle"
                     defaultValue={about?.subtitle ?? ""}
                     placeholder="Short subheading"
-                    className="rounded-xl"
+                    className="rounded-lg"
                   />
                 </div>
               </div>
@@ -112,7 +112,7 @@ export function AboutManager({ about, token, onRefresh }: AboutManagerProps) {
                   defaultValue={about?.description ?? ""}
                   rows={6}
                   placeholder="Write the story you want visitors to read."
-                  className="rounded-xl"
+                  className="rounded-lg"
                 />
               </div>
 
@@ -123,7 +123,7 @@ export function AboutManager({ about, token, onRefresh }: AboutManagerProps) {
                     name="resumeUrl"
                     defaultValue={about?.resumeUrl ?? ""}
                     placeholder="https://drive.google.com/..."
-                    className="rounded-xl"
+                    className="rounded-lg"
                   />
                 </div>
 
@@ -131,7 +131,7 @@ export function AboutManager({ about, token, onRefresh }: AboutManagerProps) {
                   <Label>About Image</Label>
                   <div className="space-y-2">
                     {aboutMePreview && (
-                      <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-border">
+                      <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-border">
                         <Image
                           src={aboutMePreview}
                           alt="Preview"
@@ -146,7 +146,7 @@ export function AboutManager({ about, token, onRefresh }: AboutManagerProps) {
                       ref={aboutMeImgRef}
                       onChange={handleAboutMeFileChange}
                       disabled={aboutMeCompressing}
-                      className="rounded-xl cursor-pointer file:cursor-pointer file:text-primary file:font-medium"
+                      className="rounded-lg cursor-pointer file:cursor-pointer file:text-primary file:font-medium"
                     />
                     {aboutMeCompressing ? (
                       <p className="text-[11px] text-primary flex items-center gap-1">
@@ -195,7 +195,7 @@ export function AboutManager({ about, token, onRefresh }: AboutManagerProps) {
           </CardHeader>
           <CardContent className="space-y-5">
             <div className="grid gap-4">
-              <div className="rounded-3xl border border-border bg-background/80 p-5">
+              <div className="rounded-xl border border-border bg-background/80 p-5">
                 <div className="flex items-center justify-between gap-3">
                   <div>
                     <p className="text-sm text-muted-foreground">Headline</p>
@@ -208,14 +208,14 @@ export function AboutManager({ about, token, onRefresh }: AboutManagerProps) {
                   </Badge>
                 </div>
               </div>
-              <div className="rounded-3xl border border-border bg-background/80 p-5">
+              <div className="rounded-xl border border-border bg-background/80 p-5">
                 <p className="text-sm text-muted-foreground">Description</p>
                 <p className="mt-2 text-sm leading-6 text-foreground">
                   {about?.description ??
                     "Add a description to make the about section more compelling."}
                 </p>
               </div>
-              <div className="rounded-3xl border border-border bg-background/80 p-5">
+              <div className="rounded-xl border border-border bg-background/80 p-5">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-muted-foreground">Assets</p>
@@ -233,7 +233,6 @@ export function AboutManager({ about, token, onRefresh }: AboutManagerProps) {
           </CardContent>
         </Card>
       </div>
-
     </div>
   );
 }
