@@ -6,15 +6,12 @@ import { useInView } from "react-intersection-observer";
 import { PERSONAL_INFO } from "@/utils/constants";
 import Image from "next/image";
 import { aboutService } from "@/services/about.service";
-import { settingService } from "@/services/setting.service";
-import { ISettings } from "@/types";
 import CircularButton from "../shared/CircularButton";
 import HoverButton from "../shared/HoverButton";
 import Link from "next/link";
 
 export function AboutSection() {
   const [aboutMeImg, setAboutMeImg] = useState<string | null>(null);
-  const [settings, setSettings] = useState<ISettings | null>(null);
 
   const { ref } = useInView({
     threshold: 0.2,
@@ -29,14 +26,9 @@ export function AboutSection() {
       if (img) setAboutMeImg(img);
       if (data?.resumeUrl) setBackendResumeUrl(data.resumeUrl);
     });
-
-    settingService.getSettings().then(({ data }) => {
-      if (data) setSettings(data);
-    });
   }, []);
 
-  const resumeUrl =
-    backendResumeUrl || settings?.resumeLink || PERSONAL_INFO.resumeUrl;
+  const resumeUrl = backendResumeUrl || PERSONAL_INFO.resumeUrl;
 
   return (
     <section

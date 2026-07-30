@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import {
   Bot,
@@ -49,7 +49,11 @@ import {
   getChatbotLogsAction,
   deleteChatbotLogsAction,
 } from "@/actions/chatbot.action";
-import type { IAiProviderConfig, IChatbotConfig, IChatbotLog } from "@/types/chatbot.type";
+import type {
+  IAiProviderConfig,
+  IChatbotConfig,
+  IChatbotLog,
+} from "@/types/chatbot.type";
 
 interface ChatbotManagerProps {
   aiConfig: IAiProviderConfig | null;
@@ -115,23 +119,26 @@ export function ChatbotManager({
   // ── Chat Logs state ──────────────────────────────────────
   const [logs, setLogs] = useState<IChatbotLog[]>([]);
   const [logTotal, setLogTotal] = useState(0);
-  const [logsLoading, setLogsLoading] = useState(false);
+  const [logsLoading, setLogsLoading] = useState(true);
   const [clearing, setClearing] = useState(false);
   const [confirmClear, setConfirmClear] = useState(false);
 
-  const fetchLogs = useCallback(async () => {
-    setLogsLoading(true);
-    const result = await getChatbotLogsAction(token, 50);
-    if (result.success && result.data) {
-      setLogs(result.data.data ?? []);
-      setLogTotal(result.data.meta?.total ?? 0);
-    }
-    setLogsLoading(false);
-  }, [token]);
-
   useEffect(() => {
-    fetchLogs();
-  }, [fetchLogs]);
+    let cancelled = false;
+
+    getChatbotLogsAction(token, 50).then((result) => {
+      if (cancelled) return;
+      if (result.success && result.data) {
+        setLogs(result.data.data ?? []);
+        setLogTotal(result.data.meta?.total ?? 0);
+      }
+      setLogsLoading(false);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [token]);
 
   const handleClearAllLogs = async () => {
     setClearing(true);
@@ -541,9 +548,7 @@ export function ChatbotManager({
                   >
                     <div className="shrink-0">
                       <Badge
-                        variant={
-                          log.role === "user" ? "default" : "secondary"
-                        }
+                        variant={log.role === "user" ? "default" : "secondary"}
                         className="text-[10px] uppercase tracking-wider"
                       >
                         {log.role}
@@ -597,12 +602,12 @@ export function ChatbotManager({
               ) : (
                 <Button
                   variant="outline"
-                  size="sm"
+                  // size="sm"
                   className="w-full text-destructive border-destructive/30 hover:bg-destructive/10"
                   onClick={() => setConfirmClear(true)}
                   disabled={logTotal === 0}
                 >
-                  <Trash2 className="mr-2 h-4 w-4" />
+                  <Trash2 className="mr-1 h-4 w-4" />
                   Clear All Logs
                 </Button>
               )}
