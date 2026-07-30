@@ -1,17 +1,20 @@
 "use client";
 
 import { AdminStats } from "@/components/modules/dashboard/admin/admin/AdminStats";
+import { RecentContacts } from "@/components/modules/dashboard/admin/admin/RecentContacts";
 import { RefreshCcw } from "lucide-react";
 import { AdminStats as AdminStatsType } from "@/types/admin.type";
+import type { IContact } from "@/types/contact.type";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
 interface AdminClientProps {
   stats: AdminStatsType | null;
   token: string;
+  recentContacts: IContact[];
 }
 
-export function AdminClient({ stats }: AdminClientProps) {
+export function AdminClient({ stats, token, recentContacts }: AdminClientProps) {
   const router = useRouter();
 
   return (
@@ -36,7 +39,7 @@ export function AdminClient({ stats }: AdminClientProps) {
       <AdminStats stats={stats} />
 
       <div className="grid gap-6 md:grid-cols-2">
-        {/* Recent Activity or Chart could go here */}
+        <RecentContacts contacts={recentContacts} />
       </div>
     </div>
   );

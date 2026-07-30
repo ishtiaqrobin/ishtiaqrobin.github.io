@@ -1,5 +1,6 @@
 import { adminService } from "@/services/admin.service";
 import { sessionService } from "@/services/session.service";
+import { contactService } from "@/services/contact.service";
 import { AdminClient } from "@/components/modules/dashboard/admin/admin/AdminClient";
 import { redirect } from "next/navigation";
 
@@ -13,7 +14,17 @@ export default async function AdminDashboardPage() {
   }
 
   const token = sessionData.session.token;
-  const { data: stats } = await adminService.getStats(token);
 
-  return <AdminClient stats={stats} token={token} />;
+  const [statsRes, contactsRes] = await Promise.all([
+    adminService.getStats(token),
+    contactService.getAllContacts(token, { status: "UNREAD" }),
+  ]);
+
+  return (
+    <AdminClient
+      stats={statsRes.data}
+      token={token}
+      recentContacts={contactsRes.data ?? []}
+    />
+  );
 }

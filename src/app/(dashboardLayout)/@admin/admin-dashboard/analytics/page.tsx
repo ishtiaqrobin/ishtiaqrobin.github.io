@@ -1,77 +1,32 @@
-"use client";
-
-import { useCallback, useEffect, useState } from "react";
-import { RefreshCcw } from "lucide-react";
-import { toast } from "sonner";
-
-import { Button } from "@/components/ui/button";
-import { AnalyticsManager } from "@/components/modules/dashboard/admin/analytics/AnalyticsManager";
+import { AnalyticsClient } from "@/components/modules/dashboard/admin/analytics/AnalyticsClient";
 import { analyticsService } from "@/services/analytics.service";
-import { useAuth } from "@/hooks/useAuth";
-import type { PageView, PageViewStat } from "@/types/analytics.type";
+import { sessionService } from "@/services/session.service";
+import { redirect } from "next/navigation";
 
-export default function AdminAnalyticsPage() {
-  const { session, isLoading: authLoading } = useAuth();
-  const userToken = session?.token || "";
+export const dynamic = "force-dynamic";
 
-  const [pageViews, setPageViews] = useState<PageView[]>([]);
-  const [pageViewStats, setPageViewStats] = useState<PageViewStat[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+export default async function AdminAnalyticsPage() {
+  const { data: sessionData } = await sessionService.getSession();
 
-  const fetchAll = useCallback(async () => {
-    if (!userToken) return;
-    setIsLoading(true);
+  if (!sessionData?.session) {
+    redirect("/login");
+  }
 
-    const [viewsRes, statsRes] = await Promise.all([
-      analyticsService.getPageViews(userToken),
-      analyticsService.getPageViewStats(userToken),
+  const token = sessionData.session.token;
+
+  const [pageViewsRes, pageViewStatsRes, resumeDownloadsRes] =
+    await Promise.all([
+      analyticsService.getPageViews(token),
+      analyticsService.getPageViewStats(token),
+      analyticsService.getResumeDownloadLogs(token),
     ]);
 
-    const errors = [viewsRes.error, statsRes.error].filter(Boolean);
-
-    if (errors.length > 0) {
-      toast.error("Failed to load some analytics data", {
-        description: errors.map((e) => e?.message).join(" • "),
-      });
-    }
-
-    setPageViews(viewsRes.data ?? []);
-    setPageViewStats(statsRes.data ?? []);
-    setIsLoading(false);
-  }, [userToken]);
-
-  useEffect(() => {
-    if (!authLoading && userToken) {
-      Promise.resolve().then(() => fetchAll());
-    }
-  }, [authLoading, userToken, fetchAll]);
-
   return (
-    <div className="min-h-screen space-y-8">
-      <div className="flex items-end justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Analytics</h1>
-          <p className="mt-2 text-lg text-muted-foreground">
-            Page views and analytics for your portfolio
-          </p>
-        </div>
-        <Button
-          variant="outline"
-          // size="sm"
-          onClick={fetchAll}
-          disabled={isLoading || !userToken}
-          className="cursor-pointer"
-        >
-          <RefreshCcw className="mr-2 h-4 w-4" />
-          Refresh
-        </Button>
-      </div>
-
-      <AnalyticsManager
-        pageViews={pageViews}
-        pageViewStats={pageViewStats}
-        isLoading={isLoading}
-      />
-    </div>
+    <AnalyticsClient
+      pageViews={pageViewsRes.data ?? []}
+      pageViewStats={pageViewStatsRes.data ?? []}
+      resumeDownloadLogs={resumeDownloadsRes.data ?? []}
+      token={token}
+    />
   );
 }
