@@ -14,6 +14,8 @@ export interface AdminStats {
   totalExperiences: number;
   totalEducations: number;
   totalCertificates: number;
+  totalAwards: number;
+  totalFaqs: number;
   totalReviews: number;
   totalGallery: number;
   totalVideos: number;
