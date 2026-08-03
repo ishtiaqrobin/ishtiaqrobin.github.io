@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useActionState, useEffect } from "react";
+import { useFormStatus } from "react-dom";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,16 +21,30 @@ import { Textarea } from "@/components/ui/textarea";
 import ShimmerText from "../../shared/ShimmerText";
 import HoverButton from "../../shared/HoverButton";
 import { contactSchema, ContactFormValues } from "@/lib/validation";
-import { contactService } from "@/services/contact.service";
 import { toast } from "sonner";
 import { PERSONAL_INFO } from "@/utils/constants";
 import SocialIcons from "../../shared/SocialIcons";
-import SplitTextReveal from "../../shared/SplitTextReveal";
-import { motion } from "motion/react";
 import { useInView } from "react-intersection-observer";
+import {
+  initialContactFormState,
+  submitContactAction,
+} from "@/actions/contact.action";
+
+function ContactSubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <HoverButton type="submit" disabled={pending} loading={pending}>
+      {pending ? "Sending..." : "Submit"}
+    </HoverButton>
+  );
+}
 
 export function ContactSection() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [state, formAction] = useActionState(
+    submitContactAction,
+    initialContactFormState,
+  );
 
   const { ref } = useInView({
     threshold: 0.2,
@@ -38,6 +53,7 @@ export function ContactSection() {
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
+    mode: "onChange",
     defaultValues: {
       // ✅ was: defaultValue (typo)
       name: "",
@@ -45,30 +61,25 @@ export function ContactSection() {
       message: "",
     },
   });
+  const { reset } = form;
 
-  const onSubmit = async (values: ContactFormValues) => {
-    setIsLoading(true);
+  useEffect(() => {
+    if (!state.message) return;
 
-    try {
-      const { error } = await contactService.createContact({
-        name: values.name, // ✅ schema uses name, service expects name
-        email: values.email,
-        subject: "Portfolio Contact Form", // subject is required by service but not in this form's design
-        message: values.message,
-      });
-
-      if (error) {
-        toast.error(error.message);
-      } else {
-        toast.success("Message sent successfully!");
-        form.reset();
-      }
-    } catch (error) {
-      console.error("Message sending error:", error);
-      toast.error("An unexpected error occurred. Please try again.");
-    } finally {
-      setIsLoading(false);
+    if (state.success) {
+      toast.success(state.message);
+      reset();
+      return;
     }
+
+    toast.error(state.message);
+  }, [reset, state.message, state.success]);
+
+  const validateBeforeSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    if (form.formState.isValid) return;
+
+    event.preventDefault();
+    void form.trigger();
   };
 
   return (
@@ -88,7 +99,11 @@ export function ContactSection() {
         {/* ─── Left Column (Form) ─── */}
         <div className="lg:col-span-6 w-full">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form
+              action={formAction}
+              onSubmit={validateBeforeSubmit}
+              className="space-y-4"
+            >
               <FormField
                 control={form.control}
                 name="name"
@@ -153,9 +168,7 @@ export function ContactSection() {
               />
 
               <div className="">
-                <HoverButton type="submit" disabled={isLoading}>
-                  {isLoading ? "Sending..." : "Submit"}
-                </HoverButton>
+                <ContactSubmitButton />
               </div>
             </form>
           </Form>

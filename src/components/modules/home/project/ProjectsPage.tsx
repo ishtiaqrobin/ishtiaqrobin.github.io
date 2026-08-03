@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useOptimistic, useState, useTransition } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiSearch } from "react-icons/fi";
 import ShimmerText from "../../shared/ShimmerText";
@@ -17,11 +18,62 @@ export default function ProjectsPage({
   projects,
   categories,
 }: ProjectsPageProps) {
-  const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [activeCategory, setActiveCategory] = useState("All");
 
   const categoryNames = ["All", ...categories.map((c) => c.name)];
+  const categoryParam = searchParams.get("category");
+  const selectedCategoryFromUrl =
+    categoryParam && categoryNames.includes(categoryParam)
+      ? categoryParam
+      : "All";
+  const [filters, setOptimisticFilters] = useOptimistic(
+    {
+      searchQuery: searchParams.get("q") || "",
+      activeCategory: selectedCategoryFromUrl,
+    },
+    (_, nextFilters: { searchQuery: string; activeCategory: string }) =>
+      nextFilters,
+  );
+  const { searchQuery, activeCategory } = filters;
+
+  const updateUrlFilters = (nextQuery: string, nextCategory: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (nextQuery.trim()) {
+      params.set("q", nextQuery);
+    } else {
+      params.delete("q");
+    }
+
+    if (nextCategory !== "All") {
+      params.set("category", nextCategory);
+    } else {
+      params.delete("category");
+    }
+
+    const queryString = params.toString();
+    startTransition(() => {
+      setOptimisticFilters({
+        searchQuery: nextQuery,
+        activeCategory: nextCategory,
+      });
+      router.replace(queryString ? `${pathname}?${queryString}` : pathname, {
+        scroll: false,
+      });
+    });
+  };
+
+  const handleSearchChange = (nextQuery: string) => {
+    updateUrlFilters(nextQuery, activeCategory);
+  };
+
+  const handleCategoryChange = (nextCategory: string) => {
+    updateUrlFilters(searchQuery, nextCategory);
+  };
 
   const filteredProjects = projects.filter((project) => {
     const matchesCategory =
@@ -59,7 +111,7 @@ export default function ProjectsPage({
               isOpen={isSearchOpen}
               onClose={() => setIsSearchOpen(false)}
               searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
+              setSearchQuery={handleSearchChange}
             />
           )}
         </AnimatePresence>
@@ -70,7 +122,7 @@ export default function ProjectsPage({
             return (
               <button
                 key={category}
-                onClick={() => setActiveCategory(category)}
+                onClick={() => handleCategoryChange(category)}
                 className={`px-6 py-2 text-base leading-6 font-normal rounded-full transition-all duration-300 ${
                   isSelected
                     ? "bg-[#E5E7EB] dark:bg-[#27272A]"
@@ -86,6 +138,7 @@ export default function ProjectsPage({
 
       <motion.div
         layout
+        aria-busy={isPending}
         className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8 sm:gap-y-0 items-start"
       >
         <AnimatePresence mode="popLayout">

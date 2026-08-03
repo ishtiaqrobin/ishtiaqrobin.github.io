@@ -1,8 +1,15 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useOptimistic,
+  useTransition,
+} from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X, Send, Loader2, Bot, User, RotateCcw, Trash } from "lucide-react";
+import { X, User } from "lucide-react";
 
 import {
   Tooltip,
@@ -19,7 +26,6 @@ import type { IChatMessage } from "@/types/chatbot.type";
 import ChatbotIcon from "./ChatbotIcon";
 import { IoArrowUpOutline } from "react-icons/io5";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
-import { Textarea } from "../ui/textarea";
 import { RiDeleteBinLine } from "react-icons/ri";
 
 // ── Session ID — persistent per browser tab ───────────────
@@ -46,7 +52,14 @@ export function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<IChatMessage[]>([WELCOME_MESSAGE]);
   const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const [optimisticMessages, addOptimisticMessage] = useOptimistic(
+    messages,
+    (currentMessages, optimisticMessage: IChatMessage) => [
+      ...currentMessages,
+      optimisticMessage,
+    ],
+  );
   const [sessionId] = useState(getSessionId);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -54,7 +67,7 @@ export function Chatbot() {
   // Auto-scroll to latest message
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [optimisticMessages]);
 
   // Focus input when chat opens
   useEffect(() => {
@@ -63,59 +76,62 @@ export function Chatbot() {
     }
   }, [isOpen]);
 
-  const handleSend = useCallback(async () => {
+  const handleSend = useCallback(() => {
     const text = input.trim();
-    if (!text || isLoading) return;
+    if (!text || isPending) return;
 
-    // Add user message immediately
     const userMsg: IChatMessage = {
       id: crypto.randomUUID(),
       role: "user",
       content: text,
       timestamp: new Date(),
     };
-    setMessages((prev) => [...prev, userMsg]);
     setInput("");
-    setIsLoading(true);
 
-    const { data, error } = await chatbotService.sendMessage({
-      message: text,
-      sessionId,
+    startTransition(async () => {
+      addOptimisticMessage(userMsg);
+
+      try {
+        const { data, error } = await chatbotService.sendMessage({
+          message: text,
+          sessionId,
+        });
+        const assistantMessage: IChatMessage = {
+          id: crypto.randomUUID(),
+          role: "assistant",
+          content: error
+            ? error.message.includes("Too many requests")
+              ? `⏳ ${error.message}`
+              : "Sorry, something went wrong. Please try again."
+            : data?.reply || "Sorry, something went wrong. Please try again.",
+          timestamp: new Date(),
+        };
+
+        setMessages((previousMessages) => [
+          ...previousMessages,
+          userMsg,
+          assistantMessage,
+        ]);
+      } catch {
+        setMessages((previousMessages) => [
+          ...previousMessages,
+          userMsg,
+          {
+            id: crypto.randomUUID(),
+            role: "assistant",
+            content: "Sorry, something went wrong. Please try again.",
+            timestamp: new Date(),
+          },
+        ]);
+      }
     });
+  }, [addOptimisticMessage, input, isPending, sessionId, startTransition]);
 
-    if (error) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: crypto.randomUUID(),
-          role: "assistant",
-          content: error.message.includes("Too many requests")
-            ? `⏳ ${error.message}`
-            : "Sorry, something went wrong. Please try again.",
-          timestamp: new Date(),
-        },
-      ]);
-    } else if (data) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: crypto.randomUUID(),
-          role: "assistant",
-          content: data.reply,
-          timestamp: new Date(),
-        },
-      ]);
-    }
-
-    setIsLoading(false);
-  }, [input, isLoading, sessionId]);
-
-  // isLoading false হলে focus restore করো
   useEffect(() => {
-    if (!isLoading && isOpen) {
+    if (!isPending && isOpen) {
       inputRef.current?.focus();
     }
-  }, [isLoading, isOpen]);
+  }, [isPending, isOpen]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -201,7 +217,7 @@ export function Chatbot() {
 
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0 max-h-[420px] scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
-              {messages.map((msg) => (
+              {optimisticMessages.map((msg) => (
                 <div
                   key={msg.id}
                   className={cn(
@@ -251,7 +267,7 @@ export function Chatbot() {
               ))}
 
               {/* Typing indicator */}
-              {isLoading && (
+              {isPending && (
                 <div className="flex gap-2.5 items-end">
                   {/* <div className="w-6 h-6 rounded-full bg-muted shrink-0 flex items-center justify-center">
                     <Bot className="h-3 w-3 text-primary" />
@@ -290,7 +306,7 @@ export function Chatbot() {
                   onKeyDown={handleKeyDown}
                   placeholder="Ask me anything..."
                   className="h-14 rounded-xl bg-background border border-zinc-200 dark:border-zinc-800 text-sm focus-visible:ring-2"
-                  disabled={isLoading}
+                  disabled={isPending}
                   maxLength={500}
                 />
                 <Button
@@ -299,9 +315,9 @@ export function Chatbot() {
                     ${!input.trim() ? "cursor-not-allowed" : "cursor-pointer"}
                     `}
                   onClick={handleSend}
-                  disabled={!input.trim() || isLoading}
+                  disabled={!input.trim() || isPending}
                 >
-                  {isLoading ? (
+                  {isPending ? (
                     <MdCheckBoxOutlineBlank className="h-4 w-4 text-primary-foreground dark:text-dark-300" />
                   ) : (
                     <IoArrowUpOutline className="h-4 w-4 text-primary-foreground dark:text-dark-300" />
@@ -347,7 +363,7 @@ export function Chatbot() {
       </TooltipProvider>
 
       {/* Unread dot — show when closed and messages > 1 */}
-      {!isOpen && messages.length > 1 && (
+      {!isOpen && optimisticMessages.length > 1 && (
         <span className="fixed bottom-30 sm:bottom-17 right-4 sm:right-7 z-50 w-3 h-3 rounded-full bg-primary border-2 border-background pointer-events-none" />
       )}
     </>
