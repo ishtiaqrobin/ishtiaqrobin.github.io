@@ -1,29 +1,44 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   DashboardFormFields,
-  DashboardLoadingHeader,
+  DashboardStaticHeader,
 } from "@/components/modules/dashboard/DashboardLoadingPrimitives";
 
 export default function AdminSettingsLoading() {
   return (
     <div className="min-h-screen space-y-8" role="status" aria-label="Loading platform settings">
-      <DashboardLoadingHeader actionWidth="w-24" />
+      <DashboardStaticHeader
+        title="Platform Settings"
+        description="Manage your social links, contact info, and site configuration"
+        actionLabel="Refresh"
+      />
       <div className="rounded-2xl border bg-card">
         <div className="space-y-2 border-b p-6">
-          <Skeleton className="h-6 w-40" />
-          <Skeleton className="h-4 w-96 max-w-full" />
+          <h2 className="text-xl font-semibold">Global Settings</h2>
+          <p className="text-sm text-muted-foreground">
+            Configure your site identity, social links, contact info, and SEO.
+          </p>
         </div>
         <div className="space-y-8 p-6">
           <div className="space-y-4">
-            <Skeleton className="h-4 w-28" />
+            <h3 className="text-sm font-semibold uppercase tracking-widest text-primary/80">
+              Social Links
+            </h3>
             <DashboardFormFields fields={6} />
           </div>
           <Skeleton className="h-px w-full" />
           <div className="space-y-4">
-            <Skeleton className="h-4 w-40" />
+            <h3 className="text-sm font-semibold uppercase tracking-widest text-primary/80">
+              Contact &amp; Professional
+            </h3>
             <DashboardFormFields fields={6} />
           </div>
-          <Skeleton className="h-10 w-40 rounded-lg" />
+          <button
+            type="button"
+            className="h-10 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground"
+          >
+            Save All Settings
+          </button>
         </div>
       </div>
       <span className="sr-only">Loading platform settings</span>

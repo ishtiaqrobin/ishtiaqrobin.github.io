@@ -1,15 +1,19 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-  DashboardLoadingHeader,
   DashboardMetricCards,
+  DashboardStaticHeader,
   DashboardTableSkeleton,
 } from "@/components/modules/dashboard/DashboardLoadingPrimitives";
 
 export default function AdminAnalyticsLoading() {
   return (
     <div className="min-h-screen space-y-8" role="status" aria-label="Loading analytics">
-      <DashboardLoadingHeader actionWidth="w-24" />
-      <DashboardMetricCards />
+      <DashboardStaticHeader
+        title="Analytics"
+        description="Page views and analytics for your portfolio"
+        actionLabel="Refresh"
+      />
+      <DashboardMetricCards count={3} />
       <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
         <div className="rounded-xl border bg-card p-6">
           <Skeleton className="mb-2 h-6 w-44" />

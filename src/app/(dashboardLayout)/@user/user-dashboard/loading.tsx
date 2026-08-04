@@ -5,12 +5,23 @@ export default function UserDashboardLoading() {
     <div className="min-h-screen space-y-8 pb-10" role="status" aria-label="Loading user dashboard">
       <div className="relative overflow-hidden rounded-3xl border border-primary/10 bg-primary/5 p-8 shadow-md">
         <div className="space-y-4">
-          <Skeleton className="h-9 w-80 max-w-full" />
-          <Skeleton className="h-5 w-96 max-w-full" />
-          <Skeleton className="h-5 w-72 max-w-full" />
+          <h1 className="text-3xl font-bold tracking-tight">Welcome back!</h1>
+          <p className="max-w-md text-muted-foreground">
+            Here&apos;s an overview of your account and recent activities.
+          </p>
           <div className="flex gap-4 pt-2">
-            <Skeleton className="h-9 w-28 rounded-lg" />
-            <Skeleton className="h-9 w-32 rounded-lg" />
+            <button
+              type="button"
+              className="h-9 rounded-lg bg-primary px-3 text-sm font-medium text-primary-foreground"
+            >
+              Edit Profile
+            </button>
+            <button
+              type="button"
+              className="h-9 rounded-lg border border-border bg-background px-3 text-sm font-medium"
+            >
+              View Portfolio
+            </button>
           </div>
         </div>
         <Skeleton className="absolute right-10 top-8 hidden h-32 w-32 rounded-full md:block" />
@@ -29,11 +40,28 @@ export default function UserDashboardLoading() {
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 3 }).map((_, index) => (
           <div key={index} className="overflow-hidden rounded-3xl border bg-card">
-            <Skeleton className="h-12 w-full rounded-none" />
+            <div className="h-12 bg-primary/5 px-6 py-4">
+              <p className="text-lg font-semibold">
+                {index === 0
+                  ? "Review Management"
+                  : index === 1
+                    ? "Personal Profile"
+                    : "Account Settings"}
+              </p>
+            </div>
             <div className="space-y-4 p-6">
               <Skeleton className="h-4 w-full" />
               <Skeleton className="h-4 w-4/5" />
-              <Skeleton className="h-8 w-full rounded-lg" />
+              <button
+                type="button"
+                className="h-8 w-full rounded-lg bg-primary text-sm font-medium text-primary-foreground"
+              >
+                {index === 0
+                  ? "Manage My Review"
+                  : index === 1
+                    ? "Update Information"
+                    : "Security Settings"}
+              </button>
             </div>
           </div>
         ))}

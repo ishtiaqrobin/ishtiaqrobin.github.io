@@ -14,7 +14,11 @@ interface AdminClientProps {
   recentContacts: IContact[];
 }
 
-export function AdminClient({ stats, token, recentContacts }: AdminClientProps) {
+export function AdminClient({
+  stats,
+  token,
+  recentContacts,
+}: AdminClientProps) {
   const router = useRouter();
 
   return (
@@ -22,7 +26,7 @@ export function AdminClient({ stats, token, recentContacts }: AdminClientProps) 
       <div className="flex justify-between items-end">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
-          <p className="text-muted-foreground mt-2 text-lg">
+          <p className="text-muted-foreground mt-2">
             Overall platform statistics and insights
           </p>
         </div>

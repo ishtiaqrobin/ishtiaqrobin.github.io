@@ -4,13 +4,20 @@ export default function UserReviewLoading() {
   return (
     <div className="min-h-screen space-y-6 pb-20" role="status" aria-label="Loading review">
       <div>
-        <Skeleton className="h-9 w-64" />
-        <Skeleton className="mt-2 h-5 w-96 max-w-full" />
+        <h1 className="text-3xl font-bold tracking-tight">Manage Your Review</h1>
+        <p className="mt-2 text-muted-foreground">
+          Share your experience and help others learn more about my services
+        </p>
       </div>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <Skeleton className="h-6 w-48" />
-          <Skeleton className="h-10 w-36 rounded-lg" />
+          <h2 className="text-xl font-semibold">My Review &amp; Feedback</h2>
+          <button
+            type="button"
+            className="h-10 rounded-lg bg-primary px-3 text-sm font-medium text-primary-foreground"
+          >
+            Write a Review
+          </button>
         </div>
         <div className="max-w-md overflow-hidden rounded-3xl border bg-card p-6">
           <div className="flex items-start justify-between gap-3">

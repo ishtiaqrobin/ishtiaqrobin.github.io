@@ -1,13 +1,17 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-  DashboardLoadingHeader,
   DashboardMetricCards,
+  DashboardStaticHeader,
 } from "@/components/modules/dashboard/DashboardLoadingPrimitives";
 
 export default function AdminDashboardLoading() {
   return (
     <div className="min-h-screen space-y-8" role="status" aria-label="Loading dashboard">
-      <DashboardLoadingHeader actionWidth="w-24" />
+      <DashboardStaticHeader
+        title="Admin Dashboard"
+        description="Overall platform statistics and insights"
+        actionLabel="Refresh"
+      />
       <DashboardMetricCards />
 
       <div className="grid gap-6 md:grid-cols-2">

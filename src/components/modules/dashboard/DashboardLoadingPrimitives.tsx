@@ -1,5 +1,34 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
+interface DashboardStaticHeaderProps {
+  title: string;
+  description: string;
+  actionLabel?: string;
+}
+
+export function DashboardStaticHeader({
+  title,
+  description,
+  actionLabel,
+}: DashboardStaticHeaderProps) {
+  return (
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
+        <p className="mt-2 text-muted-foreground">{description}</p>
+      </div>
+      {actionLabel && (
+        <button
+          type="button"
+          className="inline-flex h-9 items-center justify-center rounded-lg border border-border bg-background px-3 text-sm font-medium"
+        >
+          {actionLabel}
+        </button>
+      )}
+    </div>
+  );
+}
+
 interface DashboardLoadingHeaderProps {
   actionWidth?: string;
   compact?: boolean;
@@ -37,18 +66,41 @@ export function DashboardMetricCards({ count = 4 }: { count?: number }) {
 
 export function DashboardFilterBar({
   hasStatusFilter = true,
-  addButtonWidth = "w-32",
+  addLabel = "Add item",
+  searchPlaceholder = "Search...",
 }: {
   hasStatusFilter?: boolean;
-  addButtonWidth?: string;
+  addLabel?: string;
+  searchPlaceholder?: string;
 }) {
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <Skeleton className="h-10 w-full sm:w-72 rounded-lg" />
+      <input
+        aria-label={searchPlaceholder}
+        placeholder={searchPlaceholder}
+        className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm outline-none sm:w-72"
+      />
       <div className="flex items-center gap-2">
-        {hasStatusFilter && <Skeleton className="h-10 w-36 rounded-lg" />}
-        <Skeleton className="h-10 w-24 rounded-lg" />
-        <Skeleton className={`h-10 ${addButtonWidth} rounded-lg`} />
+        {hasStatusFilter && (
+          <button
+            type="button"
+            className="h-10 w-36 rounded-lg border border-input bg-background px-3 text-left text-sm text-muted-foreground"
+          >
+            All Status
+          </button>
+        )}
+        <button
+          type="button"
+          className="h-10 rounded-lg border border-border bg-background px-3 text-sm font-medium"
+        >
+          Reset
+        </button>
+        <button
+          type="button"
+          className="h-10 rounded-lg bg-primary px-3 text-sm font-medium text-primary-foreground"
+        >
+          {addLabel}
+        </button>
       </div>
     </div>
   );
@@ -109,12 +161,14 @@ export function DashboardFormFields({
           key={index}
           className={textArea && index === fields - 1 ? "sm:col-span-2" : ""}
         >
-          <Skeleton className="mb-2 h-3 w-24" />
-          <Skeleton
-            className={`w-full rounded-lg ${
-              textArea && index === fields - 1 ? "h-32" : "h-10"
-            }`}
-          />
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            {textArea && index === fields - 1 ? "Description" : "Field"}
+          </p>
+          {textArea && index === fields - 1 ? (
+            <textarea className="h-32 w-full resize-none rounded-lg border border-input bg-background p-3 text-sm outline-none" />
+          ) : (
+            <input className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm outline-none" />
+          )}
         </div>
       ))}
     </div>
