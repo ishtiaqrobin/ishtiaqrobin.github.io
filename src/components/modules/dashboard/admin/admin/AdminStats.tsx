@@ -119,24 +119,21 @@ type SubSection = {
   cards: SubCard[];
 };
 
-function StatCard({
-  title,
-  value,
-  icon: Icon,
-  description,
-  tone,
-}: HeroCard) {
+function StatCard({ title, value, icon: Icon, description, tone }: HeroCard) {
   const p = PALETTES[tone];
   return (
     <Card
       className={cn(
-        "overflow-hidden transition-all shadow hover:shadow-md border-primary/10 p-4",
+        "overflow-hidden transition-all shadow hover:shadow-md border-primary/10",
       )}
     >
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">{title}</CardTitle>
         <div
-          className={cn("flex p-2 items-center justify-center rounded-lg", p.iconBg)}
+          className={cn(
+            "flex p-2 items-center justify-center rounded-lg",
+            p.iconBg,
+          )}
         >
           <Icon className={cn("h-4 w-4", p.iconColor)} />
         </div>
@@ -159,7 +156,10 @@ function MiniStatCard({ title, value, icon: Icon, tone }: SubCard) {
     >
       <div className="flex items-center gap-3">
         <div
-          className={cn("flex p-2 items-center justify-center rounded-lg shrink-0", p.iconBg)}
+          className={cn(
+            "flex p-2 items-center justify-center rounded-lg shrink-0",
+            p.iconBg,
+          )}
         >
           <Icon className={cn("h-4 w-4", p.iconColor)} />
         </div>
