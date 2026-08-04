@@ -6,8 +6,6 @@ import {
   SidebarInset,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { useAuth } from "@/hooks/useAuth";
-import { Loader2 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import {
   Breadcrumb,
@@ -28,22 +26,15 @@ export default function DashboardLayout({
   admin: React.ReactNode;
   user: React.ReactNode;
 }) {
-  const { user: userState, isLoading } = useAuth();
   const pathname = usePathname();
 
   const segments = pathname?.split("/").filter(Boolean) ?? [];
+  const isAdminRoute = pathname?.startsWith("/admin-dashboard");
+  const isUserRoute = pathname?.startsWith("/user-dashboard");
 
   const formatLabel = (segment: string) => {
     return segment.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
   };
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
-  }
 
   return (
     <SidebarProvider>
@@ -85,9 +76,7 @@ export default function DashboardLayout({
           </header>
           {/* ✅ data-lenis-prevent — Lenis এই area-তে scroll capture করবে না */}
           <div className="flex-1 overflow-y-auto p-4 md:p-6" data-lenis-prevent>
-            {userState?.role === "ADMIN" && admin}
-            {userState?.role === "USER" && user}
-            {!userState?.role && children}
+            {isAdminRoute ? admin : isUserRoute ? user : children}
           </div>
         </SidebarInset>
       </div>

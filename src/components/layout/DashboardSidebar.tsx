@@ -5,21 +5,20 @@ import { Sidebar as SidebarPrimitive } from "@/components/ui/sidebar";
 import { adminRoutes } from "@/routes/adminRoutes";
 import { userRoutes } from "@/routes/userRoutes";
 import { useAuth } from "@/hooks/useAuth";
-import {
-  ChartColumn,
-  Gift,
-  Home,
-  Settings,
-  ShoppingCart,
-  TrendingUp,
-} from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Home, Settings, TrendingUp } from "lucide-react";
 import { AppSidebar } from "./AppSidebar";
 
 export function DashboardSidebar(
   props: React.ComponentProps<typeof SidebarPrimitive>,
 ) {
   const { user } = useAuth();
-  const isAdmin = user?.role === "ADMIN";
+  const pathname = usePathname();
+  // On a hard reload the session hook is briefly pending. The URL already
+  // identifies the active dashboard, so keep the navigation shell stable.
+  const isAdmin =
+    user?.role === "ADMIN" ||
+    (!user && pathname?.startsWith("/admin-dashboard"));
 
   const routes = isAdmin ? adminRoutes : userRoutes;
 
@@ -57,6 +56,7 @@ export function DashboardSidebar(
 
   return (
     <AppSidebar
+      {...props}
       variant="inset"
       className="border-r"
       routes={routes}

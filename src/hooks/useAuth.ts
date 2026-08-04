@@ -8,8 +8,6 @@ export function useAuth() {
   const router = useRouter();
   const { data: sessionData, isPending: isLoading } = authClient.useSession();
 
-  console.log(sessionData);
-
   const logout = async () => {
     try {
       await authClient.signOut();
