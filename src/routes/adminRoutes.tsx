@@ -10,6 +10,7 @@ import {
   MessageSquare,
   ChartBarIcon,
   HelpCircle,
+  Newspaper,
 } from "lucide-react";
 
 export const adminRoutes: Route[] = [
@@ -45,6 +46,11 @@ export const adminRoutes: Route[] = [
         title: "Projects",
         url: "/admin-dashboard/projects",
         icon: FolderKanban,
+      },
+      {
+        title: "Blogs",
+        url: "/admin-dashboard/blogs",
+        icon: Newspaper,
       },
       {
         title: "Reviews",
