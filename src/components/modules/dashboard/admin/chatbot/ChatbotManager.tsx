@@ -463,11 +463,10 @@ export function ChatbotManager({
             {/* Test Connection result */}
             {testResult && (
               <div
-                className={`rounded-xl border p-3 text-sm ${
-                  testResult.success
+                className={`rounded-xl border p-3 text-sm ${testResult.success
                     ? "border-emerald-500/30 bg-emerald-500/5"
                     : "border-destructive/30 bg-destructive/5"
-                }`}
+                  }`}
               >
                 <div className="flex items-start gap-2">
                   {testResult.success ? (
@@ -477,11 +476,10 @@ export function ChatbotManager({
                   )}
                   <div className="min-w-0 flex-1 space-y-1">
                     <p
-                      className={`font-medium ${
-                        testResult.success
+                      className={`font-medium ${testResult.success
                           ? "text-emerald-600 dark:text-emerald-400"
                           : "text-destructive"
-                      }`}
+                        }`}
                     >
                       {testResult.success
                         ? "Connection successful"
