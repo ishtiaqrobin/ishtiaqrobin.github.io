@@ -40,7 +40,10 @@ export async function createBlogAction(
       };
     }
 
-    return { success: false, message: result.message || "Failed to create blog" };
+    return {
+      success: false,
+      message: result.message || "Failed to create blog",
+    };
   } catch (error: any) {
     return { success: false, message: error.message || "An error occurred" };
   }
@@ -72,7 +75,10 @@ export async function updateBlogAction(
       };
     }
 
-    return { success: false, message: result.message || "Failed to update blog" };
+    return {
+      success: false,
+      message: result.message || "Failed to update blog",
+    };
   } catch (error: any) {
     return { success: false, message: error.message || "An error occurred" };
   }
@@ -100,7 +106,10 @@ export async function deleteBlogAction(
       };
     }
 
-    return { success: false, message: result.message || "Failed to delete blog" };
+    return {
+      success: false,
+      message: result.message || "Failed to delete blog",
+    };
   } catch (error: any) {
     return { success: false, message: error.message || "An error occurred" };
   }

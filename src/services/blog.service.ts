@@ -119,7 +119,10 @@ export const blogService = {
       return { data: json.data ?? [], error: null };
     } catch (err) {
       console.error("Error fetching related blogs:", err);
-      return { data: null, error: toError(err, "Error fetching related blogs") };
+      return {
+        data: null,
+        error: toError(err, "Error fetching related blogs"),
+      };
     }
   },
 
@@ -221,7 +224,9 @@ export const blogService = {
    * Get approved comments for a blog (public)
    * GET /blogs/:id/comments
    */
-  getComments: async function (blogId: string): Promise<Result<IBlogComment[]>> {
+  getComments: async function (
+    blogId: string,
+  ): Promise<Result<IBlogComment[]>> {
     try {
       const res = await fetch(`${API_URL}/blogs/${blogId}/comments`, {
         cache: "no-store",

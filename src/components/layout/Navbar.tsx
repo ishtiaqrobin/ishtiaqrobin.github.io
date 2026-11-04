@@ -67,11 +67,10 @@ export function Navbar() {
         transition={{ duration: 0.7 }}
       >
         <nav
-          className={`${
-            scrolled
+          className={`${scrolled
               ? "max-w-2xl mx-auto bg-white/65 dark:bg-dark-50/75 backdrop-blur-xl px-1.5 border rounded-full"
               : "container-custom bg-transparent border border-transparent"
-          } duration-700 transition-all flex items-center justify-between py-1`}
+            } duration-700 transition-all flex items-center justify-between py-1`}
         >
           {/* Logo */}
           <Link href="/">
@@ -94,9 +93,8 @@ export function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`group relative flex items-center gap-2 px-2 text-sm font-normal leading-5 rounded-lg transition-colors duration-200 ${
-                    isActive ? "text-secondary" : "text-secondary"
-                  }`}
+                  className={`group relative flex items-center gap-2 px-2 text-sm font-normal leading-5 rounded-lg transition-colors duration-200 ${isActive ? "text-secondary" : "text-secondary"
+                    }`}
                 >
                   {/* Active indicator */}
                   {isActive ? (
@@ -124,11 +122,10 @@ export function Navbar() {
                       {link.name}
                     </span>
                     <span
-                      className={`absolute top-0 left-0 block transition-transform duration-500 ease-in-out translate-y-full group-hover:translate-y-0 ${
-                        isActive
+                      className={`absolute top-0 left-0 block transition-transform duration-500 ease-in-out translate-y-full group-hover:translate-y-0 ${isActive
                           ? "text-primary"
                           : "text-gray-900 dark:text-white"
-                      }`}
+                        }`}
                     >
                       {link.name}
                     </span>
@@ -141,11 +138,10 @@ export function Navbar() {
             {user?.role === "ADMIN" || user?.role === "USER" ? (
               <Link
                 href="/admin-dashboard"
-                className={`group relative flex items-center gap-2 px-2 text-sm font-normal leading-5 rounded-lg transition-colors duration-200 ${
-                  pathname === "/admin-dashboard"
+                className={`group relative flex items-center gap-2 px-2 text-sm font-normal leading-5 rounded-lg transition-colors duration-200 ${pathname === "/admin-dashboard"
                     ? "text-secondary"
                     : "text-secondary"
-                }`}
+                  }`}
               >
                 {pathname === "/admin-dashboard" ? (
                   isResizing ? (
@@ -183,7 +179,7 @@ export function Navbar() {
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               className="p-2.5 rounded-full bg-gray-100/75 hover:bg-gray-100 dark:bg-white/5 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300 hover:text-yellow-500 dark:hover:text-yellow-400 transition-all duration-300 border border-transparent cursor-pointer"
               aria-label="Toggle theme"
-              // border border-gray-200 dark:border-white/10
+            // border border-gray-200 dark:border-white/10
             >
               <AnimatePresence mode="wait">
                 {theme === "dark" ? (
