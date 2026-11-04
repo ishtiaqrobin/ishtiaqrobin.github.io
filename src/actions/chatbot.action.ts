@@ -6,6 +6,7 @@ import { chatbotService } from "@/services/chatbot.service";
 import type {
   ICreateAiProviderConfigInput,
   ICreateChatbotConfigInput,
+  ITestAiProviderInput,
   IUpdateAiProviderConfigInput,
   IUpdateChatbotConfigInput,
 } from "@/types/chatbot.type";
@@ -82,8 +83,38 @@ export async function updateAiProviderConfigAction(
   }
 }
 
-// ── Chatbot Config ────────────────────────────────────────
+/**
+ * Test AI provider connection (admin only)
+ * Save না করেই current form values দিয়ে test করা যাবে।
+ */
+export async function testAiProviderConnectionAction(
+  payload: ITestAiProviderInput,
+  token: string,
+): Promise<ActionResult> {
+  try {
+    const { data, error } = await chatbotService.testAiProviderConnection(
+      token,
+      payload,
+    );
 
+    if (error) {
+      return { success: false, message: error.message };
+    }
+
+    return {
+      success: data?.success ?? false,
+      message: data?.message ?? "Connection test finished",
+      data,
+    };
+  } catch (err) {
+    return {
+      success: false,
+      message: err instanceof Error ? err.message : "An error occurred",
+    };
+  }
+}
+
+// ── Chatbot Config ────────────────────────────────────────
 /**
  * Upsert chatbot config (admin only)
  */

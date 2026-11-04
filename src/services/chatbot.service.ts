@@ -7,6 +7,8 @@ import type {
   ICreateChatbotConfigInput,
   ISendMessageInput,
   ISendMessageResponse,
+  ITestAiProviderInput,
+  ITestAiProviderResult,
   IUpdateAiProviderConfigInput,
   IUpdateChatbotConfigInput,
 } from "@/types/chatbot.type";
@@ -147,8 +149,42 @@ export const chatbotService = {
     }
   },
 
-  // ── Chatbot Config (Admin) ────────────────────────────────────────
+  /**
+   * Test AI provider connection (admin only)
+   * POST /chatbot/ai-config/test
+   *
+   * Payload optional — না দিলে backend saved config দিয়ে test করবে।
+   */
+  testAiProviderConnection: async function (
+    token: string,
+    payload?: ITestAiProviderInput,
+  ): Promise<Result<ITestAiProviderResult>> {
+    try {
+      const res = await fetch(`${API_URL}/chatbot/ai-config/test`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload ?? {}),
+        credentials: "include",
+      });
 
+      const json = await res.json();
+      if (!res.ok) {
+        throw new Error(json.message || `HTTP ${res.status}`);
+      }
+      return { data: json.data, error: null };
+    } catch (err) {
+      console.error("Error testing AI provider connection:", err);
+      return {
+        data: null,
+        error: toError(err, "Error testing AI provider connection"),
+      };
+    }
+  },
+
+  // ── Chatbot Config (Admin) ────────────────────────────────────────
   /**
    * Get chatbot config (admin only)
    * GET /chatbot/config

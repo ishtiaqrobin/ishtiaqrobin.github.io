@@ -7,7 +7,7 @@
 
 export interface IAiProviderConfig {
   id: string;
-  provider: string; // "gemini" | "openai" | "custom"
+  provider: string; // "gemini" | "openai" | "groq" | "river" | "custom"
   apiKey: string;
   model: string;
   endpoint: string | null;
@@ -30,6 +30,31 @@ export interface ICreateAiProviderConfigInput {
 
 export type IUpdateAiProviderConfigInput =
   Partial<ICreateAiProviderConfigInput>;
+
+// ── Test Connection ───────────────────────────────────────
+
+/**
+ * সব field optional — না দিলে backend saved config ব্যবহার করবে।
+ * Dashboard থেকে save না করেই test করা যাবে।
+ */
+export interface ITestAiProviderInput {
+  provider?: string;
+  apiKey?: string;
+  model?: string;
+  endpoint?: string | null;
+  maxTokens?: number;
+  temperature?: number;
+}
+
+export interface ITestAiProviderResult {
+  success: boolean;
+  provider: string;
+  model: string;
+  endpoint: string | null;
+  latencyMs: number;
+  reply: string | null;
+  message: string;
+}
 
 // ── Chatbot Config ────────────────────────────────────────
 

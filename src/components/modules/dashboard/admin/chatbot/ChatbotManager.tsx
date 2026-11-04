@@ -19,6 +19,9 @@ import {
   Trash2,
   Database,
   AlertTriangle,
+  PlugZap,
+  CheckCircle2,
+  XCircle,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -48,11 +51,13 @@ import {
   upsertChatbotConfigAction,
   getChatbotLogsAction,
   deleteChatbotLogsAction,
+  testAiProviderConnectionAction,
 } from "@/actions/chatbot.action";
 import type {
   IAiProviderConfig,
   IChatbotConfig,
   IChatbotLog,
+  ITestAiProviderResult,
 } from "@/types/chatbot.type";
 
 interface ChatbotManagerProps {
@@ -80,6 +85,11 @@ const PROVIDER_PRESETS: Record<
     modelPlaceholder: "llama-3.3-70b-versatile",
     docsUrl: "https://console.groq.com",
   },
+  river: {
+    endpoint: "https://api.river.ai/v1",
+    modelPlaceholder: "zai-org/GLM-5.3-Flash",
+    docsUrl: "https://river.ai",
+  },
   custom: {
     endpoint: "",
     modelPlaceholder: "your-model-name",
@@ -102,6 +112,12 @@ export function ChatbotManager({
   const [aiEnabled, setAiEnabled] = useState(aiConfig?.isEnabled ?? true);
   const [showKey, setShowKey] = useState(false);
   const [aiSaving, setAiSaving] = useState(false);
+
+  // ── Test Connection state ─────────────────────────────────
+  const [testing, setTesting] = useState(false);
+  const [testResult, setTestResult] = useState<ITestAiProviderResult | null>(
+    null,
+  );
 
   // ── Chatbot Config state ──────────────────────────────────
   const [botEnabled, setBotEnabled] = useState(
@@ -157,11 +173,48 @@ export function ChatbotManager({
   // ── Provider change — auto-fill preset ───────────────────
   const handleProviderChange = (val: string) => {
     setProvider(val);
+    setTestResult(null);
     const preset = PROVIDER_PRESETS[val];
     if (preset) {
       setEndpoint(preset.endpoint);
       if (!model) setModel(preset.modelPlaceholder);
     }
+  };
+
+  // ── Test connection ───────────────────────────────────────
+  // Save না করেই current form values দিয়ে provider test করা যায়।
+  const handleTestConnection = async () => {
+    if (!provider || !apiKey || !model) {
+      toast.error("Provider, API Key, and Model are required to test");
+      return;
+    }
+
+    setTesting(true);
+    setTestResult(null);
+
+    const result = await testAiProviderConnectionAction(
+      {
+        provider,
+        apiKey,
+        model,
+        endpoint: endpoint || null,
+        maxTokens: 32,
+        temperature,
+      },
+      token,
+    );
+
+    if (result.data) {
+      setTestResult(result.data as ITestAiProviderResult);
+    }
+
+    if (result.success) {
+      toast.success("Connection successful");
+    } else {
+      toast.error(result.message);
+    }
+
+    setTesting(false);
   };
 
   // ── Save AI config ────────────────────────────────────────
@@ -270,6 +323,7 @@ export function ChatbotManager({
                   <SelectItem value="gemini">Google Gemini</SelectItem>
                   <SelectItem value="openai">OpenAI</SelectItem>
                   <SelectItem value="groq">Groq (Free)</SelectItem>
+                  <SelectItem value="river">River AI</SelectItem>
                   <SelectItem value="custom">Custom / Other</SelectItem>
                 </SelectContent>
               </Select>
@@ -345,10 +399,19 @@ export function ChatbotManager({
                 placeholder={
                   provider === "gemini"
                     ? "Leave empty to use default"
-                    : "https://api.example.com/v1/chat/completions"
+                    : provider === "river"
+                      ? "https://api.river.ai/v1"
+                      : "https://api.example.com/v1/chat/completions"
                 }
                 className="h-10 font-mono text-sm"
               />
+              {provider === "river" && (
+                <p className="text-xs text-muted-foreground">
+                  Base URL (<code>https://api.river.ai/v1</code>) বা full
+                  endpoint (<code>…/v1/chat/completions</code>) — দুটোই কাজ
+                  করবে।
+                </p>
+              )}
             </div>
 
             {/* Max Tokens */}
@@ -397,23 +460,89 @@ export function ChatbotManager({
               </div>
             </div>
 
-            <Button
-              onClick={handleSaveAiConfig}
-              disabled={aiSaving}
-              className="w-full"
-            >
-              {aiSaving ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Saving...
-                </>
-              ) : (
-                <>
-                  <Save className="mr-2 h-4 w-4" />
-                  Save AI Config
-                </>
-              )}
-            </Button>
+            {/* Test Connection result */}
+            {testResult && (
+              <div
+                className={`rounded-xl border p-3 text-sm ${
+                  testResult.success
+                    ? "border-emerald-500/30 bg-emerald-500/5"
+                    : "border-destructive/30 bg-destructive/5"
+                }`}
+              >
+                <div className="flex items-start gap-2">
+                  {testResult.success ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-500 mt-0.5 shrink-0" />
+                  ) : (
+                    <XCircle className="h-4 w-4 text-destructive mt-0.5 shrink-0" />
+                  )}
+                  <div className="min-w-0 flex-1 space-y-1">
+                    <p
+                      className={`font-medium ${
+                        testResult.success
+                          ? "text-emerald-600 dark:text-emerald-400"
+                          : "text-destructive"
+                      }`}
+                    >
+                      {testResult.success
+                        ? "Connection successful"
+                        : "Connection failed"}
+                    </p>
+                    <p className="text-xs text-muted-foreground wrap-break-word">
+                      {testResult.message}
+                    </p>
+                    <div className="flex flex-wrap gap-x-3 gap-y-1 pt-1 text-[11px] text-muted-foreground/70 font-mono">
+                      <span>provider: {testResult.provider}</span>
+                      <span>model: {testResult.model}</span>
+                      <span>latency: {testResult.latencyMs}ms</span>
+                    </div>
+                    {testResult.reply && (
+                      <p className="text-[11px] text-muted-foreground/70 font-mono wrap-break-word">
+                        reply: {testResult.reply}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <Button
+                variant="outline"
+                onClick={handleTestConnection}
+                disabled={testing || aiSaving}
+                className="sm:flex-1"
+              >
+                {testing ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Testing...
+                  </>
+                ) : (
+                  <>
+                    <PlugZap className="mr-2 h-4 w-4" />
+                    Test Connection
+                  </>
+                )}
+              </Button>
+
+              <Button
+                onClick={handleSaveAiConfig}
+                disabled={aiSaving || testing}
+                className="sm:flex-1"
+              >
+                {aiSaving ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  <>
+                    <Save className="mr-2 h-4 w-4" />
+                    Save AI Config
+                  </>
+                )}
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </TabsContent>
